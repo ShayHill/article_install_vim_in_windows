@@ -72,7 +72,7 @@ However, once you create your own configuration in
 ~\vimfiles\vimrc
 ```
 
-Vim gets (arguably) worse! This is because Bram and others configured some nice default behaviors in
+Vim gets (arguably) worse! This is because [Bram Moolenaar](https://en.wikipedia.org/wiki/Bram_Moolenaar) and others configured some nice default behaviors in
 
 ```
 C:\Program Files\Vim\vim91\defaults.vim
@@ -464,250 +464,6 @@ vim $env:LOCALAPPDATA\lazygit\config.yml
 git:
   paging:
     externalDiffCommand: difft --color=always --display=inline --syntax-highlight=off
-```
-
-# Vim Configuration
-
-Too many options to discuss, but we'll "scratch the surface" with a few examples.
-
-```vim
-:e $MYVIMRC
-```
-
-One function, one setting, and one leader mapping.
-
-```vim
-def g:RestoreLspHighlights(): void
-	# Call if you see errors in elaborate LSP
-	# highlighting after changing colorschemes.
-    highlight link LspErrorHighlight Error
-    highlight link LspWarningHighlight Todo
-    highlight link LspInformationHighlight Normal
-    highlight link LspHintHighlight Normal
-enddef
-
-set number  # turn on line numbers
-
-# remove trailing whitespace
-nnoremap <leader>_ :%s/\s\+$//g<CR>
-```
-
-These settings and mappings will apply to all filetypes, but can be overwritten with file-specific settings in the `after/ftplugin` folder.
-
-# Set Gvim Guifont
-
-We're going to do some light configuration in gVim, less to configure it, more to walk through a few concepts.
-
-If you are running gVim, gVim will read an additional configuration file, `gvimrc`, after reading you `vimrc`. Open `gvimrc` in gVim.
-
-```powershell
-gvim $MYVIMDIR\gvimrc
-```
-
-And paste in this content:
-
-```vim
-vim9script
-
-# if you can't see the below characters, get a better font
-set listchars=tab:→\ ,eol:↵,trail:·,extends:↷,precedes:↶
-set fillchars+=vert:│  # for a better looking windows separator
-```
-
-The `listchars` value isn't the most important part of your gVim configuration, but we're starting here for a reason. Inside gVim, look at the line beginning with `set listchars` and chances are you won't be able to see all of the characters.
-
-gVim has a menu. Click `Edit > Select Font...` and browse through the available fonts. You  might find a font that shows the characters and looks nice to your tastes, but possibly not.
-
-## Install Another Font
-
-Let's install a nice-looking (to my taste, at least) font with these "extra" characters. To accomplish this, we will install a font for the entire Windows system, then select that font in gVim. Go to [Release dejavu-fonts-2.37 · dejavu-fonts/dejavu-fonts · GitHub](https://github.com/dejavu-fonts/dejavu-fonts/releases/tag/version_2_37), download a zip file, extract the contents, right click on `DejaVuSansMono.ttf`, and install. You will now be able to select `DejaVu Sans Mono` in the gVim font menu.
-
-## Setting the Guifont
-
-Your font selection has a special name that gVim will understand. You can see it by typing
-
-```vim
-:set guifont
-```
-
-Now, let's capture the output of `:set guifont`
-
-```vim
-:redir @a
-:set guifont
-:redir END
-```
-
-This puts the output of `:set guifont` in Vim's `a` register. To paste it, navigate to somewhere in your file, type `set ` then `<Esc>"ap`. You should end up with this line:
-
-```vim
-set guifont=DejaVu_Sans_Mono:h10:cANSI:qDRAFT
-```
-
-Keep that line in `~/vimfiles/gvim.vimrc` and your font selection will persist. If you open gVim on a system without `DejaVu Sans Mono`, gVim will revert to the default font. If you'd like to choose your own fallback, you  can list as many fonts as you like, separated by commas. gVim will start with the first and search for an available font.
-
-```vim
-set guifont=Consolas:h10:cANSI:qDRAFT,SimSun-ExtB:h11:cANSI:qDEFAULT,DejaVuSansMono_NFM:h10:cANSI:qDRAFT
-```
-
-`:set list!` if you want to see your `listchars` in action. `:set list!` again to turn it off.
-
-While we're here, let's add another common gVim configuration request. This one is passive, so you won't have any new commands to learn. Add this to your `gvim.vimrc`.
-
-```vim
-# open at a useful size
-if !exists('g:vimrc_sourced')
-	g:vimrc_sourced = 1
-    set lines=50
-    set columns=120
-endif
-```
-
-## How Do I Set the Font in Vim?
-
-You don't. Vim will use whatever font you are using in your terminal. You can use the same `listchars` and `fillchars` above and use a font that supports them, or you can use a simpler font for all of your terminal programs and set a simpler `listchars`.
-
-```vim
-if has('gui_running')
-	source $MYVIMDIR/gvim.vimrc
-else
-	set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
-endif
-```
-
-## Fullscreen Gvim
-
-If you followed the earlier instructions to download Gvim Fullscreen, here is the best spot to configure it. Add this to your `~\vimfiles\gvim.vimrc`:
-
-```vim
-g:GvimFullscreenDll = $MYVIMDIR .. 'gvim_fullscreen.dll'
-if filereadable(g:GvimFullscreenDll)
-	inoremap <C-F11> <Esc>:call libcallnr(g:GvimFullscreenDll, 'ToggleFullscreen', 0)<cr>
-	noremap <C-F11> :call libcallnr(g:GvimFullscreenDll, 'ToggleFullscreen', 0)<cr>
-	inoremap <C-F12> <Esc>:call libcallnr(g:GvimFullscreenDll, 'ToggleTransparency', '255,180')<cr>
-	noremap <C-F12> :call libcallnr(g:GvimFullscreenDll, 'ToggleTransparency', '255,180')<cr>
-endif
-```
-
-# The Vim After Directory
-
-Naturally, Vim doesn't treat every filetype the same. Set specific configuration variables in
-
-```
-~\vimfiles\after\ftplugin\
-```
-
-If you don't have them yet, create the `after` and `ftplugin` directories.
-
-- `:Ex`
-
-- press `d`
-
-- `after/ftplugin`
-
-```vim
-:e $MYVIMDIR\after\ftplugin\python.vim
-```
-
-Let's start with some basic PEP-8-ish formatting for Python. Add these lines:
-
-```vim
-vim9script
-
-setlocal expandtab  # spaces instead of tabs
-setlocal tabstop=4  # a tab = four spaces
-setlocal shiftwidth=4  # number of spaces for auto-indent
-setlocal softtabstop=4  # a soft-tab of four spaces
-setlocal autoindent  # turn on auto-indent
-
-setlocal colorcolumn=89  # max cols in black is 88
-setlocal textwidth=85  # wrapping for gq
-setlocal formatoptions-=t  # do not autowrap text
-```
-
-You may prefer to put some of these in your global `vimrc` so they apply to all files. If you're keeping them here, use `setlocal` and instead of `set` so they *stop* applying when you edit something that *isn't* a Python file.
-
-As an example, let's create a map to run our test suite in Vim's integrated terminal. Notice the `<buffer>` flag. Like `setlocal`, `<buffer>` keeps configuration local to a file. In this case, every file with a *python* filetype.
-
-```vim
-nnoremap <buffer> <leader>e :update<CR>:vert term python -m pytest<t_ku>
-```
-
-This mapping will
-
-- save the current buffer
-
-- start a command with `:!python -m pytest`
-
-- press up to reload the previous `:!python -m pytest` command
-
-- then nothing
-
-The mapping will not run the command, but will wait for you to
-
-- press Enter
-
-- navigate through the history of commands starting with `:!python -m pytest` by using the arrow keys
-
-There are several ways to navigate command history in Vim. This is just one given as an example.
-
-## Asynchronous pre-commit
-
-Set up a mapping to run `pre-commit` asynchronously in Vim's `quickfix` window. To do this, you will define a compiler in `$MYVIMDIR/compiler`.
-
-- open a terminal and cd to `~\vimfiles`
-
-- `:Ex`
-
-- `d`
-
-- `compiler`
-
-```vim
-:e $MYVIMDIR\compiler\precommit.vim
-```
-
-Add this content to `precommit.vim`:
-
-```vim
-vim9script
-
-CompilerSet makeprg=pre-commit\ run\ -a
-
-# errorformats:
-# 1. ruff
-# 2. mypy
-# 3. pyright
-CompilerSet errorformat=%f:%l:%c:\ %m,%f:%l:\ %m,%f:%l:%c\ -\ %m,%f:
-```
-
-Now add the mapping to the Python ftplugin.
-
-```vim
-e: $MYVIMDIR\after\ftplugin\python.vim
-```
-
-Add this content to `ftplugin/python.vim`:
-
-```vim
-compiler precommit
-nmap <buffer> <leader>l :update<CR>:vert Make<CR>:update<CR>
-imap <buffer> <leader>l <ESC>:update<CR>:vert Make<CR>:update<CR>
-```
-
-Now you can press `<leader>l` from a Python module to run your pre-commit hooks. This requires [vim-dispatch](https://github.com/tpope/vim-dispatch).
-
-## configure the aichat window
-
-```vim
-:e $MYVIMDIR\after\ftplugin\aichat.vim
-```
-
-```vim
-vim9script
-
-setlocal wrap
-setlocal linebreak
 ```
 
 # Install Vim Plugins
@@ -1131,6 +887,272 @@ There are several [Tim Pope](https://github.com/tpope) plugins that could qualif
 - [surround.vim](https://github.com/tpope/vim-surround)
 
 At some point, you'll want to review the documentation for all of these, but the only one we'll rely on for this guide is vim-dispatch.  [vim-dispatch](https://github.com/tpope/vim-dispatch) allows you to `make` (compile) programs asynchronously. This guide is focused on Python dev, and we don't compile Python programs, but we will use vim-dispatch's `Make` command to run `pre-commit` (a common Python tool) asynchronously. 
+
+# Vim Configuration
+
+Too many options to discuss, but we'll "scratch the surface" with a few examples.
+
+```vim
+:e $MYVIMRC
+```
+
+One function, one setting, and one leader mapping.
+
+```vim
+def g:RestoreLspHighlights(): void
+	# Call if you see errors in elaborate LSP
+	# highlighting after changing colorschemes.
+    highlight link LspErrorHighlight Error
+    highlight link LspWarningHighlight Todo
+    highlight link LspInformationHighlight Normal
+    highlight link LspHintHighlight Normal
+enddef
+
+set number  # turn on line numbers
+
+# remove trailing whitespace
+nnoremap <leader>_ :%s/\s\+$//g<CR>
+```
+
+These settings and mappings will apply to all filetypes, but can be overwritten with file-specific settings in the `after/ftplugin` folder.
+
+# Set Gvim Guifont
+
+We're going to do some light configuration in gVim, less to configure it, more to walk through a few concepts.
+
+If you are running gVim, gVim will read an additional configuration file, `gvimrc`, after reading you `vimrc`. Open `gvimrc` in gVim.
+
+```powershell
+gvim $MYVIMDIR\gvimrc
+```
+
+And paste in this content:
+
+```vim
+vim9script
+
+# if you can't see the below characters, get a better font
+set listchars=tab:→\ ,eol:↵,trail:·,extends:↷,precedes:↶
+set fillchars+=vert:│  # for a better looking windows separator
+```
+
+The `listchars` value isn't the most important part of your gVim configuration, but we're starting here for a reason. Inside gVim, look at the line beginning with `set listchars` and chances are you won't be able to see all of the characters.
+
+gVim has a menu. Click `Edit > Select Font...` and browse through the available fonts. You  might find a font that shows the characters and looks nice to your tastes, but possibly not.
+
+### install another font
+
+Let's install a nice-looking (to my taste, at least) font with these "extra" characters. To accomplish this, we will install a font for the entire Windows system, then select that font in gVim. Go to [Release dejavu-fonts-2.37 · dejavu-fonts/dejavu-fonts · GitHub](https://github.com/dejavu-fonts/dejavu-fonts/releases/tag/version_2_37), download a zip file, extract the contents, right click on `DejaVuSansMono.ttf`, and install. You will now be able to select `DejaVu Sans Mono` in the gVim font menu.
+
+### setting the guifont
+
+Your font selection has a special name that gVim will understand. You can see it by typing
+
+```vim
+:set guifont
+```
+
+Now, let's capture the output of `:set guifont`. Open your `gvimrc`, place your cursor on an empty line, and type this command:
+
+```vim
+:call append('.', 'set guifont=' .. &guifont)
+```
+
+This will insert the following into your `gvimrc`.
+
+```vim
+set guifont=DejaVu_Sans_Mono:h10:cANSI:qDRAFT
+```
+
+Keep that line in `~/vimfiles/vimrc` and your font selection will persist. If you open gVim on a system without `DejaVu Sans Mono`, gVim will revert to the default font. If you'd like to choose your own fallback, you  can list as many fonts as you like, separated by commas. gVim will start with the first and search for an available font.
+
+```vim
+set guifont=Consolas:h10:cANSI:qDRAFT,SimSun-ExtB:h11:cANSI:qDEFAULT,DejaVuSansMono_NFM:h10:cANSI:qDRAFT
+```
+
+`:set list!` if you want to see your `listchars` in action. `:set list!` again to turn it off.
+
+## Renderoptions
+
+If you paste the following into Vim (running in PowerShell), you will see what you see in your browser: a colorful Unicode garden.
+
+```vim
+# symbols for render test
+# 🌸 (U+1F338) 🌼 (U+1F33C) 🌻 (U+1F33B) 🌺 (U+1F33A) 🌹 (U+1F339)
+# 🌷 (U+1F337) 💐 (U+1F490) 🌲 (U+1F332) 🌳 (U+1F333) 🌴 (U+1F334)
+# 🌵 (U+1F335) 🌿 (U+1F33F) 🌱 (U+1F331) 🍀 (U+1F340) 🍁 (U+1F341)
+# 🍂 (U+1F342) 🍃 (U+1F343) 🍎 (U+1F34E) 🍏 (U+1F34F) 🍐 (U+1F350)
+# 🍊 (U+1F34A) 🍋 (U+1F34B) 🍌 (U+1F34C) 🍉 (U+1F349) 🍇 (U+1F347)
+# 🍓 (U+1F353) 🍒 (U+1F352) 🍑 (U+1F351) 🥝 (U+1F95D) 🍍 (U+1F34D)
+# 🥥 (U+1F965) 🍅 (U+1F345) 🍆 (U+1F346) 🥑 (U+1F951) 🥒 (U+1F952)
+# 🌽 (U+1F33D) 🥕 (U+1F955) 🥔 (U+1F954) 🧄 (U+1F9C4) 🧅 (U+1F9C5)
+```
+
+If you paste this text into gVim, the result will be considerably less interesting. To get nice, colorful symbols, tell gVim to use the same DirectX rendering as PowerShell. Add this to your `gvimrc`:
+
+```vim
+set renderoptions=type:directx,gamma:1.0,geom:0,renmode:5,taamode:1
+```
+
+## Window Size
+
+While we're here, let's add another common gVim configuration request. This one is passive, so you won't have any new commands to learn. Add this to your `gvim.vimrc`.
+
+```vim
+# open at a useful size
+if !exists('g:vimrc_sourced')
+	g:vimrc_sourced = 1
+    set lines=50
+    set columns=120
+endif
+```
+
+## How do I set the font in Vim?
+
+You don't. Vim will use whatever font you are using in your terminal. You can use the same `listchars` and `fillchars` above and use a font that supports them, or you can use a simpler font for all of your terminal programs and set a simpler `listchars`.
+
+```vim
+if has('gui_running')
+	source $MYVIMDIR/gvim.vimrc
+else
+	set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+endif
+```
+
+## Fullscreen Gvim
+
+If you followed the earlier instructions to download Gvim Fullscreen, here is the best spot to configure it. Add this to your `~\vimfiles\gvim.vimrc`:
+
+```vim
+g:GvimFullscreenDll = $MYVIMDIR .. 'gvim_fullscreen.dll'
+if filereadable(g:GvimFullscreenDll)
+	inoremap <C-F11> <Esc>:call libcallnr(g:GvimFullscreenDll, 'ToggleFullscreen', 0)<cr>
+	noremap <C-F11> :call libcallnr(g:GvimFullscreenDll, 'ToggleFullscreen', 0)<cr>
+	inoremap <C-F12> <Esc>:call libcallnr(g:GvimFullscreenDll, 'ToggleTransparency', '255,180')<cr>
+	noremap <C-F12> :call libcallnr(g:GvimFullscreenDll, 'ToggleTransparency', '255,180')<cr>
+endif
+```
+
+# The Vim After Directory
+
+Naturally, Vim doesn't treat every filetype the same. Set specific configuration variables in
+
+```
+~\vimfiles\after\ftplugin\
+```
+
+If you don't have them yet, create the `after` and `ftplugin` directories.
+
+- `:Ex`
+
+- press `d`
+
+- `after/ftplugin`
+
+```vim
+:e $MYVIMDIR\after\ftplugin\python.vim
+```
+
+Let's start with some basic PEP-8-ish formatting for Python. Add these lines:
+
+```vim
+vim9script
+
+setlocal expandtab  # spaces instead of tabs
+setlocal tabstop=4  # a tab = four spaces
+setlocal shiftwidth=4  # number of spaces for auto-indent
+setlocal softtabstop=4  # a soft-tab of four spaces
+setlocal autoindent  # turn on auto-indent
+
+setlocal colorcolumn=89  # max cols in black is 88
+setlocal textwidth=85  # wrapping for gq
+setlocal formatoptions-=t  # do not autowrap text
+```
+
+You may prefer to put some of these in your global `vimrc` so they apply to all files. If you're keeping them here, use `setlocal` and instead of `set` so they *stop* applying when you edit something that *isn't* a Python file.
+
+As an example, let's create a map to run our test suite in Vim's integrated terminal. Notice the `<buffer>` flag. Like `setlocal`, `<buffer>` keeps configuration local to a file. In this case, every file with a *python* filetype.
+
+```vim
+nnoremap <buffer> <leader>e :update<CR>:vert term python -m pytest<t_ku>
+```
+
+This mapping will
+
+- save the current buffer
+
+- start a command with `:!python -m pytest`
+
+- press up to reload the previous `:!python -m pytest` command
+
+- then nothing
+
+The mapping will not run the command, but will wait for you to
+
+- press Enter
+
+- navigate through the history of commands starting with `:!python -m pytest` by using the arrow keys
+
+There are several ways to navigate command history in Vim. This is just one given as an example.
+
+## Asynchronous pre-commit
+
+Set up a mapping to run `pre-commit` asynchronously in Vim's `quickfix` window. To do this, you will define a compiler in `$MYVIMDIR/compiler`.
+
+- open a terminal and cd to `~\vimfiles`
+
+- `:Ex`
+
+- `d`
+
+- `compiler`
+
+```vim
+:e $MYVIMDIR\compiler\precommit.vim
+```
+
+Add this content to `precommit.vim`:
+
+```vim
+vim9script
+
+CompilerSet makeprg=pre-commit\ run\ -a
+
+# errorformats:
+# 1. ruff
+# 2. mypy
+# 3. pyright
+CompilerSet errorformat=%f:%l:%c:\ %m,%f:%l:\ %m,%f:%l:%c\ -\ %m,%f:
+```
+
+Now add the mapping to the Python ftplugin.
+
+```vim
+e: $MYVIMDIR\after\ftplugin\python.vim
+```
+
+Add this content to `ftplugin/python.vim`:
+
+```vim
+compiler precommit
+nmap <buffer> <leader>l :update<CR>:vert Make<CR>:update<CR>
+imap <buffer> <leader>l <ESC>:update<CR>:vert Make<CR>:update<CR>
+```
+
+Now you can press `<leader>l` from a Python module to run your pre-commit hooks. This requires [vim-dispatch](https://github.com/tpope/vim-dispatch).
+
+## configure the aichat window
+
+```vim
+:e $MYVIMDIR\after\ftplugin\aichat.vim
+```
+
+```vim
+vim9script
+
+setlocal wrap
+setlocal linebreak
+```
 
 # More
 
