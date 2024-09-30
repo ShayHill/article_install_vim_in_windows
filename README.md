@@ -419,32 +419,64 @@ winget install JesseDuffield.lazygit --source winget
 
 Close and restart your Windows Terminal, navigate to a Git project, and type `lazygit` to have a look.
 
-# Set Gvim Guifont
+# difftastic
 
-We're going to do some light configuration in gVim, less to configure it, more to walk through a few concepts.
+Lazygit can be enhanced with [Difftastic, a structural diff (wilfred.me.uk)](https://difftastic.wilfred.me.uk/), a Git diff viewer that will suppress many formatting-only diffs.
 
-## Sourcing Other Config Files
+```powershell
+winget install Wilfred.difftastic --source winget
+```
 
-Open your `~/vimfiles/vimrc` file. If you created a vimrc file as we walked through previous steps, you now only have to run
+Tell Lazygit to use  [Difftastic](https://difftastic.wilfred.me.uk/) by opening your Lazygit config
+
+```powershell
+vim $env:LOCALAPPDATA\lazygit\config.yml
+```
+
+... and adding
+
+```yaml
+git:
+  paging:
+    externalDiffCommand: difft --color=always --display=inline --syntax-highlight=off
+```
+
+# Vim Configuration
+
+Too many options to discuss, but we'll "scratch the surface" with a few examples.
 
 ```vim
 :e $MYVIMRC
 ```
 
-Add the following to your vimrc:
+One function, one setting, and one leader mapping.
 
 ```vim
-if has('gui_running')
-	source $MYVIMDIR/gvim.vimrc
-endif
+def g:RestoreLspHighlights(): void
+	# Call if you see errors in elaborate LSP
+	# highlighting after changing colorschemes.
+    highlight link LspErrorHighlight Error
+    highlight link LspWarningHighlight Todo
+    highlight link LspInformationHighlight Normal
+    highlight link LspHintHighlight Normal
+enddef
+
+set number  # turn on line numbers
+
+# remove trailing whitespace
+nnoremap <leader>_ :%s/\s\+$//g<CR>
 ```
 
-This sources a file, `~/vimfiled/gvim.vimrc`, that we are about to create. You can keep your entire Vim config in one file or break it into multiple modules. Here, we're going to put gVim configuration in a separate file.
+These settings and mappings will apply to all filetypes, but can be overwritten with file-specific settings in the `after/ftplugin` folder.
 
-Open the gVim configuration file in gVim (not in Vim).
+# Set Gvim Guifont
 
-```vim
-:e ~\vimfiles\gvim.vimrc
+We're going to do some light configuration in gVim, less to configure it, more to walk through a few concepts.
+
+If you are running gVim, gVim will read an additional configuration file, `gvimrc`, after reading you `vimrc`. Open `gvimrc` in gVim.
+
+```powershell
+gvim $MYVIMDIR\gvimrc
 ```
 
 And paste in this content:
@@ -531,34 +563,6 @@ if filereadable(g:GvimFullscreenDll)
 	noremap <C-F12> :call libcallnr(g:GvimFullscreenDll, 'ToggleTransparency', '255,180')<cr>
 endif
 ```
-
-# Vim Configuration
-
-Too many options to discuss, but we'll "scratch the surface" with a few examples.
-
-```vim
-:e $MYVIMRC
-```
-
-One function, one setting, and one leader mapping.
-
-```vim
-def g:RestoreLspHighlights(): void
-	# Call if you see errors in elaborate LSP
-	# highlighting after changing colorschemes.
-    highlight link LspErrorHighlight Error
-    highlight link LspWarningHighlight Todo
-    highlight link LspInformationHighlight Normal
-    highlight link LspHintHighlight Normal
-enddef
-
-set number  # turn on line numbers
-
-# remove trailing whitespace
-nnoremap <leader>_ :%s/\s\+$//g<CR>
-```
-
-These settings and mappings will apply to all filetypes, but can be overwritten with file-specific settings in the `after/ftplugin` folder.
 
 # The Vim After Directory
 
@@ -681,7 +685,7 @@ git clone https://github.com/k-takata/minpac.git $env:USERPROFILE\vimfiles\pack\
 
 Use the command above, not the `git clone` command from the GitHub page, because `%USERPROFILE%` doesn't mean anything to PowerShell.
 
-Now, add this to your `vimrc` file. On the bottom. Order matters.
+Now, add this to your `vimrc` file.
 
 ```vim
 def PackInit(): void
@@ -702,18 +706,9 @@ Save and `:source %` your `vimrc` file, then `:PackUpdate` to check that everyth
 
 Some of the plugins we'll install offer quite a bit of configuration, and we'll need to source that configuration before loading our plugins when we start Vim. For those reasons, we'll put plugin configuration in a separate file to keep it from overwhelming our `vimrc`.
 
-In your `vimrc` scroll up to find where we loaded our `gvim.vimrc`. We had a condition block that looked like this:
+Add this to your vimrc:
 
 ```vim
-if has('gui_running')
-	source $MYVIMDIR/gvim.vimrc
-endif
-```
-
-Add this just beneath that block:
-
-```vim
-# source this before loading the plugins
 source $MYVIMDIR/plugin_config.vim
 ```
 
