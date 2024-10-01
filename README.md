@@ -16,9 +16,9 @@ There's nothing difficult about putting this all together, but there are a few p
 
 There is a lot of code in this guide that you may wish to copy and paste into your Vim files. If you are very new to Vim, this is how you copy to and from the Windows clipboard:
 
-- Select text then `"+y` to copy to the Windows clipboard.
+* Select text then `"+y` to copy to the Windows clipboard.
 
-- `"+p` to paste from the Windows clipboard. 
+* `"+p` to paste from the Windows clipboard. 
 
 So, to copy code from this guide, just copy the code in Windows, then enter Normal mode (press `<ESC>`) then `"+p` to paste the code into Vim.
 
@@ -28,7 +28,7 @@ This is an obvious first step, and it's an easy one, because we're not going to 
 
 Go to [Releases · vim/vim-win32-installer (github.com)](https://github.com/vim/vim-win32-installer/releases), download the exe file for your architecture (32 or 64 bit), run it, and accept all the defaults. This will add a few icons to your desktop that you probably don't want, but it's easy to delete them later. Elsewhere in this guide, we're going to use `winget`, but Vim itself suggests downloading and installing from GitHub.
 
-The installer will not add `vim` and `gvim` to your Path environment variable. You can alias them in PowerShell as shown in the [[Install Cross-Platform PowerShell]] section below or add them to your Path.
+The installer will not add `vim` and `gvim` to your Path environment variable. You can alias them in PowerShell as shown in the **Install Cross-Platform PowerShell** section below or add them to your Path.
 
 ## Editing the Path Environment Variable
 
@@ -44,23 +44,23 @@ Open PowerShell and enter (If you've installed Vim91)
 
 ### Option Two, GUI
 
-- Press the Windows key
+* Press the Windows key
 
-- Search for "Environment Variables" and click the "Best Match"
+* Search for "Environment Variables" and click the "Best Match"
 
-- This will bring up the System Properties dialog, which has a link, Environment Variables, near the lower-right corner. Click there.
+* This will bring up the System Properties dialog, which has a link, Environment Variables, near the lower-right corner. Click there.
 
-- The "User variables for username" are in the top half of the Environment Variables dialog. For now, you're interested in the Path variable
+* The "User variables for username" are in the top half of the Environment Variables dialog. For now, you're interested in the Path variable
 
-- Double click the Path variable, and make sure you see the path to your current Vim installation.
+* Double click the Path variable, and make sure you see the path to your current Vim installation.
 
-- If not, click "Edit" then "Browse" then navigate to `C:\Program Files\Vim\vim91` (or whatever the current version is) to add it.
+* If not, click "Edit" then "Browse" then navigate to `C:\Program Files\Vim\vim91` (or whatever the current version is) to add it.
 
 ### Some Nuance with Environment Variables
 
-- Environment variables are read when applications are opened, so changes to environment variables will not take effect until you open a new window. There are other ways, but that's the easy way.
+* Environment variables are read when applications are opened, so changes to environment variables will not take effect until you open a new window. There are other ways, but that's the easy way.
 
-- You have to back out (click "OK") *twice*, going all the way back to the System Properties dialog, before the variable is actually changed. This one has gotten me many times.
+* You have to back out (click "OK") *twice*, going all the way back to the System Properties dialog, before the variable is actually changed. This one has gotten me many times.
 
 ## Create a Vimrc
 
@@ -178,7 +178,7 @@ To let Vim know to open terminals in cross-platform PowerShell. The options `she
 
 # Install Python
 
-You can use winget or [Download Python | Python.org](https://www.python.org/downloads/) executable files to install every version of Python you want to support. These are the supported versions of Python as I write this.
+You can use winget or [Download Python \| Python.org](https://www.python.org/downloads/) executable files to install every version of Python you want to support. These are the supported versions of Python as I write this.
 
 ```powershell
 winget install Python.Launcher --source winget
@@ -193,7 +193,7 @@ If you're installing using winget, also install the Python Launcher. If you're i
 
 You may also want to install older versions, release candidates, or something else potentially not supported by Vim and it's plugins. **Don't do that yet!**
 
-First, select a relatively new and stable version of Python—no prereleases and no "month-of" releases. Vim doesn't ship with it's own version of Python. Vim and it's plugins will try to use the newest version of Python you have. To avoid any problems, we'll tell Vim *which* version of Python we want to use. Open your `~vimfiles\vimrc` file and add the following (if your "relatively new and stable" version of Python is 3.11):
+First, select a relatively new and stable version of Python---no prereleases and no "month-of" releases. Vim doesn't ship with it's own version of Python. Vim and it's plugins will try to use the newest version of Python you have. To avoid any problems, we'll tell Vim *which* version of Python we want to use. Open your `~vimfiles\vimrc` file and add the following (if your "relatively new and stable" version of Python is 3.11):
 
 ```vim
 if has("windows")
@@ -233,33 +233,33 @@ C:\Users\shaya\AppData\Local\Programs\Python\Launcher\;
 
 Each of the `Programs\Python3n\` paths will contain a `python.exe`.
 
-- Running `python` from the command line will run the `python.exe` that was most recently installed. 
+* Running `python` from the command line will run the `python.exe` that was most recently installed. 
 
-- If you `pip install` an executable Python script like `black`, running `black` will start from the top of the list and run the first `Scripts\black` found.
+* If you `pip install` an executable Python script like `black`, running `black` will start from the top of the list and run the first `Scripts\black` found.
 
-- You will also have the Python Launcher, which you run with `py` at the command line.
+* You will also have the Python Launcher, which you run with `py` at the command line.
 
-If, however, you install Python by downloading and running `.exe` files from [Download Python | Python.org](https://www.python.org/downloads/), none of these `Python\Python3n\` or `Python\Python3n\Scripts` entries will be added to your path.
+If, however, you install Python by downloading and running `*.exe` files from [Download Python \| Python.org](https://www.python.org/downloads/), none of these `Python\Python3n\` or `Python\Python3n\Scripts` entries will be added to your path.
 
-- Running `python` from the command line will launch the Microsoft Store, offering to let you download and install the "missing" Python executable.
+* Running `python` from the command line will launch the Microsoft Store, offering to let you download and install the "missing" Python executable.
 
-- Running a pip-installed script will give you an error message: `The term 'black' is not recognized`.
+* Running a pip-installed script will give you an error message: `The term 'black' is not recognized`.
 
-- You will only have the Python Launcher in your path.
+* You will only have the Python Launcher in your path.
 
 To use the Python Launcher ...
 
-- Run `py` to run the latest Python version.
+* Run `py` to run the latest Python version.
 
-- Run `py -3.11` to run another version.
+* Run `py -3.11` to run another version.
 
-- Run `py -m black` to run black from the Scripts folder of the latest Python version.
+* Run `py -m black` to run black from the Scripts folder of the latest Python version.
 
-- Run `py -3.11 -m black` to run black from the Scripts folder of another Python version.
+* Run `py -3.11 -m black` to run black from the Scripts folder of another Python version.
 
-- To run another version by default, create a new User Environment Variable, `PY_PYTHON` and set the value to the default you'd like to run. For example, `3.11`.
+* To run another version by default, create a new User Environment Variable, `PY_PYTHON` and set the value to the default you'd like to run. For example, `3.11`.
 
-- `python` will run as expected from inside a virtual environment.
+* `python` will run as expected from inside a virtual environment.
 
 I prefer the Python-Launcher-only setup, because `python` will *only* work from inside a virtual environment. So, any script you set up to run `python` will only work from a virtual environment, and you can run the latest version from inside a virtual environment by running 'py'.
 
@@ -392,9 +392,9 @@ to check the install.
 
 This step is optional, but if you dislike the toolbar's intruding into your immersive coding experience, you might not feel that way. This executable will allow you to fullscreen gVim.
 
-- Compile from source: [https://github.com/movsb/gvim_fullscreen](https://github.com/movsb/gvim_fullscreen) ... or download [https://github.com/movsb/gvim_fullscreen/releases](https://github.com/movsb/gvim_fullscreen/releases).
+* Compile from source: [https://github.com/movsb/gvim_fullscreen](https://github.com/movsb/gvim_fullscreen) ... or download [https://github.com/movsb/gvim_fullscreen/releases](https://github.com/movsb/gvim_fullscreen/releases).
 
-- Copy gvimfullscreen.dll to `~/vimfiles/`.
+* Copy gvimfullscreen.dll to `~/vimfiles/`.
 
 ## Tell Vim Where to Find the DLL
 
@@ -424,11 +424,11 @@ winget install Microsoft.VisualStudio.2022.BuildTools --source winget
 
 This takes several minutes, but only installs the Visual Studio Installer. Once that's done, run the Visual Studio Installer from the Windows menu.
 
-- Click 'Modify'.
+* Click 'Modify'.
 
-- Select "Desktop development with C++".
+* Select "Desktop development with C++".
 
-- Click 'Modify' again.
+* Click 'Modify' again.
 
 You could *probably* go into "Individual Components" and install "C++ CMake tools for Windows" and "Windows 11 SDK" only, but the entire "Workload" is only 1.75GB and it's not worth the hassle to figure out what you need and what you don't.
 
@@ -436,7 +436,7 @@ There's also a way, I'm sure to [Use command-line parameters to install Visual S
 
 # Install Lazygit
 
-This step is optional, but [Lazygit](https://github.com/jesseduffield/lazygit/) is fun and cool and useful. Like all Git interfaces, it's got [issues](https://github.com/jesseduffield/lazygit/issues)—as I write this, 666 open issues—but don't let the open issues put you off. As I said (and if you'll excuse a little fun with the coincidence), it's *the nature of the beast*—which may be a big part of the reason you're installing Vim in the first place (fewer interfaces).
+This step is optional, but [Lazygit](https://github.com/jesseduffield/lazygit/) is fun and cool and useful. Like all Git interfaces, it's got [issues](https://github.com/jesseduffield/lazygit/issues)---as I write this, 666 open issues---but don't let the open issues put you off. As I said (and if you'll excuse a little fun with the coincidence), it's *the nature of the beast*---which may be a big part of the reason you're installing Vim in the first place (fewer interfaces).
 
 ```powershell
 winget install JesseDuffield.lazygit --source winget
@@ -638,9 +638,9 @@ Have a close look at the second line. [Minpac](https://github.com/k-takata/minpa
 
 Run `PackUpdate` again to install these plugins. In this instance, I will refer you to the plugin pages for instructions on registering for these services and setting the required environment variables. The instructions on each are simple and clear. I couldn't improve them.
 
-- [github/copilot.vim](https://github.com/github/copilot.vim)
+* [github/copilot.vim](https://github.com/github/copilot.vim)
 
-- [madox2/vim-ai](https://github.com/madox2/vim-ai)
+* [madox2/vim-ai](https://github.com/madox2/vim-ai)
 
 Each provides several commands you can type at the command line or create a mapping for. That is the usual process in Vim: review the 100s of available commands and create mappings for the ones you use most frequently. You can browse these commands by typing `:Copilot<space><tab>` or `:AI<tab>` in Vim.
 
@@ -688,13 +688,13 @@ In Windows, you'll need to explicitly create a snippets folder at
 
 Just to see how it works, let's do that with Vim's `netrw` file browser.
 
-- type `:Ex<enter>`
+* type `:Ex<enter>`
 
-- press `d`
+* press `d`
 
-- type `ultisnips<enter>`
+* type `ultisnips<enter>`
 
-- type `:bd<enter>` to exit netrw
+* type `:bd<enter>` to exit netrw
 
 Now, UltiSnips will recognize this as your snippets directory. Open a Python file. If you don't have one handy, just `:e temp.py`. From the Python file, enter `:UltiSnipsEdit`. UltiSnips will open a file at
 
@@ -876,15 +876,15 @@ There are several [Tim Pope](https://github.com/tpope) plugins that could qualif
 	minpac#add('tpope/vim-surround')  # surround text objects
 ```
 
-- [vim-dispatch](https://github.com/tpope/vim-dispatch)
+* [vim-dispatch](https://github.com/tpope/vim-dispatch)
 
-- [fugitive.vim](https://github.com/tpope/vim-fugitive)
+* [fugitive.vim](https://github.com/tpope/vim-fugitive)
 
-- [vim-obsession](https://github.com/tpope/vim-obsession)
+* [vim-obsession](https://github.com/tpope/vim-obsession)
 
-- [vim-commentary](https://github.com/tpope/vim-commentary)
+* [vim-commentary](https://github.com/tpope/vim-commentary)
 
-- [surround.vim](https://github.com/tpope/vim-surround)
+* [surround.vim](https://github.com/tpope/vim-surround)
 
 At some point, you'll want to review the documentation for all of these, but the only one we'll rely on for this guide is vim-dispatch.  [vim-dispatch](https://github.com/tpope/vim-dispatch) allows you to `make` (compile) programs asynchronously. This guide is focused on Python dev, and we don't compile Python programs, but we will use vim-dispatch's `Make` command to run `pre-commit` (a common Python tool) asynchronously. 
 
@@ -1043,11 +1043,11 @@ Naturally, Vim doesn't treat every filetype the same. Set specific configuration
 
 If you don't have them yet, create the `after` and `ftplugin` directories.
 
-- `:Ex`
+* `:Ex`
 
-- press `d`
+* press `d`
 
-- `after/ftplugin`
+* `after/ftplugin`
 
 ```vim
 :e $MYVIMDIR\after\ftplugin\python.vim
@@ -1079,19 +1079,19 @@ nnoremap <buffer> <leader>e :update<CR>:vert term python -m pytest<t_ku>
 
 This mapping will
 
-- save the current buffer
+* save the current buffer
 
-- start a command with `:!python -m pytest`
+* start a command with `:!python -m pytest`
 
-- press up to reload the previous `:!python -m pytest` command
+* press up to reload the previous `:!python -m pytest` command
 
-- then nothing
+* then nothing
 
 The mapping will not run the command, but will wait for you to
 
-- press Enter
+* press Enter
 
-- navigate through the history of commands starting with `:!python -m pytest` by using the arrow keys
+* navigate through the history of commands starting with `:!python -m pytest` by using the arrow keys
 
 There are several ways to navigate command history in Vim. This is just one given as an example.
 
@@ -1099,13 +1099,13 @@ There are several ways to navigate command history in Vim. This is just one give
 
 Set up a mapping to run `pre-commit` asynchronously in Vim's `quickfix` window. To do this, you will define a compiler in `$MYVIMDIR/compiler`.
 
-- open a terminal and cd to `~\vimfiles`
+* open a terminal and cd to `~\vimfiles`
 
-- `:Ex`
+* `:Ex`
 
-- `d`
+* `d`
 
-- `compiler`
+* `compiler`
 
 ```vim
 :e $MYVIMDIR\compiler\precommit.vim
