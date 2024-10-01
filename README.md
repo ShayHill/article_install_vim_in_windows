@@ -18,7 +18,7 @@ There is a lot of code in this guide that you may wish to copy and paste into yo
 
 - Select text then `"+y` to copy to the Windows clipboard.
 
-- `"+p` to paste from the Windows clipboard. 
+- `"+p` to paste from the Windows clipboard.
 
 So, to copy code from this guide, just copy the code in Windows, then enter Normal mode (press `<ESC>`) then `"+p` to paste the code into Vim.
 
@@ -86,13 +86,13 @@ This is all we'll configure for now. Open gVim (not Vim itself. Wait until we ha
 :e ~\vimfiles\vimrc
 ```
 
-and create a simple vimrc with this content:
+and create a simple `vimrc` with this content:
 
 ```vim
 vim9script
 
 # nice defaults from Bram and the The Vim Project
-source $VIMRUNTIME/defaults.vim 
+source $VIMRUNTIME/defaults.vim
 ```
 
 This will preserve the nice defaults. The `vim9script` is optional, but the rest of this guide will assume you have it set.
@@ -233,13 +233,13 @@ C:\Users\shaya\AppData\Local\Programs\Python\Launcher\;
 
 Each of the `Programs\Python3n\` paths will contain a `python.exe`.
 
-- Running `python` from the command line will run the `python.exe` that was most recently installed. 
+- Running `python` from the command line will run the `python.exe` that was most recently installed.
 
 - If you `pip install` an executable Python script like `black`, running `black` will start from the top of the list and run the first `Scripts\black` found.
 
 - You will also have the Python Launcher, which you run with `py` at the command line.
 
-If, however, you install Python by downloading and running `*.exe` files from [Download Python | Python.org](https://www.python.org/downloads/), none of these `Python\Python3n\` or `Python\Python3n\Scripts` entries will be added to your path.
+If, however, you install Python by downloading and running `.exe` files from [Download Python | Python.org](https://www.python.org/downloads/), none of these `Python\Python3n\` or `Python\Python3n\Scripts` entries will be added to your path.
 
 - Running `python` from the command line will launch the Microsoft Store, offering to let you download and install the "missing" Python executable.
 
@@ -518,10 +518,10 @@ vim9script
 
 def HasPlugin(name: string): bool
 	# Search for directory in Vim pack directory.
-	# 
+	#
 	# If found, return true
 	# If not found, print a warning and return false
-	
+
 	var plugin_roots = [
 		$MYVIMDIR .. '/pack/minpac/start/',
 		$MYVIMDIR .. '/pack/minpac/opt/'
@@ -886,7 +886,7 @@ There are several [Tim Pope](https://github.com/tpope) plugins that could qualif
 
 - [surround.vim](https://github.com/tpope/vim-surround)
 
-At some point, you'll want to review the documentation for all of these, but the only one we'll rely on for this guide is vim-dispatch.  [vim-dispatch](https://github.com/tpope/vim-dispatch) allows you to `make` (compile) programs asynchronously. This guide is focused on Python dev, and we don't compile Python programs, but we will use vim-dispatch's `Make` command to run `pre-commit` (a common Python tool) asynchronously. 
+At some point, you'll want to review the documentation for all of these, but the only one we'll rely on for this guide is vim-dispatch.  [vim-dispatch](https://github.com/tpope/vim-dispatch) allows you to `make` (compile) programs asynchronously. This guide is focused on Python dev, and we don't compile Python programs, but we will use vim-dispatch's `Make` command to run `pre-commit` (a common Python tool) asynchronously.
 
 # Vim Configuration
 
@@ -988,7 +988,7 @@ If you paste the following into Vim (running in PowerShell), you will see what y
 # 🌽 (U+1F33D) 🥕 (U+1F955) 🥔 (U+1F954) 🧄 (U+1F9C4) 🧅 (U+1F9C5)
 ```
 
-If you paste this text into gVim, the result will be considerably less interesting. To get nice, colorful symbols, tell gVim to use the same DirectX rendering as PowerShell. Add this to your `gvimrc`:
+ If you paste this text into gVim, the result will be considerably less interesting. To get nice, colorful symbols, tell gVim to use the same DirectX rendering as PowerShell. Add this to your `gvimrc`:
 
 ```vim
 set renderoptions=type:directx,gamma:1.0,geom:0,renmode:5,taamode:1
