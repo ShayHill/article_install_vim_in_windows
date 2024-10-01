@@ -86,7 +86,7 @@ This is all we'll configure for now. Open gVim (not Vim itself. Wait until we ha
 :e ~\vimfiles\vimrc
 ```
 
-and create a simple vimrc with this content:
+and create a simple `vimrc` with this content:
 
 ```vim
 vim9script
@@ -239,7 +239,7 @@ Each of the `Programs\Python3n\` paths will contain a `python.exe`.
 
 - You will also have the Python Launcher, which you run with `py` at the command line.
 
-If, however, you install Python by downloading and running `*.exe` files from [Download Python | Python.org](https://www.python.org/downloads/), none of these `Python\Python3n\` or `Python\Python3n\Scripts` entries will be added to your path.
+If, however, you install Python by downloading and running `.exe` files from [Download Python | Python.org](https://www.python.org/downloads/), none of these `Python\Python3n\` or `Python\Python3n\Scripts` entries will be added to your path.
 
 - Running `python` from the command line will launch the Microsoft Store, offering to let you download and install the "missing" Python executable.
 
@@ -988,7 +988,7 @@ If you paste the following into Vim (running in PowerShell), you will see what y
 # 🌽 (U+1F33D) 🥕 (U+1F955) 🥔 (U+1F954) 🧄 (U+1F9C4) 🧅 (U+1F9C5)
 ```
 
-If you paste this text into gVim, the result will be considerably less interesting. To get nice, colorful symbols, tell gVim to use the same DirectX rendering as PowerShell. Add this to your `gvimrc`:
+ If you paste this text into gVim, the result will be considerably less interesting. To get nice, colorful symbols, tell gVim to use the same DirectX rendering as PowerShell. Add this to your `gvimrc`:
 
 ```vim
 set renderoptions=type:directx,gamma:1.0,geom:0,renmode:5,taamode:1
