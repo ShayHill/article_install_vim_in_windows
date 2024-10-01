@@ -18,7 +18,7 @@ There is a lot of code in this guide that you may wish to copy and paste into yo
 
 - Select text then `"+y` to copy to the Windows clipboard.
 
-- `"+p` to paste from the Windows clipboard. 
+- `"+p` to paste from the Windows clipboard.
 
 So, to copy code from this guide, just copy the code in Windows, then enter Normal mode (press `<ESC>`) then `"+p` to paste the code into Vim.
 
@@ -92,7 +92,7 @@ and create a simple `vimrc` with this content:
 vim9script
 
 # nice defaults from Bram and the The Vim Project
-source $VIMRUNTIME/defaults.vim 
+source $VIMRUNTIME/defaults.vim
 ```
 
 This will preserve the nice defaults. The `vim9script` is optional, but the rest of this guide will assume you have it set.
@@ -233,7 +233,7 @@ C:\Users\shaya\AppData\Local\Programs\Python\Launcher\;
 
 Each of the `Programs\Python3n\` paths will contain a `python.exe`.
 
-- Running `python` from the command line will run the `python.exe` that was most recently installed. 
+- Running `python` from the command line will run the `python.exe` that was most recently installed.
 
 - If you `pip install` an executable Python script like `black`, running `black` will start from the top of the list and run the first `Scripts\black` found.
 
@@ -518,10 +518,10 @@ vim9script
 
 def HasPlugin(name: string): bool
 	# Search for directory in Vim pack directory.
-	# 
+	#
 	# If found, return true
 	# If not found, print a warning and return false
-	
+
 	var plugin_roots = [
 		$MYVIMDIR .. '/pack/minpac/start/',
 		$MYVIMDIR .. '/pack/minpac/opt/'
@@ -886,7 +886,7 @@ There are several [Tim Pope](https://github.com/tpope) plugins that could qualif
 
 - [surround.vim](https://github.com/tpope/vim-surround)
 
-At some point, you'll want to review the documentation for all of these, but the only one we'll rely on for this guide is vim-dispatch.  [vim-dispatch](https://github.com/tpope/vim-dispatch) allows you to `make` (compile) programs asynchronously. This guide is focused on Python dev, and we don't compile Python programs, but we will use vim-dispatch's `Make` command to run `pre-commit` (a common Python tool) asynchronously. 
+At some point, you'll want to review the documentation for all of these, but the only one we'll rely on for this guide is vim-dispatch.  [vim-dispatch](https://github.com/tpope/vim-dispatch) allows you to `make` (compile) programs asynchronously. This guide is focused on Python dev, and we don't compile Python programs, but we will use vim-dispatch's `Make` command to run `pre-commit` (a common Python tool) asynchronously.
 
 # Vim Configuration
 
