@@ -239,7 +239,7 @@ If you're installing using winget, also install the Python Launcher. If you're i
 
 You may also want to install older versions, release candidates, or something else potentially not supported by Vim and it's plugins. **Don't do that yet!**
 
-First, select a relatively new and stable version of Python—no prereleases and no "month-of" releases. Vim doesn't ship with it's own version of Python. Vim and it's plugins will try to use the newest version of Python you have. To avoid any problems, we'll tell Vim *which* version of Python we want to use. Open your `~vimfiles\vimrc` file and add the following (if your "relatively new and stable" version of Python is 3.11):
+First, select a relatively new and stable version of Python&mdash;no prereleases and no "month-of" releases. Vim doesn't ship with it's own version of Python. Vim and it's plugins will try to use the newest version of Python you have. To avoid any problems, we'll tell Vim *which* version of Python we want to use. Open your `~vimfiles\vimrc` file and add the following (if your "relatively new and stable" version of Python is 3.11):
 
 ```vim
 if has("windows")
@@ -489,7 +489,7 @@ There's also a way, I'm sure to [Use command-line parameters to install Visual S
 
 # Install Lazygit
 
-This step is optional, but [Lazygit](https://github.com/jesseduffield/lazygit/) is fun and cool and useful. Like all Git interfaces, it's got [issues](https://github.com/jesseduffield/lazygit/issues)—as I write this, 666 open issues—but don't let the open issues put you off. As I said (and if you'll excuse a little fun with the coincidence), it's *the nature of the beast*—which may be a big part of the reason you're installing Vim in the first place (fewer interfaces).
+This step is optional, but [Lazygit](https://github.com/jesseduffield/lazygit/) is fun and cool and useful. Like all Git interfaces, it's got [issues](https://github.com/jesseduffield/lazygit/issues)&mdash;as I write this, 666 open issues&mdash;but don't let the open issues put you off. As I said (and if you'll excuse a little fun with the coincidence), it's *the nature of the beast*&mdash;which may be a big part of the reason you're installing Vim in the first place (fewer interfaces).
 
 ```powershell
 winget install JesseDuffield.lazygit --source winget
@@ -585,10 +585,10 @@ vim9script
 
 def HasPlugin(name: string): bool
 	# Search for directory in Vim pack directory.
-	# 
+	#
 	# If found, return true
 	# If not found, print a warning and return false
-	
+
 	var plugin_roots = [
 		$MYVIMDIR .. '/pack/minpac/start/',
 		$MYVIMDIR .. '/pack/minpac/opt/'
