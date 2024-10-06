@@ -16,8 +16,8 @@ There's nothing difficult about putting this all together, but there are a few p
 
 There is a lot of code in this guide that you may wish to copy and paste into your Vim files. If you are very new to Vim, this is how you copy to and from the Windows clipboard:
 
-* Select text then `"+y` to copy to the Windows clipboard.
-* `"+p` to paste from the Windows clipboard.
+- Select text then `"+y` to copy to the Windows clipboard.
+- `"+p` to paste from the Windows clipboard.
 
 So, to copy code from this guide, just copy the code in Windows, then enter Normal mode (press `<ESC>`) then `"+p` to paste the code into Vim.
 
@@ -30,6 +30,7 @@ So, to copy code from this guide, just copy the code in Windows, then enter Norm
   - [create a vimrc](#create-a-vimrc)
 - [Install Cross-Platform PowerShell](#install-cross-platform-powershell)
   - [configuration](#configuration)
+  - [options](#options)
 - [Install Python](#install-python)
   - [the Python Launcher](#the-python-launcher)
   - [older Python versions](#older-python-versions)
@@ -63,9 +64,9 @@ So, to copy code from this guide, just copy the code in Windows, then enter Norm
 - [Vim Configuration](#vim-configuration)
 - [gVim Configuration](#gvim-configuration)
   - [set gVim guifont](#set-gvim-guifont)
+  - [updating the terminal font](#updating-the-terminal-font)
   - [renderoptions](#renderoptions)
   - [window size](#window-size)
-  - [set the font in terminal Vim](#set-the-font-in-terminal-vim)
   - [fullscreen gVim](#fullscreen-gvim)
 - [The Vim After Directory](#the-vim-after-directory)
   - [configure Vim for Python files](#configure-vim-for-python-files)
@@ -80,7 +81,7 @@ This is an obvious first step, and it's an easy one, because we're not going to 
 
 Go to [Releases · vim/vim-win32-installer (github.com)](https://github.com/vim/vim-win32-installer/releases), download the exe file for your architecture (32 or 64 bit), run it, and accept all the defaults. This will add a few icons to your desktop that you probably don't want, but it's easy to delete them later. Elsewhere in this guide, we're going to use `winget`, but Vim itself suggests downloading and installing from GitHub.
 
-The installer will not add `vim` and `gvim` to your Path environment variable. You can alias them in PowerShell as shown in the [[Install Cross-Platform PowerShell]] section below or add them to your Path.
+The installer will not add `vim` and `gvim` to your Path environment variable. You can alias them in PowerShell as shown in the **Install Cross-Platform PowerShell** section below or add them to your Path.
 
 ## editing the Path environment variable
 
@@ -138,7 +139,7 @@ and create a simple `vimrc` with this content:
 vim9script
 
 # nice defaults from Bram and the The Vim Project
-source $VIMRUNTIME/defaults.vim 
+source $VIMRUNTIME/defaults.vim
 ```
 
 This will preserve the nice defaults. The `vim9script` is optional, but the rest of this guide will assume you have it set.
@@ -212,7 +213,7 @@ Now, close and reopen PowerShell, then press `Ctrl+Shift+D` (D for Duplicate) in
 
 ### tell vim about PowerShell
 
-Start PowerShell (`winkey-x` then `i`), open Vim inside PowerShell, then add this to `~vimfiles\vimrc`.
+Start PowerShell (`winkey+x` then `i`), open Vim inside PowerShell, then add this to `~vimfiles\vimrc`.
 
 ```vim
 if has("windows")
@@ -221,6 +222,12 @@ endif
 ```
 
 To let Vim know to open terminals in cross-platform PowerShell. The options `shell=pwsh` and `shell=powershell` are not the same. The latter is for Windows (blue-icon) PowerShell, which isn't a nice experience.
+
+## options
+
+Vim is a terminal program, so options set in the terminal or shell will effect Vim. Open PowerShell in Windows Terminal (`win+x i`), press `Ctrl+,` for settings, and select `PowerShell` under `Profiles` in the left menu. Here you can set the font and change the cursor shape if desired. By default, you will get a Bar(\|) cursor, which can be confusing when selecting text. It doesn't take long to get used to it, but you might be happier with Vintage, Underscore, or one of the Boxes.
+
+You may want to come back and select a different font after installing new fonts in the  **gVim Configuration** section.
 
 # Install Python
 
@@ -279,24 +286,24 @@ C:\Users\shaya\AppData\Local\Programs\Python\Launcher\;
 
 Each of the `Programs\Python3n\` paths will contain a `python.exe`.
 
-* Running `python` from the command line will run the `python.exe` that was most recently installed. 
-* If you `pip install` an executable Python script like `black`, running `black` will start from the top of the list and run the first `Scripts\black` found.
-* You will also have the Python Launcher, which you run with `py` at the command line.
+- Running `python` from the command line will run the `python.exe` that was most recently installed.
+- If you `pip install` an executable Python script like `black`, running `black` will start from the top of the list and run the first `Scripts\black` found.
+- You will also have the Python Launcher, which you run with `py` at the command line.
 
 If, however, you install Python by downloading and running `*.exe` files from [Download Python \| Python.org](https://www.python.org/downloads/), none of these `Python\Python3n\` or `Python\Python3n\Scripts` entries will be added to your path.
 
-* Running `python` from the command line will launch the Microsoft Store, offering to let you download and install the "missing" Python executable.
-* Running a pip-installed script will give you an error message: `The term 'black' is not recognized`.
-* You will only have the Python Launcher in your path.
+- Running `python` from the command line will launch the Microsoft Store, offering to let you download and install the "missing" Python executable.
+- Running a pip-installed script will give you an error message: `The term 'black' is not recognized`.
+- You will only have the Python Launcher in your path.
 
 To use the Python Launcher ...
 
-* Run `py` to run the latest Python version.
-* Run `py -3.11` to run another version.
-* Run `py -m black` to run black from the Scripts folder of the latest Python version.
-* Run `py -3.11 -m black` to run black from the Scripts folder of another Python version.
-* To run another version by default, create a new User Environment Variable, `PY_PYTHON` and set the value to the default you'd like to run. For example, `3.11`.
-* `python` will run as expected from inside a virtual environment.
+- Run `py` to run the latest Python version.
+- Run `py -3.11` to run another version.
+- Run `py -m black` to run black from the Scripts folder of the latest Python version.
+- Run `py -3.11 -m black` to run black from the Scripts folder of another Python version.
+- To run another version by default, create a new User Environment Variable, `PY_PYTHON` and set the value to the default you'd like to run. For example, `3.11`.
+- `python` will run as expected from inside a virtual environment.
 
 I prefer the Python-Launcher-only setup, because `python` will *only* work from inside a virtual environment. So, any script you set up to run `python` will only work from a virtual environment, and you can run the latest version from inside a virtual environment by running 'py'.
 
@@ -479,9 +486,9 @@ winget install Microsoft.VisualStudio.2022.BuildTools --source winget
 
 This takes several minutes, but only installs the Visual Studio Installer. Once that's done, run the Visual Studio Installer from the Windows menu.
 
-* Click 'Modify'.
-* Select "Desktop development with C++".
-* Click 'Modify' again.
+- Click 'Modify'.
+- Select "Desktop development with C++".
+- Click 'Modify' again.
 
 You could *probably* go into "Individual Components" and install "C++ CMake tools for Windows" and "Windows 11 SDK" only, but the entire "Workload" is only 1.75GB and it's not worth the hassle to figure out what you need and what you don't.
 
@@ -705,8 +712,8 @@ Have a close look at the second line. [Minpac](https://github.com/k-takata/minpa
 
 Run `PackUpdate` again to install these plugins. In this instance, I will refer you to the plugin pages for instructions on registering for these services and setting the required environment variables. The instructions on each are simple and clear. I couldn't improve them.
 
-* [github/copilot.vim](https://github.com/github/copilot.vim)
-* [madox2/vim-ai](https://github.com/madox2/vim-ai)
+- [github/copilot.vim](https://github.com/github/copilot.vim)
+- [madox2/vim-ai](https://github.com/madox2/vim-ai)
 
 Each provides several commands you can type at the command line or create a mapping for. That is the usual process in Vim: review the 100s of available commands and create mappings for the ones you use most frequently. You can browse these commands by typing `:Copilot<space><tab>` or `:AI<tab>` in Vim.
 
@@ -754,10 +761,10 @@ In Windows, you'll need to explicitly create a snippets folder at
 
 Just to see how it works, let's do that with Vim's `netrw` file browser.
 
-* type `:Ex<enter>`
-* press `d`
-* type `ultisnips<enter>`
-* type `:bd<enter>` to exit netrw
+- type `:Ex<enter>`
+- press `d`
+- type `ultisnips<enter>`
+- type `:bd<enter>` to exit netrw
 
 Now, UltiSnips will recognize this as your snippets directory. Open a Python file. If you don't have one handy, just `:e temp.py`. From the Python file, enter `:UltiSnipsEdit`. UltiSnips will open a file at
 
@@ -936,9 +943,9 @@ There are several [Tim Pope](https://github.com/tpope) plugins that could qualif
 	minpac#add('tpope/vim-obsession')  # session management
 ```
 
-* [vim-dispatch](https://github.com/tpope/vim-dispatch)
-* [fugitive.vim](https://github.com/tpope/vim-fugitive)
-* [vim-obsession](https://github.com/tpope/vim-obsession)
+- [vim-dispatch](https://github.com/tpope/vim-dispatch)
+- [fugitive.vim](https://github.com/tpope/vim-fugitive)
+- [vim-obsession](https://github.com/tpope/vim-obsession)
 
 At some point, you'll want to review the documentation for all of these, but the only one we'll rely on for this guide is vim-dispatch.  [vim-dispatch](https://github.com/tpope/vim-dispatch) allows you to `make` (compile) programs asynchronously. This guide is focused on Python dev, and we don't compile Python programs, but we will use vim-dispatch's `Make` command to run `pre-commit` (a common Python tool) asynchronously.
 
@@ -1028,6 +1035,18 @@ set guifont=Consolas:h10:cANSI:qDRAFT,SimSun-ExtB:h11:cANSI:qDEFAULT,DejaVuSansM
 
 `:set list!` if you want to see your `listchars` in action. `:set list!` again to turn it off.
 
+## updating the terminal font
+
+You may want to go back and change the Windows Terminal font through the Windows Terminal settings dialog, but those changes will affect all terminal programs. If you'd rather keep your current terminal font, you can set a simpler `listchars` for Vim.
+
+```vim
+if has('gui_running')
+	source $MYVIMDIR/gvim.vimrc
+else
+	set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+endif
+```
+
 ## renderoptions
 
 If you paste the following into Vim (running in PowerShell), you will see what you see in your browser: a colorful Unicode garden.
@@ -1063,18 +1082,6 @@ if !exists('g:vimrc_sourced')
 endif
 ```
 
-## set the font in terminal Vim
-
-You don't set the font in terminal Vim. Vim will use whatever font you are using in your terminal. You can use the same `listchars` and `fillchars` above and use a font that supports them, or you can use a simpler font for all of your terminal programs and set a simpler `listchars`.
-
-```vim
-if has('gui_running')
-	source $MYVIMDIR/gvim.vimrc
-else
-	set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
-endif
-```
-
 ## fullscreen gVim
 
 If you followed the earlier instructions to download gVim Fullscreen, here is the best spot to configure it. Add this to your `~\vimfiles\gvim.vimrc`:
@@ -1099,9 +1106,9 @@ Naturally, Vim doesn't treat every filetype the same. Set specific configuration
 
 If you don't have them yet, create the `after` and `ftplugin` directories.
 
-* `:Ex`
-* press `d`
-* `after/ftplugin`
+- `:Ex`
+- press `d`
+- `after/ftplugin`
 
 ## configure Vim for Python files
 
@@ -1162,10 +1169,10 @@ Python isn't a compiled language, but Python developers can can borrow `make` ( 
 
 Set up a mapping to run `pre-commit` asynchronously in Vim's `quickfix` window. To do this, you will define a compiler in `$MYVIMDIR/compiler`.
 
-* open a terminal and cd to `~\vimfiles`
-* `:Ex`
-* `d`
-* `compiler`
+- open a terminal and cd to `~\vimfiles`
+- `:Ex`
+- `d`
+- `compiler`
 
 ```vim
 :e $MYVIMDIR\compiler\precommit.vim
