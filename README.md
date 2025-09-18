@@ -918,7 +918,7 @@ By now, I suspect you know the steps. Return to the `PackInit` function in your 
 
 ```vim
 	# -------- fuzzy finder
-	minpac#add('Donaldttt/fuzzyy')
+	minpac#add('vim-fuzzbox/fuzzbox.vim')
 ```
 
 Don't forget to run `:PackUpdate` and restart Vim to make sure the new plugin directory is sourced.
@@ -926,14 +926,19 @@ Don't forget to run `:PackUpdate` and restart Vim to make sure the new plugin di
 `:Fuzz<tab>` to see the commands. The most common may be `:FuzzyyGitFiles`. You likely want a mapping for it. Add this to `~\vimfiles\plugin_config.vim`:
 
 ```vim
-if HasPlugin("fuzzyy")
-	nnoremap <C-P> :FuzzyGitFiles<CR>
+if g:HasPlugin('fuzzbox.vim')
+  nnoremap <C-P> :FuzzyGitFiles<CR>
+  inoremap <C-P> <ESC>:FuzzyGitFiles<CR>
 endif
 ```
 
 Don't expect that to do much right now unless you're in a git directory with `git add`-ed files, but it will help you quickly navigate through your project later on.
 
-Avoid the bad habit of using a fuzzy finder to switch between a handful of files. `:h mark-motions` for the most straightforward way to accomplish that in Vim.
+*But what if I want to open a file that isn't controlled by Git?*
+
+Everyone has opinions. My opinion is this: save keystrokes and use the best shortcuts for the things you do (like opening a Git controlled file) hundreds of times a day. For less common tasks, worry less about efficiency. That means open the non-Git-controlled file with `:e`, `:Ex`, `:FuzzyFiles` or a shortcut (that you may not even remember) to one of those. This keeps your hundreds-of-time-a-day functions uncluttered and top of mind.
+
+Additionally, avoid the bad habit of using a fuzzy finder to switch between a handful of files. `:h mark-motions` for the most straightforward way to accomplish that in Vim.
 
 # The Usual Suspects
 
@@ -1004,7 +1009,13 @@ The `listchars` value isn't the most important part of your gVim configuration, 
 
 ## set gVim guifont
 
-gVim has a menu. Click `Edit > Select Font...` and browse through the available fonts. You  might find a font that shows the characters and looks nice to your tastes, but possibly not.
+Start gVim then launch a gui menu to select an available font.
+
+```
+:set guifont=*
+```
+
+You might find a font that shows the characters and looks nice to your tastes, but possibly not.
 
 ### install another font
 
@@ -1213,6 +1224,6 @@ Now you can press `<leader>l` from a Python module to run your pre-commit hooks.
 
 # More
 
-At this point, *your OS and various APIs* are a high-functioning IDE. You may still want to put some work into your editor, but that will be the easy part. Vim has great documentation available with `:h topic` if you know what you're looking for, and the [fuzzyy](https://github.com/Donaldttt/fuzzyy) command, `:FuzzyHelps`, will help if you do not.
+At this point, *your OS and various APIs* are a high-functioning IDE. You may still want to put some work into your editor, but that will be the easy part. Vim has great documentation available with `:h topic` if you know what you're looking for. If you're not sure what you're looking for, try `:FuzzyHelp` to search the help files with the [fuzzbox](https://github.com/vim-fuzzbox/fuzzbox.vim) plugin we just installed.
 
 It's a common thing to commit your Vim configuration and even to keep it public. Here's mine: [ShayHill/vimfiles](https://github.com/ShayHill/vimfiles). Here's famous Vim user Tim Pope's config: [tpope/dotfiles](https://github.com/tpope/dotfiles). Remember that it's never finished. Enjoy the process.

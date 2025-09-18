@@ -1110,7 +1110,13 @@ The `listchars` value isn't the most important part of your gVim configuration, 
 
 ## set gVim guifont
 
-gVim has a menu. Click `Edit > Select Font...` and browse through the available fonts. You  might find a font that shows the characters and looks nice to your tastes, but possibly not.
+Start gVim then launch a gui menu to select an available font.
+
+```
+:set guifont=*
+```
+
+You might find a font that shows the characters and looks nice to your tastes, but possibly not.
 
 ### install another font
 
