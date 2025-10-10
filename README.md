@@ -16,10 +16,12 @@ There's nothing difficult about putting this all together, but there are a few p
 
 There is a lot of code in this guide that you may wish to copy and paste into your Vim files. If you are very new to Vim, this is how you copy to and from the Windows clipboard:
 
-* Select text then `"+y` to copy to the Windows clipboard.
-* `"+p` to paste from the Windows clipboard.
+- Select text then `"+y` to copy to the Windows clipboard.
+- `"+p` to paste from the Windows clipboard.
 
 So, to copy code from this guide, just copy the code in Windows, then enter Normal mode (press `<ESC>`) then `"+p` to paste the code into Vim.
+
+If you're using gVim, you can copy and paste by right clicking and selecting copy or paste, the same way you would in almost any Windows gui.
 
 # Table of Contents
 
@@ -42,7 +44,6 @@ So, to copy code from this guide, just copy the code in Windows, then enter Norm
 - [Install Node](#install-node)
   - [install yarn](#install-yarn)
 - [gVim Fullscreen](#gvim-fullscreen)
-  - [tell Vim where to find the dll](#tell-vim-where-to-find-the-dll)
 - [Install Visual Studio Build Tools](#install-visual-studio-build-tools)
 - [Install Lazygit](#install-lazygit)
   - [difftastic](#difftastic)
@@ -50,14 +51,13 @@ So, to copy code from this guide, just copy the code in Windows, then enter Norm
 - [Install Vim Plugins](#install-vim-plugins)
   - [enable Vim built-In plugins](#enable-vim-built-in-plugins)
   - [external plugins](#external-plugins)
-  - [plugin configuration](#plugin-configuration)
 - [Vim LSP and Completion](#vim-lsp-and-completion)
   - [install a language server](#install-a-language-server)
 - [Vim Artificial Intelligence](#vim-artificial-intelligence)
 - [Vim Snippets](#vim-snippets)
   - [create a snippet](#create-a-snippet)
 - [Vim Debugging](#vim-debugging)
-  - [vimspector.json](#vimspectorjson)
+  - [.vimspector.json](#vimspectorjson)
   - [run Vimspector](#run-vimspector)
 - [Vim Fuzzy Finding](#vim-fuzzy-finding)
 - [The Usual Suspects](#the-usual-suspects)
@@ -68,10 +68,10 @@ So, to copy code from this guide, just copy the code in Windows, then enter Norm
   - [renderoptions](#renderoptions)
   - [window size](#window-size)
   - [fullscreen gVim](#fullscreen-gvim)
-- [The Vim After Directory](#the-vim-after-directory)
+- [The Vim ftplugin Directory](#the-vim-ftplugin-directory)
   - [configure Vim for Python files](#configure-vim-for-python-files)
   - [configure the aichat window](#configure-the-aichat-window)
-- [The Vim Compiler Directory](#the-vim-compiler-directory)
+- [The Vim compiler Directory](#the-vim-compiler-directory)
   - [asynchronous pre-commit](#asynchronous-pre-commit)
 - [More](#more)
 
@@ -79,13 +79,28 @@ So, to copy code from this guide, just copy the code in Windows, then enter Norm
 
 This is an obvious first step, and it's an easy one, because we're not going to compile Vim. But there are some tricks if you aren't familiar with Windows.
 
-Go to [Releases · vim/vim-win32-installer (github.com)](https://github.com/vim/vim-win32-installer/releases), download the exe file for your architecture (32 or 64 bit), run it, and accept all the defaults. This will add a few icons to your desktop that you probably don't want, but it's easy to delete them later. Elsewhere in this guide, we're going to use `winget`, but Vim itself suggests downloading and installing from GitHub.
+In this guide, we're going to use `winget`.
+
+```powershell
+winget install vim.vim --source winget
+```
 
 The installer will not add `vim` and `gvim` to your Path environment variable. You can alias them in PowerShell as shown in the **Install Cross-Platform PowerShell** section below or add them to your Path.
 
 ## editing the Path environment variable
 
 If you are completely unfamiliar with Windows, let's quickly go through this. You don't *have to* have Vim in your path, you could just use shell aliases. But if you'd like to have Vim and gVim in your path, there are multiple ways to do it. I'll describe two. I prefer Option Two, because there's less room for error, and you'll probably end up there eventually to clean up mistakes made with Option One. Option One is for people who wish to script their entire device configuration.
+
+### but first!
+
+You can easily break things when altering your environment variables. Run this in PowerShell to export your current values to a json file.
+
+```powershell
+[System.Environment]::GetEnvironmentVariables().GetEnumerator()
+ForEach-Object { [PSCustomObject]@{ Name = $_.Key; Value = $_.Value } }
+ConvertTo-Json -Depth 3
+Set-Content -Path "env_variables.json"
+```
 
 ### option one - command line
 
@@ -97,17 +112,17 @@ Open PowerShell and enter (If you've installed Vim91)
 
 ### option two - GUI
 
-* Press the Windows key
-* Search for "Environment Variables" and click the "Best Match"
-* This will bring up the System Properties dialog, which has a link, Environment Variables, near the lower-right corner. Click there.
-* The "User variables for username" are in the top half of the Environment Variables dialog. For now, you're interested in the Path variable
-* Double click the Path variable, and make sure you see the path to your current Vim installation.
-* If not, click "Edit" then "Browse" then navigate to `C:\Program Files\Vim\vim91` (or whatever the current version is) to add it.
+- Press the Windows key
+- Search for "Environment Variables" and click the "Best Match"
+- This will bring up the System Properties dialog, which has a link, Environment Variables, near the lower-right corner. Click there.
+- The "User variables for username" are in the top half of the Environment Variables dialog. For now, you're interested in the Path variable
+- Double click the Path variable, and make sure you see the path to your current Vim installation.
+- If not, click "Edit" then "Browse" then navigate to `C:\Program Files\Vim\vim91` (or whatever the current version is) to add it.
 
 ### some nuance with environment variables
 
-* Environment variables are read when applications are opened, so changes to environment variables will not take effect until you open a new window. There are other ways, but that's the easy way.
-* You have to back out (click "OK") *twice*, going all the way back to the System Properties dialog, before the variable is actually changed. This one has gotten me many times.
+- Environment variables are read when applications are opened, so changes to environment variables will not take effect until you open a new terminal window. There are other ways, but that's the easy way.
+- You have to back out (click "OK") *twice*, going all the way back to the System Properties dialog, before the variable is actually changed. This one has gotten me many times.
 
 ## create a vimrc
 
@@ -127,7 +142,7 @@ C:\Program Files\Vim\vim91\defaults.vim
 
 But these defaults aren't, strictly speaking, defaults, because this is not how Vim will look and behave with *no* configuration. When you create your own `vimrc` file, Vim reads *your* `vimrc` *instead of* `defaults.vim`, so you get true "out of the box" Vim behavior: no filetype detection, no syntax highlighting, and 1970s-style backspace behavior.
 
-This is all we'll configure for now. Open gVim (not Vim itself. Wait until we have a better shell to run it in) from the Windows menu. Run this command:
+This is all we'll configure for now. Open gVim (not Vim itself. Wait until we have a better shell to run it in) from the Windows menu. Then run this command:
 
 ```
 :e ~\vimfiles\vimrc
@@ -135,14 +150,21 @@ This is all we'll configure for now. Open gVim (not Vim itself. Wait until we ha
 
 and create a simple `vimrc` with this content:
 
-```vim
+```
 vim9script
 
 # nice defaults from Bram and the The Vim Project
 source $VIMRUNTIME/defaults.vim
+
+# Set tab width for Vim files
+autocmd FileType vim setlocal expandtab
+autocmd FileType vim setlocal shiftwidth=2
+autocmd FileType vim setlocal softtabstop=2
 ```
 
 This will preserve the nice defaults. The `vim9script` is optional, but the rest of this guide will assume you have it set.
+
+The autocmd lines will set an indentation style for `*.vim` files. We're setting it here to make it cleaner to paste in other code from this guide.
 
 # Install Cross-Platform PowerShell
 
@@ -196,16 +218,15 @@ When you open a new tab in PowerShell, that tab will be open to a system folder 
 Copy this code into your PowerShell profile:
 
 ```powershell
-function prompt
-{
-  $loc = Get-Location
-  $prompt = & $GitPromptScriptBlock
-  $prompt += "$([char]27)]9;12$([char]7)"
-  if ($loc.Provider.Name -eq "FileSystem")
-  {
-    $prompt += "$([char]27)]9;9;`"$($loc.ProviderPath)`"$([char]27)\"
+function prompt {
+  $loc = $executionContext.SessionState.Path.CurrentLocation;
+
+  $out = ""
+  if ($loc.Provider.Name -eq "FileSystem") {
+    $out += "$([char]27)]9;9;`"$($loc.ProviderPath)`"$([char]27)\"
   }
-  $prompt
+  $out += "PS $loc$('>' * ($nestedPromptLevel + 1)) ";
+  return $out
 }
 ```
 
@@ -215,20 +236,18 @@ Now, close and reopen PowerShell, then press `Ctrl+Shift+D` (D for Duplicate) in
 
 Start PowerShell (`winkey+x` then `i`), open Vim inside PowerShell, then add this to `~vimfiles\vimrc`.
 
-```vim
+```
 if has("windows")
-	set shell=pwsh
-
-	# PowerShell is capable of TrueColor.
-	set termguicolors
+  set shell=pwsh
+  set termguicolors  # PowerShell is capable of TrueColor
 endif
 ```
 
-To let Vim know to open terminals in cross-platform PowerShell. The options `shell=pwsh` and `shell=powershell` are not the same. The latter is for Windows (blue-icon) PowerShell, which isn't a nice experience.
+... to let Vim know to open terminals in cross-platform PowerShell. The options `shell=pwsh` and `shell=powershell` are not the same. The latter is for Windows (blue-icon) PowerShell, which may not be as nice an nice experience.
 
 Vim colorschemes usually define colors in three formats: * `term`, a style name for monochrome terminals * `ctermfg`, a color index for up to 256 color terminals * `guifg`, a 24-bit (e.g., #008181) color definition for true-color terminals
 
-If `termguicolors` is set, PowerShell will read the 24-bit color definition instead of looking for a color index. You'll really only notice this when plugins like [monkoose/vim9-stargate](https://github.com/monkoose/vim9-stargate) don't set `ctermfg`, assuming you're on a TrueColor terminal.
+If `termguicolors` is set, PowerShell will read the 24-bit color definition instead of looking for a color index. You'll really only notice this when plugins like [monkoose/vim9-stargate](https://github.com/monkoose/vim9-stargate) don't set `ctermfg`, because they assume you're on a TrueColor terminal.
 
 ## options
 
@@ -253,13 +272,19 @@ If you're installing using winget, also install the Python Launcher. If you're i
 
 You may also want to install older versions, release candidates, or something else potentially not supported by Vim and it's plugins. **Don't do that yet!**
 
-First, select a relatively new and stable version of Python&mdash;no prereleases and no "month-of" releases. Vim doesn't ship with it's own version of Python. Vim and it's plugins will try to use the newest version of Python you have. To avoid any problems, we'll tell Vim *which* version of Python we want to use. Open your `~vimfiles\vimrc` file and add the following (if your "relatively new and stable" version of Python is 3.11):
+First, select a relatively new and stable version of Python&mdash;no prereleases and no "month-of" releases. Vim doesn't ship with it's own version of Python. Vim and its plugins will try to use the newest version of Python you have. To avoid any problems, we'll tell Vim *which* version of Python we want to use. Open your `~vimfiles\vimrc` file and add the following to your `if has("windows")` block (if your "relatively new and stable" version of Python is 3.12):
 
-```vim
+```
 if has("windows")
-	var local_programs = expand('$HOME/AppData/Local/Programs')
-	execute 'set pythonthreehome=' .. local_programs .. "/Python/Python311"
-	execute 'set pythonthreedll=' .. local_programs .. "/Python/Python311/python311.dll"
+  set shell=pwsh
+  set termguicolors  # PowerShell is capable of TrueColor
+
+  # ------------ new content
+  var local_programs = expand('$HOME/AppData/Local/Programs')
+
+  execute 'set pythonthreehome=' .. local_programs .. "/Python/Python312"
+  execute 'set pythonthreedll=' .. local_programs .. "/Python/Python312/python312.dll"
+  # ------------ / new content
 endif
 ```
 
@@ -291,24 +316,24 @@ C:\Users\shaya\AppData\Local\Programs\Python\Launcher\;
 
 Each of the `Programs\Python3n\` paths will contain a `python.exe`.
 
-* Running `python` from the command line will run the `python.exe` that was most recently installed. 
-* If you `pip install` an executable Python script like `black`, running `black` will start from the top of the list and run the first `Scripts\black` found.
-* You will also have the Python Launcher, which you run with `py` at the command line.
+- Running `python` from the command line will run the `python.exe` that was most recently installed.
+- If you `pip install` an executable Python script like `black`, running `black` will start from the top of the list and run the first `Scripts\black` found.
+- You will also have the Python Launcher, which you run with `py` at the command line.
 
 If, however, you install Python by downloading and running `*.exe` files from [Download Python \| Python.org](https://www.python.org/downloads/), none of these `Python\Python3n\` or `Python\Python3n\Scripts` entries will be added to your path.
 
-* Running `python` from the command line will launch the Microsoft Store, offering to let you download and install the "missing" Python executable.
-* Running a pip-installed script will give you an error message: `The term 'black' is not recognized`.
-* You will only have the Python Launcher in your path.
+- Running `python` from the command line will launch the Microsoft Store, offering to let you download and install the "missing" Python executable.
+- Running a pip-installed script will give you an error message: `The term 'black' is not recognized`.
+- You will only have the Python Launcher in your path.
 
 To use the Python Launcher ...
 
-* Run `py` to run the latest Python version.
-* Run `py -3.12` to run another version.
-* Run `py -m black` to run black from the Scripts folder of the latest Python version.
-* Run `py -3.12 -m black` to run black from the Scripts folder of another Python version.
-* To run another version by default, create a new User Environment Variable, `PY_PYTHON` and set the value to the default you'd like to run. For example, `3.12`.
-* `python` will run as expected from inside a virtual environment.
+- Run `py` to run the latest Python version.
+- Run `py -3.12` to run another version.
+- Run `py -m black` to run black from the Scripts folder of the latest Python version.
+- Run `py -3.12 -m black` to run black from the Scripts folder of another Python version.
+- To run another version by default, create a new User Environment Variable, `PY_PYTHON` and set the value to the default you'd like to run. For example, `3.12`.
+- `python` will run as expected from inside a virtual environment.
 
 I prefer the Python-Launcher-only setup, because `python` will *only* work from inside a virtual environment. So, any script you set up to run `python` will only work from a virtual environment, and you can run the latest version from inside a virtual environment by running `py`.
 
@@ -332,7 +357,7 @@ git config --global merge.tool vimdiff
 git config --global diff.tool vimdiff
 git config --global core.excludesFile "$Env:USERPROFILE\.gitignore"
 git config --global init.defaultBranch main
-git config --global credential.https://github.com.username ShayHill
+git config --global credential.https://github.com.username YourGitUsername
 ```
 
 Don't let the `--global` flag misinform you. These are settings for one user. These commands update a file in your home directory called `.gitconfig`. You can edit this file later or re-run the commands if you don't like what I've put here, but these are the standard settings for Vim users.
@@ -361,13 +386,23 @@ winget install BurntSushi.ripgrep.MSVC --source winget
 
 Add the following to your `~\vimfiles\vimrc` file. This will tell Vim to use Ripgrep when you use the `:grep` command.
 
-```vim
+```
 if has("windows")
-	if executable('rg')
-		set grepprg=rg\ --vimgrep\ --no-heading
-	else
-		echoerr "rg not found. Install ripgrep to use :grep"
-	endif
+  set shell=pwsh
+  set termguicolors  # PowerShell is capable of TrueColor
+
+  var local_programs = expand('$HOME/AppData/Local/Programs')
+
+  execute 'set pythonthreehome=' .. local_programs .. "/Python/Python312"
+  execute 'set pythonthreedll=' .. local_programs .. "/Python/Python312/python312.dll"
+
+  # ------------ new content
+  if executable('rg')
+    set grepprg=rg\ --vimgrep\ --no-heading
+  else
+    echoerr "rg not found. Install ripgrep to use :grep"
+  endif
+  # ------------ / new content
 endif
 ```
 
@@ -393,10 +428,25 @@ This will install the file you need (`lua54.dll`) to
 
 Edit `~\vimfiles\vimrc` and add the following:
 
-```vim
+```
 if has("windows")
-	var local_programs = expand('$HOME/AppData/Local/Programs')
-	execute 'set luadll=' .. local_programs .. '/Lua/bin/lua54.dll'
+  set shell=pwsh
+  set termguicolors  # PowerShell is capable of TrueColor
+
+  var local_programs = expand('$HOME/AppData/Local/Programs')
+
+  execute 'set pythonthreehome=' .. local_programs .. "/Python/Python312"
+  execute 'set pythonthreedll=' .. local_programs .. "/Python/Python312/python312.dll"
+
+  if executable('rg')
+    set grepprg=rg\ --vimgrep\ --no-heading
+  else
+    echoerr "rg not found. Install ripgrep to use :grep"
+  endif
+
+  # ------------ new content
+  execute 'set luadll=' .. local_programs .. '/Lua/bin/lua54.dll'
+  # ------------ / new content
 endif
 ```
 
@@ -428,7 +478,7 @@ to check the install.
 
 Now that you have Node installed, optionally install the [Yarn (yarnpkg.com)](https://yarnpkg.com/) package manager if you want to run [vim-prettier](https://github.com/prettier/vim-prettier)  or other tools that require [Yarn (yarnpkg.com)](https://yarnpkg.com/). You can skip this installation for now and come back to it if you need [Yarn](https://yarnpkg.com/). It's not necessary for any Python dev tasks, as far as I recall, but may need to go deeper into the Node ecosystem if you end up working with common Python-adjacent filetypes like `html`, `css`, `markdown`, etc.
 
-Start `Administrator:PowerShell`. You may have been starting `PowerShell` with `Ctrl-Winkey i`. Start `Administrator:PowerShell` with `Ctrl-Winkey a`. That is, hold `Ctrl` and `Winkey`, release both, then press `a`.
+Start `Administrator:PowerShell`. You may have been starting `PowerShell` with `Winkey-x i`. Start `Administrator:PowerShell` with `Winkey-x a`. That is, hold `Winkey` and `x`, release both, then press `a`.
 
 Enter the following command:
 
@@ -448,26 +498,9 @@ You will be prompted to allow `corepack` to install `yarn`. Allow this, and Powe
 
 This step is optional, but if you dislike the toolbar's intruding into your immersive coding experience, you might not feel that way. This executable will allow you to fullscreen gVim.
 
-* Compile from source: [https://github.com/movsb/gvim_fullscreen](https://github.com/movsb/gvim_fullscreen) ... or download [https://github.com/movsb/gvim_fullscreen/releases](https://github.com/movsb/gvim_fullscreen/releases).
-* Copy gvimfullscreen.dll to `~/vimfiles/`.
-
-## tell Vim where to find the dll
-
-Add the following line to your `vimrc`.
-
-```vim
-g:GvimFullscreenDll = $MYVIMDIR .. 'gvim_fullscreen.dll'
-if filereadable(g:GvimFullscreenDll)
-	inoremap <C-F11> <Esc>:call libcallnr(g:GvimFullscreenDll, 'ToggleFullscreen', 0)<cr>
-	noremap <C-F11> :call libcallnr(g:GvimFullscreenDll, 'ToggleFullscreen', 0)<cr>
-	inoremap <C-F12> <Esc>:call libcallnr(g:GvimFullscreenDll, 'ToggleTransparency', '255,180')<cr>
-	noremap <C-F12> :call libcallnr(g:GvimFullscreenDll, 'ToggleTransparency', '255,180')<cr>
-endif
-```
-
-Now you can fullscreen gVim with `Ctrl+F11` and toggle transparency with `Ctrl+F12`.
-
-For what it's worth, PowerShell will fullscreen Vim when you press `F11` at the cost of stealing this mapping from [vimspector](https://github.com/puremourning/vimspector).
+- Compile from source: [https://github.com/movsb/gvim_fullscreen](https://github.com/movsb/gvim_fullscreen) ... or download from [https://github.com/movsb/gvim_fullscreen/releases](https://github.com/movsb/gvim_fullscreen/releases).
+- Copy `gvimfullscreen.dll` to `~/vimfiles/`.
+- We will configure this in a later step.
 
 # Install Visual Studio Build Tools
 
@@ -479,9 +512,9 @@ winget install Microsoft.VisualStudio.2022.BuildTools --source winget
 
 This takes several minutes, but only installs the Visual Studio Installer. Once that's done, run the Visual Studio Installer from the Windows menu.
 
-* Click 'Modify'.
-* Select "Desktop development with C++".
-* Click 'Modify' again.
+- Click 'Modify'.
+- Select "Desktop development with C++".
+- Click 'Modify' again.
 
 You could *probably* go into "Individual Components" and install "C++ CMake tools for Windows" and "Windows 11 SDK" only, but the entire "Workload" is only 1.75GB and it's not worth the hassle to figure out what you need and what you don't.
 
@@ -521,12 +554,18 @@ git:
 
 # Install GNU zip and unzip
 
-Functions in the built-in `zip.vim` require GNU-style `zip` and `unzip` functions. The same zip and unzip behavior can be reproduced with PowerShell cmdlets and scripts, but there are no "one-liner" equivalents (and `zip.vim` wouldn't know to look for them anyway).
+PowerShell has `zip` and `unzip` equivalents, and Vim will use them if you have your shell set to 'pwsh', but not all file-browser plugins will. GNU-style `zip` and `unzip` are the standard and are slightly more powerful anyway.
 
-To allow your Vim to browse and edit zip directories ...
+To allow your Vim to browse and edit zip directories in (probably) any plugin ...
 
 ```powershell
 winget install GnuWin32.Zip GnuWin32.UnZip --source winget
+```
+
+The installer will not add these to your Path. Add this to your user Path environment variable:
+
+```
+C:\Program Files (x86)\GnuWin32\bin
 ```
 
 # Install Vim Plugins
@@ -547,7 +586,7 @@ Vim has a few more disabled-by-default packages, but each one is non-default for
 
 Vim comes with [package support](https://vim-jp.org/vimdoc-en/repeat.html#packages), but not a package *manager*. I won't go into the nuances of that distinction. For now, it's easier to use a package manager, and you have plenty of choices.
 
-We'll install [minpac](https://vim-jp.org/vimdoc-en/repeat.html#packages), because it's simple and easy to install.
+We'll install [minpac](https://vim-jp.org/vimdoc-en/repeat.html#packages), because it's simple and easy to install. From your `~/vimfiles` directory.
 
 ```powershell
 git clone https://github.com/k-takata/minpac.git $env:USERPROFILE\vimfiles\pack\minpac\opt\minpac
@@ -557,12 +596,12 @@ Use the command above, not the `git clone` command from the GitHub page, because
 
 Now, add this to your `vimrc` file.
 
-```vim
+```
 def PackInit(): void
-	packadd minpac
+  packadd minpac
 
-	minpac#init()
-	minpac#add('k-takata/minpac', {'type': 'opt'})
+  minpac#init()
+  minpac#add('k-takata/minpac', {'type': 'opt'})
 enddef
 
 command! PackUpdate source $MYVIMRC | PackInit() | minpac#update()
@@ -572,109 +611,66 @@ command! PackStatus packadd minpac | minpac#status()
 
 Save and `:source %` your `vimrc` file, then `:PackUpdate` to check that everything is working.
 
-## plugin configuration
-
-Some of the plugins we'll install offer quite a bit of configuration, and we'll need to source that configuration before loading our plugins when we start Vim. For those reasons, we'll put plugin configuration in a separate file to keep it from overwhelming our `vimrc`.
-
-Add this to your `vimrc`:
-
-```vim
-source $MYVIMDIR/plugin_config.vim
-```
-
-Create this new plugin config:
-
-```vim
-:e $MYVIMDIR\plugin_config.vim
-```
-
-And add this function:
-
-```vim
-vim9script
-
-def HasPlugin(name: string): bool
-	# Search for directory in Vim pack directory.
-	#
-	# If found, return true
-	# If not found, print a warning and return false
-
-	var plugin_roots = [
-		$MYVIMDIR .. '/pack/minpac/start/',
-		$MYVIMDIR .. '/pack/minpac/opt/'
-	]
-	var has_plugin = v:false
-	for plugin_root in plugin_roots
-		has_plugin = has_plugin || finddir(plugin_root .. name) != ''
-	endfor
-	if ! has_plugin
-		echo finddir(plugin_roots[0] .. name)
-		echo 'Cannot find plugin ' .. name .. '. Skipping configuration.'
-	endif
-	return has_plugin
-enddef
-```
-
-We will use this function to only load configuration when a plugin is found and print a warning if we try to configure a plugin that is not found. That's getting our hands slightly dirtier than we need to, but it's a good practice to prevent "plugin config cruft", especially when you're just starting off and wanting to try out a lot of plugins.
-
 # Vim LSP and Completion
 
 We'll take LSP and completion in one bite, because the plugins are from the same author.
 
 Add these plugins to the `PackInit` function you just created in your `vimrc`.
 
-```vim
-	# -------- everything needed for lsp and completion
-	minpac#add('prabirshrestha/vim-lsp')
-	minpac#add('mattn/vim-lsp-settings')
-	minpac#add('prabirshrestha/asyncomplete.vim')
-	minpac#add('prabirshrestha/asyncomplete-lsp.vim')
+```
+  # -------- everything needed for lsp and completion
+  minpac#add('prabirshrestha/vim-lsp')
+  minpac#add('mattn/vim-lsp-settings')
+  minpac#add('prabirshrestha/asyncomplete.vim')
+  minpac#add('prabirshrestha/asyncomplete-lsp.vim')
 ```
 
 Save your `vimrc` then run `:PackUpdate` to install the plugins. We're going to configure it before we test it, because I don't care for the default server installed for Python files.
 
-Add this to `~/vimfiles/plugin_config.vim`:
+ Now add this to the bottom of your `vimrc`.
 
-```vim
-if HasPlugin("vim-lsp")
-	def OnLspBufferEnabled(): void
-		setlocal omnifunc=lsp#complete
-		setlocal signcolumn=yes
-		if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-		nmap <buffer> gd <plug>(lsp-definition)
-		nmap <buffer> gs <plug>(lsp-document-symbol-search)
-		nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
-		nmap <buffer> gr <plug>(lsp-references)
-		nmap <buffer> gi <plug>(lsp-implementation)
-		nmap <buffer> <leader>gt <plug>(lsp-type-definition)
-		nmap <buffer> <leader>rn <plug>(lsp-rename)
-		nmap <buffer> [g <plug>(lsp-previous-diagnostic)
-		nmap <buffer> ]g <plug>(lsp-next-diagnostic)
-		nmap <buffer> K <plug>(lsp-hover)
+```
+# -------------------------------------
+# configure vim-lsp
+# -------------------------------------
 
-		g:lsp_format_sync_timeout = 1000
-		autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
-	enddef
+def OnLspBufferEnabled(): void
+  setlocal omnifunc=lsp#complete
+  setlocal signcolumn=yes
+  if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+  nmap <buffer> gd <plug>(lsp-definition)
+  nmap <buffer> gs <plug>(lsp-document-symbol-search)
+  nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+  nmap <buffer> gr <plug>(lsp-references)
+  nmap <buffer> gi <plug>(lsp-implementation)
+  nmap <buffer> <leader>gt <plug>(lsp-type-definition)
+  nmap <buffer> <leader>rn <plug>(lsp-rename)
+  nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+  nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+  nmap <buffer> K <plug>(lsp-hover)
 
-	augroup lsp_install
-		au!
-		# call OnLspBufferEnabled (set the lsp shortcuts) when an lsp server
-		# is registered for a buffer.
-		autocmd User lsp_buffer_enabled call OnLspBufferEnabled()
-	augroup END
+  g:lsp_format_sync_timeout = 1000
+  autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+enddef
 
-	# show error information on statusline, no virtual text
-	g:lsp_diagnostics_echo_cursor = 1
-	g:lsp_diagnostics_virtual_text_enabled = 0
-	g:lsp_settings_filetype_python = ['pyright-langserver']
-endif
+augroup lsp_install
+  au!
+  # call OnLspBufferEnabled (set the lsp shortcuts) when an lsp server
+  # is registered for a buffer.
+  autocmd User lsp_buffer_enabled call OnLspBufferEnabled()
+augroup END
+
+# show error information on statusline, no virtual text
+g:lsp_diagnostics_echo_cursor = 1
+g:lsp_diagnostics_virtual_text_enabled = 0
+g:lsp_settings_filetype_python = ['pyright-langserver']
 ```
 
 That's quite a lot of text, but it is copied almost directly from [the GitHub README](https://github.com/prabirshrestha/vim-lsp).  This configuration should give you a nice idea of what the LSP is capable of and make things pretty intuitive. Not every language server will have the entire Language Server Protocol defined. So don't expect every `vim-lsp` command to work for every language server.
 
 ## install a language server
 
-Open a Python file, and you should see this text on the bottom of you gVim window:
+Open a Python file, and you should see this text on the bottom of your gVim window:
 
 ```
 Please do: LspInstallServer to enable Language Server pyright-langserver
@@ -688,15 +684,19 @@ Do as it says, run `:LspInstallServer`, and `vim-lsp` will install the pyright l
 
 You will see a similar prompt the next time you open a Vim file and the next time you open a json file and the next time you open a toml file. If there is a language server available for a filetype, `vim-lsp` will prompt you to install it.
 
-[prabirshrestha/vim-lsp](https://github.com/prabirshrestha/vim-lsp), [mattn/vim-lsp-settings](https://github.com/mattn/vim-lsp-settings), [prabirshrestha/asyncomplete.vim](https://github.com/prabirshrestha/asyncomplete.vim), and [prabirshrestha/asyncomplete-lsp.vim](https://github.com/prabirshrestha/asyncomplete-lsp.vim) have plenty of configuration options to explore. Read through their documentation as time permits. For now, let's just configure asyncomplete.vim. This is the usually expected "tab to complete".
+[prabirshrestha/vim-lsp](https://github.com/prabirshrestha/vim-lsp), [mattn/vim-lsp-settings](https://github.com/mattn/vim-lsp-settings), [prabirshrestha/asyncomplete.vim](https://github.com/prabirshrestha/asyncomplete.vim), and [prabirshrestha/asyncomplete-lsp.vim](https://github.com/prabirshrestha/asyncomplete-lsp.vim) have plenty of configuration options to explore. Read through their documentation as time permits. For now, let's just configure `asyncomplete.vim`. This is the usually expected "tab to complete".
 
-```vim
-if HasPlugin("asyncomplete.vim")
-	inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-	inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-	# enter always enters, will not autocomplete.
-	inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() .. "\<cr>" : "\<cr>"
-endif
+Add this to the bottom of your `vimrc`
+
+```
+# -------------------------------------
+#  configure asyncomplete.vim
+# -------------------------------------
+
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+# enter always enters, will not autocomplete.
+inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() .. "\<cr>" : "\<cr>"
 ```
 
 # Vim Artificial Intelligence
@@ -705,51 +705,55 @@ These services cost money.
 
 Return again to the `PackInit` function in your `vimrc` and add two more plugins.
 
-```vim
-	# -------- ai completion and chat
-	minpac#add('github/copilot.vim')
-	minpac#add('madox2/vim-ai', {do: '!py -m pip install "openai>=0.27"'})
+```
+  # -------- ai completion and chat
+  minpac#add('github/copilot.vim')
+  minpac#add('madox2/vim-ai', {do: '!py -m pip install "openai>=0.27"'})
 ```
 
 Have a close look at the second line. [Minpac](https://github.com/k-takata/minpac) will install the `openai` library in whatever Python Vim is using. You may be able to avoid that, but you're going to need a more elaborate hook and some configuration elsewhere. That's up to you, but I wanted to draw your attention to it.
 
-Run `PackUpdate` again to install these plugins. In this instance, I will refer you to the plugin pages for instructions on registering for these services and setting the required environment variables. The instructions on each are simple and clear. I couldn't improve them.
+Source your vimrc file (`:source %`) then run `PackUpdate` again to install these plugins. In this instance, I will refer you to the plugin pages for instructions on registering for these services and setting the required environment variables. The instructions on each are simple and clear. I couldn't improve them.
 
-* [github/copilot.vim](https://github.com/github/copilot.vim)
-* [madox2/vim-ai](https://github.com/madox2/vim-ai)
+- [github/copilot.vim](https://github.com/github/copilot.vim)
+- [madox2/vim-ai](https://github.com/madox2/vim-ai)
 
 Each provides several commands you can type at the command line or create a mapping for. That is the usual process in Vim: review the 100s of available commands and create mappings for the ones you use most frequently. You can browse these commands by typing `:Copilot<space><tab>` or `:AI<tab>` in Vim.
 
-Copilot is useable without mappings or commands, but I want to give you just enough mappings to make Vim-AI simple to use. Type `:AIChat<enter>` to start an AI chat. This is a normal buffer, so when you type `Enter`, you will insert a new line, not submit a query. To submit a query, you will need to run the command `:AIChat` again. That will be our one and only mapping in this section. Add this to `~\vimfiles\plugin_congfig.vim`.
+Copilot is useable without mappings or commands, but I want to give you just enough mappings to make Vim-AI simple to use. Type `:AIChat<enter>` to start an AI chat. This is a normal buffer, so when you type `Enter`, you will insert a new line, not submit a query. To submit a query, you will need to run the command `:AIChat` again. That will be our one and only mapping in this section. Add this to the bottom of your `vimrc`.
 
-```vim
-if HasPlugin("vim-ai")
-    # trigger chat or submit query
-    inoremap <S-Enter> <Esc>:AIChat<CR>
-    nnoremap <S-Enter> :AIChat<CR>
-	xnoremap <S-Enter> :AIChat<CR>
-endif
+```
+# -------------------------------------
+#  configure vim-ai
+# -------------------------------------
+
+# trigger chat or submit query
+inoremap <S-Enter> <Esc>:AIChat<CR>
+nnoremap <S-Enter> :AIChat<CR>
+xnoremap <S-Enter> :AIChat<CR>
 ```
 
 # Vim Snippets
 
 Once again, return to the `PackInit` function in your `vimrc`. Add this:
 
-```vim
-	# -------- snippets
-	minpac#add('SirVer/ultisnips')
+```
+  # -------- snippets
+  minpac#add('SirVer/ultisnips')
 ```
 
 Don't forget to run `:PackUpdate` and restart Vim to make sure the new plugin directory is sourced.
 
-Add some mappings in your `~\vimfiles\plugin_config.vim` file.
+Add some mappings to the bottom of your `vimrc`.
 
-```vim
-if HasPlugin("ultisnips")
-	g:UltiSnipsExpandTrigger = "<C-l>"
-	g:UltiSnipsJumpForwardTrigger = "<C-j>"
-	g:UltiSnipsJumpBackwardTrigger = "<C-k>"
-endif
+```
+# -------------------------------------
+#  configure ultisnips
+# -------------------------------------
+
+g:UltiSnipsExpandTrigger = "<C-l>"
+g:UltiSnipsJumpForwardTrigger = "<C-d>"
+g:UltiSnipsJumpBackwardTrigger = "<C-u>"
 ```
 
 Now, you'll need some snippets. Plenty of documentation on this if you start at [SirVer/ultisnips: UltiSnips](https://github.com/SirVer/ultisnips). Let's walk through a simple example.
@@ -764,10 +768,10 @@ In Windows, you'll need to explicitly create a snippets folder at
 
 Just to see how it works, let's do that with Vim's `netrw` file browser.
 
-* type `:Ex<enter>`
-* press `d`
-* type `ultisnips<enter>`
-* type `:bd<enter>` to exit netrw
+- type `:Ex<enter>`
+- press `d`
+- type `ultisnips<enter>`
+- type `:bd<enter>` to exit netrw
 
 Now, UltiSnips will recognize this as your snippets directory. Open a Python file. If you don't have one handy, just `:e temp.py`. From the Python file, enter `:UltiSnipsEdit`. UltiSnips will open a file at
 
@@ -777,7 +781,7 @@ Now, UltiSnips will recognize this as your snippets directory. Open a Python fil
 
 Enter this:
 
-```vim
+```
 snippet docmod "module docstring" b
 """$1
 
@@ -785,6 +789,7 @@ snippet docmod "module docstring" b
 :created: `!v strftime("%Y-%m-%d")`
 """
 $2
+endsnippet
 ```
 
 Save, return to your Python file, and try out the snippet using the mappings you defined in this section. Type `docmod<C-l>`.
@@ -795,25 +800,29 @@ Vim uses the same debugging engine as VS Code and probably several others. To us
 
 Return to the `PackInit` function in your `vimrc`. Add this:
 
-```vim
-	# -------- debugging
- 	minpac#add('puremourning/vimspector', {do: '!py -m pip install setuptools'})
+```
+  # -------- debugging
+  minpac#add('puremourning/vimspector', {do: '!py -m pip install setuptools'})
 ```
 
 Don't forget to run `:PackUpdate` and restart Vim to make sure the new plugin directory is sourced.
 
-Select a set of mappings in `~\vimfiles\plugin_config.vim` file.
+Select a set of mappings at the bottom of your `vimrc`.
 
-```vim
-if HasPlugin("vimspector")
-	g:vimspector_enable_mappings = 'HUMAN'
-	g:vimspector_base_dir = $MYVIMDIR .. 'pack\minpac\start\vimspector'
-endif
+```
+# -------------------------------------
+#  configure vimspector
+# -------------------------------------
+
+g:vimspector_enable_mappings = 'HUMAN'
+g:vimspector_base_dir = $MYVIMDIR .. 'pack\minpac\start\vimspector'
 ```
 
-## vimspector.json
+## .vimspector.json
 
-Vimspector will need a configuration file. Once you get accustomed to reading and editing this file, you will probably want to shape it in different ways for each project. I keep a template `.vimspector.json` file in each project directory. If I make changes that I want to keep, I commit `.vimspector.json`, otherwise I just copy it in again if I delete and re-clone my local project directory.
+Vimspector will need a configuration file. Once you get accustomed to reading and editing this file, you will probably want to shape it in different ways for each project.
+
+The most straightforward way to handle configuration is to put a `.vimspector.json` file in *each* project folder. That way, you can make project-specific changes without additional complexity. We will copy this into a file in the next section.
 
 ```json
 {
@@ -826,7 +835,7 @@ Vimspector will need a configuration file. Once you get accustomed to reading an
                 "request": "launch",
                 "type": "python",
                 "cwd": "${workspaceRoot}",
-                "python": "${workspaceRoot}/venv/Scripts/python.exe",
+                "python": "${workspaceRoot}/.venv/Scripts/python.exe",
                 "program": "${file}",
                 "stopOnEntry": false
             },
@@ -846,7 +855,7 @@ Vimspector will need a configuration file. Once you get accustomed to reading an
                 "request": "launch",
                 "type": "python",
                 "cwd": "${workspaceRoot}",
-                "python": "${workspaceRoot}/venv/Scripts/python.exe",
+                "python": "${workspaceRoot}/.venv/Scripts/python.exe",
                 "program": "${workspaceRoot}/path/to/main.py",
                 "stopOnEntry": false
             },
@@ -866,7 +875,7 @@ Vimspector will need a configuration file. Once you get accustomed to reading an
                 "module": "pytest",
                 "type": "python",
                 "request": "launch",
-                "python": "${workspaceRoot}/venv/Scripts/python.exe",
+                "python": "${workspaceRoot}/.venv/Scripts/python.exe",
                 "args": [
                     "-q",
                     "${file}"
@@ -885,7 +894,9 @@ Vimspector will need a configuration file. Once you get accustomed to reading an
 }
 ```
 
-There's a lot of text in there. You can simplify it, as I have here, by following a few common conventions like always naming your virtual environment folder `venv` and your main Python file `main.py`. Whatever you do, it's going to be a lot of text. If you look at the second configuration, "run main.py", you'll see a simple example of how you might edit your `.vimspector.json`. The value
+There's a lot of text there. I have simplified it by following a few conventions like always naming my virtual environment folder `.venv` and my main Python file `main.py`.
+
+Whatever you do, it's going to be a lot of text. If you look at the second configuration, "run main.py", you'll see a simple example of how you might edit your `.vimspector.json`. The value ...
 
 ```json
 "program": "${workspaceRoot}/path/to/main.py",
@@ -895,7 +906,32 @@ There's a lot of text in there. You can simplify it, as I have here, by followin
 
 ## run Vimspector
 
-Once you're set up, go to a Python project directory, create a `.vimspector.json` in that directory, open a Python module in Vim, and press `f5` to launch vimspector. Vimspector will prompt you to select a configuration.
+First, create an example Python project. I'm going to create my example inside my `~\vimfiles` folder so I can more easily host this tutorial on GitHub. From PowerShell
+
+```powershell
+mkdir ~\vimfiles\example_python_project
+cd ~\vimfiles\example_python_project
+py -m venv .venv
+```
+
+Create `~\vimfiles\example_python_project\vimspector.json` with the json code under the previous heading. To do that in a PowerShell way, scroll back, copy the code to your clipboard, then enter this in PowerShell
+
+```powershell
+Get-Clipboard | Set-Content -Path "~\vimfiles\example_python_project\.vimspector.json"
+```
+
+We'll need something to debug, so open `~\vimfiles\example_python_project\main.py` in gVim and write a little Python code.
+
+```python
+def hello_world():
+    greeting = "Hello, world!"
+    print(greeting)
+
+if __name__ == "__main__":
+    hello_world()
+```
+
+Remember to save the `main.py` with `:w`, then press `f5` to launch vimspector. Vimspector will prompt you to select a configuration.
 
 ```
 Which launch configuration?
@@ -916,27 +952,29 @@ Press Enter, and vimspector will install debugpy for you then launch the vimspec
 
 By now, I suspect you know the steps. Return to the `PackInit` function in your `vimrc`. Add this:
 
-```vim
-	# -------- fuzzy finder
-	minpac#add('vim-fuzzbox/fuzzbox.vim')
+```
+  # -------- fuzzy finder
+  minpac#add('vim-fuzzbox/fuzzbox.vim')
 ```
 
 Don't forget to run `:PackUpdate` and restart Vim to make sure the new plugin directory is sourced.
 
 `:Fuzz<tab>` to see the commands. The most common may be `:FuzzyyGitFiles`. You likely want a mapping for it. Add this to `~\vimfiles\plugin_config.vim`:
 
-```vim
-if g:HasPlugin('fuzzbox.vim')
-  nnoremap <C-P> :FuzzyGitFiles<CR>
-  inoremap <C-P> <ESC>:FuzzyGitFiles<CR>
-endif
+```
+# -------------------------------------
+#  configure fuzzbox.vim
+# -------------------------------------
+
+nnoremap <C-P> :FuzzyGitFiles<CR>
+inoremap <C-P> <ESC>:FuzzyGitFiles<CR>
 ```
 
 Don't expect that to do much right now unless you're in a git directory with `git add`-ed files, but it will help you quickly navigate through your project later on.
 
 *But what if I want to open a file that isn't controlled by Git?*
 
-Everyone has opinions. My opinion is this: save keystrokes and use the best shortcuts for the things you do (like opening a Git controlled file) hundreds of times a day. For less common tasks, worry less about efficiency. That means open the non-Git-controlled file with `:e`, `:Ex`, `:FuzzyFiles` or a shortcut (that you may not even remember) to one of those. This keeps your hundreds-of-time-a-day functions uncluttered and top of mind.
+Everyone has opinions. My opinion is this: save keystrokes and use the best shortcuts for the things you do (like opening a Git controlled file) hundreds of times a day. For less common tasks, worry less about efficiency. That means open the non-Git-controlled file with `:e`, `:Ex`, `:FuzzyFiles` or a shortcut (that you may not even remember) to one of those. This keeps your hundreds-of-times-a-day functions uncluttered and top of mind.
 
 Additionally, avoid the bad habit of using a fuzzy finder to switch between a handful of files. `:h mark-motions` for the most straightforward way to accomplish that in Vim.
 
@@ -944,40 +982,32 @@ Additionally, avoid the bad habit of using a fuzzy finder to switch between a ha
 
 There are several [Tim Pope](https://github.com/tpope) plugins that could qualify as "the usual suspects". These are so common that it's all-but taken for granted that you have them installed.
 
-```vim
-	# -------- the usual suspects
-	minpac#add('tpope/vim-dispatch')  # async build
-	minpac#add('tpope/vim-fugitive')  # git integration
-	minpac#add('tpope/vim-obsession')  # session management
+```
+  # -------- the usual suspects
+  minpac#add('tpope/vim-dispatch')  # async build
+  minpac#add('tpope/vim-fugitive')  # git integration
+  minpac#add('tpope/vim-obsession')  # session management
 ```
 
-* [vim-dispatch](https://github.com/tpope/vim-dispatch)
-* [fugitive.vim](https://github.com/tpope/vim-fugitive)
-* [vim-obsession](https://github.com/tpope/vim-obsession)
+- [vim-dispatch](https://github.com/tpope/vim-dispatch)
+- [fugitive.vim](https://github.com/tpope/vim-fugitive)
+- [vim-obsession](https://github.com/tpope/vim-obsession)
 
-At some point, you'll want to review the documentation for all of these, but the only one we'll rely on for this guide is vim-dispatch.  [vim-dispatch](https://github.com/tpope/vim-dispatch) allows you to `make` (compile) programs asynchronously. This guide is focused on Python dev, and we don't compile Python programs, but we will use vim-dispatch's `Make` command to run `pre-commit` (a common Python tool) asynchronously.
+At some point, you'll want to review the documentation for all of these, but the only one we'll rely on for this guide is vim-dispatch.  [vim-dispatch](https://github.com/tpope/vim-dispatch) allows you to `make` (compile) programs asynchronously. This guide is focused on Python dev, and we don't compile Python programs, but we will use vim-dispatch's `Make` command to run `pre-commit` (a common Python tool) asynchronously. :
 
 # Vim Configuration
 
 Too many options to discuss, but we'll "scratch the surface" with a few examples.
 
-```vim
+```
 :e $MYVIMRC
 ```
 
-One function, one setting, and one leader mapping.
+Two settings and one leader mapping.
 
-```vim
-def g:RestoreLspHighlights(): void
-	# Call if you see errors in elaborate LSP
-	# highlighting after changing colorschemes.
-    highlight link LspErrorHighlight Error
-    highlight link LspWarningHighlight Todo
-    highlight link LspInformationHighlight Normal
-    highlight link LspHintHighlight Normal
-enddef
-
+```
 set number  # turn on line numbers
+set belloff=all  # turn off the error bell
 
 # remove trailing whitespace
 nnoremap <leader>_ :%s/\s\+$//g<CR>
@@ -987,17 +1017,17 @@ These settings and mappings will apply to all filetypes, but can be overwritten 
 
 # gVim Configuration
 
-We're going to do some light configuration in gVim, less to configure it, more to walk through a few concepts.
+gv:We're going to do some light configuration in gVim, less to configure it, more to walk through a few concepts.
 
 If you are running gVim, gVim will read an additional configuration file, `gvimrc`, after reading you `vimrc`. Open `gvimrc` in gVim.
 
 ```powershell
-gvim $MYVIMDIR\gvimrc
+gvim ~\vimfiles\gvimrc
 ```
 
 And paste in this content:
 
-```vim
+```
 vim9script
 
 # if you can't see the below characters, get a better font
@@ -1019,31 +1049,31 @@ You might find a font that shows the characters and looks nice to your tastes, b
 
 ### install another font
 
-Let's install a nice-looking (to my taste, at least) font with these "extra" characters. To accomplish this, we will install a font for the entire Windows system, then select that font in gVim. Go to [Release dejavu-fonts-2.37 · dejavu-fonts/dejavu-fonts · GitHub](https://github.com/dejavu-fonts/dejavu-fonts/releases/tag/version_2_37), download a zip file, extract the contents, right click on `DejaVuSansMono.ttf`, and install. You will now be able to select `DejaVu Sans Mono` in the gVim font menu.
+Let's install a nice-looking (to my taste, at least) font with these "extra" characters. To accomplish this, we will install a font for the entire Windows system, then select that font in gVim. Go to [Release dejavu-fonts-2.37 · dejavu-fonts/dejavu-fonts · GitHub](https://github.com/dejavu-fonts/dejavu-fonts/releases/tag/version_2_37), download `dejavu-sans-ttf-2.37.zip`, extract the contents, right click on `DejaVuSansMono.ttf` (it's in one of the subfolders), and install. You will now be able to select `DejaVu Sans Mono` in the gVim font menu.
 
 ### setting the guifont
 
 Your font selection has a special name that gVim will understand. You can see it by typing
 
-```vim
+```
 :set guifont
 ```
 
 Now, let's capture the output of `:set guifont`. Open your `gvimrc`, place your cursor on an empty line, and type this command:
 
-```vim
+```
 :call append('.', 'set guifont=' .. &guifont)
 ```
 
 This will insert the following into your `gvimrc`.
 
-```vim
+```
 set guifont=DejaVu_Sans_Mono:h10:cANSI:qDRAFT
 ```
 
-Keep that line in `~/vimfiles/vimrc` and your font selection will persist. If you open gVim on a system without `DejaVu Sans Mono`, gVim will revert to the default font. If you'd like to choose your own fallback, you  can list as many fonts as you like, separated by commas. gVim will start with the first and search for an available font.
+Keep that line in `~/vimfiles/gvimrc` and your font selection will persist. If you open gVim on a system without `DejaVu Sans Mono`, gVim will revert to the default font. If you'd like to choose your own fallback, you  can list as many fonts as you like, separated by commas. gVim will start with the first and search for an available font.
 
-```vim
+```
 set guifont=Consolas:h10:cANSI:qDRAFT,SimSun-ExtB:h11:cANSI:qDEFAULT,DejaVuSansMono_NFM:h10:cANSI:qDRAFT
 ```
 
@@ -1051,21 +1081,17 @@ set guifont=Consolas:h10:cANSI:qDRAFT,SimSun-ExtB:h11:cANSI:qDEFAULT,DejaVuSansM
 
 ## updating the terminal font
 
-You may want to go back and change the Windows Terminal font through the Windows Terminal settings dialog, but those changes will affect all terminal programs. If you'd rather keep your current terminal font, you can set a simpler `listchars` for Vim.
+You may want to go back and change the Windows Terminal font through the Windows Terminal settings dialog, but those changes will affect all terminal programs. If you'd rather keep your current terminal font, you can set a simpler `listchars` for Vim. In your `vimrc` ...
 
-```vim
-if has('gui_running')
-	source $MYVIMDIR/gvim.vimrc
-else
-	set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
-endif
+```
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 ```
 
 ## renderoptions
 
 If you paste the following into Vim (running in PowerShell), you will see what you see in your browser: a colorful Unicode garden.
 
-```vim
+```
 # symbols for render test
 # 🌸 (U+1F338) 🌼 (U+1F33C) 🌻 (U+1F33B) 🌺 (U+1F33A) 🌹 (U+1F339)
 # 🌷 (U+1F337) 💐 (U+1F490) 🌲 (U+1F332) 🌳 (U+1F333) 🌴 (U+1F334)
@@ -1079,7 +1105,7 @@ If you paste the following into Vim (running in PowerShell), you will see what y
 
  If you paste this text into gVim, the result will be considerably less interesting. To get nice, colorful symbols, tell gVim to use the same DirectX rendering as PowerShell. Add this to your `gvimrc`:
 
-```vim
+```
 set renderoptions=type:directx,gamma:1.0,geom:0,renmode:5,taamode:1
 ```
 
@@ -1087,10 +1113,10 @@ set renderoptions=type:directx,gamma:1.0,geom:0,renmode:5,taamode:1
 
 While we're here, let's add another common gVim configuration request. This one is passive, so you won't have any new commands to learn. Add this to your `gvim.vimrc`.
 
-```vim
+```
 # open at a useful size
 if !exists('g:vimrc_sourced')
-	g:vimrc_sourced = 1
+  g:vimrc_sourced = 1
     set lines=50
     set columns=120
 endif
@@ -1100,43 +1126,48 @@ endif
 
 If you followed the earlier instructions to download gVim Fullscreen, here is the best spot to configure it. Add this to your `~\vimfiles\gvim.vimrc`:
 
-```vim
+```
 g:GvimFullscreenDll = $MYVIMDIR .. 'gvim_fullscreen.dll'
-if filereadable(g:GvimFullscreenDll)
-	inoremap <C-F11> <Esc>:call libcallnr(g:GvimFullscreenDll, 'ToggleFullscreen', 0)<cr>
-	noremap <C-F11> :call libcallnr(g:GvimFullscreenDll, 'ToggleFullscreen', 0)<cr>
-	inoremap <C-F12> <Esc>:call libcallnr(g:GvimFullscreenDll, 'ToggleTransparency', '255,180')<cr>
-	noremap <C-F12> :call libcallnr(g:GvimFullscreenDll, 'ToggleTransparency', '255,180')<cr>
+if has('gui_running') && filereadable(g:GvimFullscreenDll)
+  inoremap <C-F11> <Esc>:call libcallnr(g:GvimFullscreenDll, 'ToggleFullscreen', 0)<cr>
+  noremap <C-F11> :call libcallnr(g:GvimFullscreenDll, 'ToggleFullscreen', 0)<cr>
+  inoremap <C-F12> <Esc>:call libcallnr(g:GvimFullscreenDll, 'ToggleTransparency', '255,180')<cr>
+  noremap <C-F12> :call libcallnr(g:GvimFullscreenDll, 'ToggleTransparency', '255,180')<cr>
 endif
 ```
 
-# The Vim After Directory
+Now you can fullscreen gVim with `Ctrl+F11` and toggle transparency with `Ctrl+F12`.
+
+For what it's worth, PowerShell will fullscreen Vim when you press `F11` at the cost of stealing this mapping from [vimspector](https://github.com/puremourning/vimspector).
+
+# The Vim ftplugin Directory
 
 Naturally, Vim doesn't treat every filetype the same. Set specific configuration variables in
+
+```
+~\vimfiles\ftplugin
+```
+
+or
 
 ```
 ~\vimfiles\after\ftplugin\
 ```
 
-If you don't have them yet, create the `after` and `ftplugin` directories.
-
-* `:Ex`
-* press `d`
-* `after/ftplugin`
+Settings `ftplugin`can be overwritten by plugins. Setting in `after\ftplugin` will overwrite plugin settings.
 
 ## configure Vim for Python files
 
-```vim
-:e $MYVIMDIR\after\ftplugin\python.vim
+```
+:e $MYVIMDIR\ftplugin\python.vim
 ```
 
 Let's start with some basic PEP-8-ish formatting for Python. Add these lines:
 
-```vim
+```
 vim9script
 
 setlocal expandtab  # spaces instead of tabs
-setlocal tabstop=4  # a tab = four spaces
 setlocal shiftwidth=4  # number of spaces for auto-indent
 setlocal softtabstop=4  # a soft-tab of four spaces
 setlocal autoindent  # turn on auto-indent
@@ -1150,7 +1181,7 @@ You may prefer to put some of these in your global `vimrc` so they apply to all 
 
 As an example, let's create a map to run our test suite in Vim's integrated terminal. Notice the `<buffer>` flag. Like `setlocal`, `<buffer>` keeps configuration local to a file. In this case, every file with a *python* filetype.
 
-```vim
+```
 nnoremap <buffer> <leader>e :update<CR>:vert term python -m pytest<t_ku>
 ```
 
@@ -1162,18 +1193,20 @@ There are several ways to navigate command history in Vim. This is just one give
 
 ## configure the aichat window
 
-```vim
-:e $MYVIMDIR\after\ftplugin\aichat.vim
+The [madox2/vim-ai](https://github.com/madox2/vim-ai) plugin creates a new filetype for its AI chat window. From any Vim window (split), run `:set filetype<CR>` to see the filetype. Configure any filetype by creating a file at `~\vimdir\ftplugin\[filetype].vim`.
+
+```
+:e $MYVIMDIR\ftplugin\aichat.vim
 ```
 
-```vim
+```
 vim9script
 
 setlocal wrap
 setlocal linebreak
 ```
 
-# The Vim Compiler Directory
+# The Vim compiler Directory
 
 Vim uses the `make` command to run compilers and other tools. `*.vim` files in the `complier` directory define how compilers are called and how the output is displayed.
 
@@ -1181,20 +1214,15 @@ Python isn't a compiled language, but Python developers can can borrow `make` ( 
 
 ## asynchronous pre-commit
 
-Set up a mapping to run `pre-commit` asynchronously in Vim's `quickfix` window. To do this, you will define a compiler in `$MYVIMDIR/compiler`.
+Set up a mapping to run `pre-commit` asynchronously in Vim's `quickfix` window. To do this, define a compiler in `$MYVIMDIR/compiler`.
 
-* open a terminal and cd to `~\vimfiles`
-* `:Ex`
-* `d`
-* `compiler`
-
-```vim
+```
 :e $MYVIMDIR\compiler\precommit.vim
 ```
 
 Add this content to `precommit.vim`:
 
-```vim
+```
 vim9script
 
 CompilerSet makeprg=pre-commit\ run\ -a
@@ -1209,12 +1237,12 @@ CompilerSet errorformat=%f:%l:%c:\ %m,%f:%l:\ %m,%f:%l:%c\ -\ %m,%f:
 Now add the mapping to the Python ftplugin.
 
 ```vim
-e: $MYVIMDIR\after\ftplugin\python.vim
+e: $MYVIMDIR\ftplugin\python.vim
 ```
 
 Add this content to `after/ftplugin/python.vim`:
 
-```vim
+```
 compiler precommit
 nmap <buffer> <leader>l :update<CR>:vert Make<CR>:update<CR>
 imap <buffer> <leader>l <ESC>:update<CR>:vert Make<CR>:update<CR>
