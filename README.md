@@ -243,7 +243,7 @@ if has("windows")
 endif
 ```
 
-... to let Vim know to open terminals in cross-platform PowerShell. The options `shell=pwsh` and `shell=powershell` are not the same. The latter is for Windows (blue-icon) PowerShell, which may not be as nice an nice experience.
+... to let Vim know to open terminals in cross-platform PowerShell. The options `shell=pwsh` and `shell=powershell` are not the same. The latter is for Windows (blue-icon) PowerShell, which may not be as nice an experience.
 
 Vim colorschemes usually define colors in three formats: * `term`, a style name for monochrome terminals * `ctermfg`, a color index for up to 256 color terminals * `guifg`, a 24-bit (e.g., #008181) color definition for true-color terminals
 
@@ -666,7 +666,7 @@ g:lsp_diagnostics_virtual_text_enabled = 0
 g:lsp_settings_filetype_python = ['pyright-langserver']
 ```
 
-That's quite a lot of text, but it is copied almost directly from [the GitHub README](https://github.com/prabirshrestha/vim-lsp).  This configuration should give you a nice idea of what the LSP is capable of and make things pretty intuitive. Not every language server will have the entire Language Server Protocol defined. So don't expect every `vim-lsp` command to work for every language server.
+That's quite a lot of text, but it is copied almost directly from [the GitHub README](https://github.com/prabirshrestha/vim-lsp). This configuration should give you a nice idea of what the LSP is capable of and make things pretty intuitive. Not every language server will have the entire Language Server Protocol defined. So don't expect every `vim-lsp` command to work for every language server.
 
 ## install a language server
 
@@ -1013,11 +1013,11 @@ set belloff=all  # turn off the error bell
 nnoremap <leader>_ :%s/\s\+$//g<CR>
 ```
 
-These settings and mappings will apply to all filetypes, but can be overwritten with file-specific settings in the `after/ftplugin` folder.
+These settings and mappings will apply to all filetypes, but can be overwritten with file-specific settings in the `~\vimfiles\after\ftplugin` folder.
 
 # gVim Configuration
 
-gv:We're going to do some light configuration in gVim, less to configure it, more to walk through a few concepts.
+We're going to do some light configuration in gVim, less to configure it, more to walk through a few concepts.
 
 If you are running gVim, gVim will read an additional configuration file, `gvimrc`, after reading you `vimrc`. Open `gvimrc` in gVim.
 
@@ -1117,18 +1117,18 @@ While we're here, let's add another common gVim configuration request. This one 
 # open at a useful size
 if !exists('g:vimrc_sourced')
   g:vimrc_sourced = 1
-    set lines=50
-    set columns=120
+  set lines=50
+  set columns=120
 endif
 ```
 
 ## fullscreen gVim
 
-If you followed the earlier instructions to download gVim Fullscreen, here is the best spot to configure it. Add this to your `~\vimfiles\gvim.vimrc`:
+If you followed the earlier instructions to download gVim Fullscreen, here is the best spot to configure it. Add this to your `~\vimfiles\gvimrc`:
 
 ```
 g:GvimFullscreenDll = $MYVIMDIR .. 'gvim_fullscreen.dll'
-if has('gui_running') && filereadable(g:GvimFullscreenDll)
+if filereadable(g:GvimFullscreenDll)
   inoremap <C-F11> <Esc>:call libcallnr(g:GvimFullscreenDll, 'ToggleFullscreen', 0)<cr>
   noremap <C-F11> :call libcallnr(g:GvimFullscreenDll, 'ToggleFullscreen', 0)<cr>
   inoremap <C-F12> <Esc>:call libcallnr(g:GvimFullscreenDll, 'ToggleTransparency', '255,180')<cr>
@@ -1145,21 +1145,20 @@ For what it's worth, PowerShell will fullscreen Vim when you press `F11` at the 
 Naturally, Vim doesn't treat every filetype the same. Set specific configuration variables in
 
 ```
-~\vimfiles\ftplugin
+~\vimfiles\after\ftplugin
 ```
 
-or
+Vim will read two `ftplugin` directories:
 
-```
-~\vimfiles\after\ftplugin\
-```
+- Settings in `~\vimfiles\ftplugin` are sources before plugins are loaded. So, they will affect plugins and can be overwritten by plugins.
+- Settings in `~\vimfiles\after\ftplugin` will load plugins without any of these settings and will overwrite and settings made in plugins.
 
-Settings `ftplugin`can be overwritten by plugins. Setting in `after\ftplugin` will overwrite plugin settings.
+I have experiences subtle bugs with some plugins when using `~\vimfiles\ftplugins`, so I consistently use `~\vimfiles\after\ftplugins`.
 
 ## configure Vim for Python files
 
 ```
-:e $MYVIMDIR\ftplugin\python.vim
+:e $MYVIMDIR\after\ftplugin\python.vim
 ```
 
 Let's start with some basic PEP-8-ish formatting for Python. Add these lines:
@@ -1177,7 +1176,7 @@ setlocal textwidth=85  # wrapping for gq
 setlocal formatoptions-=t  # do not autowrap text
 ```
 
-You may prefer to put some of these in your global `vimrc` so they apply to all files. If you're keeping them here, use `setlocal` and instead of `set` so they *stop* applying when you edit something that *isn't* a Python file.
+You may prefer to put some of these in your global `vimrc` so they apply to all files. If you're keeping them here, use `setlocal` instead of `set` so they *stop* applying when you edit something that *isn't* a Python file.
 
 As an example, let's create a map to run our test suite in Vim's integrated terminal. Notice the `<buffer>` flag. Like `setlocal`, `<buffer>` keeps configuration local to a file. In this case, every file with a *python* filetype.
 
@@ -1185,18 +1184,26 @@ As an example, let's create a map to run our test suite in Vim's integrated term
 nnoremap <buffer> <leader>e :update<CR>:vert term python -m pytest<t_ku>
 ```
 
-This mapping will - save the current buffer - start a command with `:!python -m pytest` - press up to reload the previous `:!python -m pytest` command - then nothing
+This mapping will
 
-The mapping will not run the command, but will wait for you to - press Enter - navigate through the history of commands starting with `:!python -m pytest` by using the arrow keys
+- save the current buffer
+- start a command with `:!python -m pytest`
+- press up to reload the previous `:!python -m pytest` command
+- then nothing
 
-There are several ways to navigate command history in Vim. This is just one given as an example.
+The mapping will not run the command, but will wait for you to
+
+- optionally navigate through the history of commands starting with `:!python -m pytest` by using the arrow keys
+- press Enter
+
+There are several ways to navigate command history in Vim. This one is given as an example.
 
 ## configure the aichat window
 
-The [madox2/vim-ai](https://github.com/madox2/vim-ai) plugin creates a new filetype for its AI chat window. From any Vim window (split), run `:set filetype<CR>` to see the filetype. Configure any filetype by creating a file at `~\vimdir\ftplugin\[filetype].vim`.
+The [madox2/vim-ai](https://github.com/madox2/vim-ai) plugin creates a new filetype for its AI chat window. From any Vim window (split), run `:set filetype<CR>` to see the filetype. Configure any filetype by creating a file at `~\vimfiles\after\ftplugin\[filetype].vim`.
 
 ```
-:e $MYVIMDIR\ftplugin\aichat.vim
+:e $MYVIMDIR\after\ftplugin\aichat.vim
 ```
 
 ```
@@ -1220,27 +1227,24 @@ Set up a mapping to run `pre-commit` asynchronously in Vim's `quickfix` window. 
 :e $MYVIMDIR\compiler\precommit.vim
 ```
 
-Add this content to `precommit.vim`:
+Add this content to `~\vimfiles\precommit.vim`:
 
 ```
 vim9script
 
 CompilerSet makeprg=pre-commit\ run\ -a
 
-# errorformats:
-# 1. ruff
-# 2. mypy
-# 3. pyright
-CompilerSet errorformat=%f:%l:%c:\ %m,%f:%l:\ %m,%f:%l:%c\ -\ %m,%f:
+# errorformat
+# ruff: %E\ \ \ -->\ %f:%l:%c
+# ruff: %E\ \ -->\ %f:%l:%c,%E%f:%l:\ %m
+# ruff: %E%f:%l:%c:\ %m
+# mypy: %E%f:%l:\ %m
+# pyright: %E\ \ %f:%l:%c\ -\ %m
+
+CompilerSet errorformat=%E\ \ \ -->\ %f:%l:%c,%E\ \ -->\ %f:%l:%c,%E%f:%l:%c:\ %m,%E%f:%l:\ %m,%E\ %f:%l:%c\ -\ %m
 ```
 
-Now add the mapping to the Python ftplugin.
-
-```vim
-e: $MYVIMDIR\ftplugin\python.vim
-```
-
-Add this content to `after/ftplugin/python.vim`:
+Add this content to `~\vimfiles\after\ftplugin\python.vim`:
 
 ```
 compiler precommit
