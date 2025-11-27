@@ -237,7 +237,7 @@ Now, close and reopen PowerShell, then press `Ctrl+Shift+D` (D for Duplicate) in
 Start PowerShell (`winkey+x` then `i`), open Vim inside PowerShell, then add this to `~vimfiles\vimrc`.
 
 ```
-if has("windows")
+if has("win32")
   set shell=pwsh
   set termguicolors  # PowerShell is capable of TrueColor
 endif
