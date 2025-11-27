@@ -275,12 +275,12 @@ You may also want to install older versions, release candidates, or something el
 First, select a relatively new and stable version of Python&mdash;no prereleases and no "month-of" releases. Vim doesn't ship with it's own version of Python. Vim and its plugins will try to use the newest version of Python you have. To avoid any problems, we'll tell Vim *which* version of Python we want to use. Open your `~vimfiles\vimrc` file and add the following to your `if has("windows")` block (if your "relatively new and stable" version of Python is 3.12):
 
 ```
-if has("windows")
+if has("win32")
   set shell=pwsh
   set termguicolors  # PowerShell is capable of TrueColor
 
   # ------------ new content
-  var local_programs = expand('$HOME/AppData/Local/Programs')
+  var local_programs = expand('$LOCALAPPDATA/Programs')
 
   execute 'set pythonthreehome=' .. local_programs .. "/Python/Python312"
   execute 'set pythonthreedll=' .. local_programs .. "/Python/Python312/python312.dll"
@@ -387,7 +387,7 @@ winget install BurntSushi.ripgrep.MSVC --source winget
 Add the following to your `~\vimfiles\vimrc` file. This will tell Vim to use Ripgrep when you use the `:grep` command.
 
 ```
-if has("windows")
+if has("win32")
   set shell=pwsh
   set termguicolors  # PowerShell is capable of TrueColor
 
@@ -429,7 +429,7 @@ This will install the file you need (`lua54.dll`) to
 Edit `~\vimfiles\vimrc` and add the following:
 
 ```
-if has("windows")
+if has("win32")
   set shell=pwsh
   set termguicolors  # PowerShell is capable of TrueColor
 
@@ -596,7 +596,7 @@ Use the command above, not the `git clone` command from the GitHub page, because
 
 Now, add this to your `vimrc` file.
 
-```
+```vim
 def PackInit(): void
   packadd minpac
 
@@ -617,7 +617,7 @@ We'll take LSP and completion in one bite, because the plugins are from the same
 
 Add these plugins to the `PackInit` function you just created in your `vimrc`.
 
-```
+```vim
   # -------- everything needed for lsp and completion
   minpac#add('prabirshrestha/vim-lsp')
   minpac#add('mattn/vim-lsp-settings')
@@ -629,7 +629,7 @@ Save your `vimrc` then run `:PackUpdate` to install the plugins. We're going to 
 
  Now add this to the bottom of your `vimrc`.
 
-```
+```vim
 # -------------------------------------
 # configure vim-lsp
 # -------------------------------------
@@ -688,7 +688,7 @@ You will see a similar prompt the next time you open a Vim file and the next tim
 
 Add this to the bottom of your `vimrc`
 
-```
+```vim
 # -------------------------------------
 #  configure asyncomplete.vim
 # -------------------------------------
@@ -705,7 +705,7 @@ These services cost money.
 
 Return again to the `PackInit` function in your `vimrc` and add two more plugins.
 
-```
+```vim
   # -------- ai completion and chat
   minpac#add('github/copilot.vim')
   minpac#add('madox2/vim-ai', {do: '!py -m pip install "openai>=0.27"'})
@@ -722,7 +722,7 @@ Each provides several commands you can type at the command line or create a mapp
 
 Copilot is useable without mappings or commands, but I want to give you just enough mappings to make Vim-AI simple to use. Type `:AIChat<enter>` to start an AI chat. This is a normal buffer, so when you type `Enter`, you will insert a new line, not submit a query. To submit a query, you will need to run the command `:AIChat` again. That will be our one and only mapping in this section. Add this to the bottom of your `vimrc`.
 
-```
+```vim
 # -------------------------------------
 #  configure vim-ai
 # -------------------------------------
@@ -737,7 +737,7 @@ xnoremap <S-Enter> :AIChat<CR>
 
 Once again, return to the `PackInit` function in your `vimrc`. Add this:
 
-```
+```vim
   # -------- snippets
   minpac#add('SirVer/ultisnips')
 ```
@@ -746,7 +746,7 @@ Don't forget to run `:PackUpdate` and restart Vim to make sure the new plugin di
 
 Add some mappings to the bottom of your `vimrc`.
 
-```
+```vim
 # -------------------------------------
 #  configure ultisnips
 # -------------------------------------
@@ -800,7 +800,7 @@ Vim uses the same debugging engine as VS Code and probably several others. To us
 
 Return to the `PackInit` function in your `vimrc`. Add this:
 
-```
+```vim
   # -------- debugging
   minpac#add('puremourning/vimspector', {do: '!py -m pip install setuptools'})
 ```
@@ -809,7 +809,7 @@ Don't forget to run `:PackUpdate` and restart Vim to make sure the new plugin di
 
 Select a set of mappings at the bottom of your `vimrc`.
 
-```
+```vim
 # -------------------------------------
 #  configure vimspector
 # -------------------------------------
@@ -952,7 +952,7 @@ Press Enter, and vimspector will install debugpy for you then launch the vimspec
 
 By now, I suspect you know the steps. Return to the `PackInit` function in your `vimrc`. Add this:
 
-```
+```vim
   # -------- fuzzy finder
   minpac#add('vim-fuzzbox/fuzzbox.vim')
 ```
@@ -961,7 +961,7 @@ Don't forget to run `:PackUpdate` and restart Vim to make sure the new plugin di
 
 `:Fuzz<tab>` to see the commands. The most common may be `:FuzzyyGitFiles`. You likely want a mapping for it. Add this to `~\vimfiles\plugin_config.vim`:
 
-```
+```vim
 # -------------------------------------
 #  configure fuzzbox.vim
 # -------------------------------------
@@ -982,7 +982,7 @@ Additionally, avoid the bad habit of using a fuzzy finder to switch between a ha
 
 There are several [Tim Pope](https://github.com/tpope) plugins that could qualify as "the usual suspects". These are so common that it's all-but taken for granted that you have them installed.
 
-```
+```vim
   # -------- the usual suspects
   minpac#add('tpope/vim-dispatch')  # async build
   minpac#add('tpope/vim-fugitive')  # git integration
@@ -999,13 +999,13 @@ At some point, you'll want to review the documentation for all of these, but the
 
 Too many options to discuss, but we'll "scratch the surface" with a few examples.
 
-```
+```vim
 :e $MYVIMRC
 ```
 
 Two settings and one leader mapping.
 
-```
+```vim
 set number  # turn on line numbers
 set belloff=all  # turn off the error bell
 
@@ -1027,7 +1027,7 @@ gvim ~\vimfiles\gvimrc
 
 And paste in this content:
 
-```
+```vim
 vim9script
 
 # if you can't see the below characters, get a better font
@@ -1041,7 +1041,7 @@ The `listchars` value isn't the most important part of your gVim configuration, 
 
 Start gVim then launch a gui menu to select an available font.
 
-```
+```vim
 :set guifont=*
 ```
 
@@ -1055,25 +1055,25 @@ Let's install a nice-looking (to my taste, at least) font with these "extra" cha
 
 Your font selection has a special name that gVim will understand. You can see it by typing
 
-```
+```vim
 :set guifont
 ```
 
 Now, let's capture the output of `:set guifont`. Open your `gvimrc`, place your cursor on an empty line, and type this command:
 
-```
+```vim
 :call append('.', 'set guifont=' .. &guifont)
 ```
 
 This will insert the following into your `gvimrc`.
 
-```
+```vim
 set guifont=DejaVu_Sans_Mono:h10:cANSI:qDRAFT
 ```
 
 Keep that line in `~/vimfiles/gvimrc` and your font selection will persist. If you open gVim on a system without `DejaVu Sans Mono`, gVim will revert to the default font. If you'd like to choose your own fallback, you  can list as many fonts as you like, separated by commas. gVim will start with the first and search for an available font.
 
-```
+```vim
 set guifont=Consolas:h10:cANSI:qDRAFT,SimSun-ExtB:h11:cANSI:qDEFAULT,DejaVuSansMono_NFM:h10:cANSI:qDRAFT
 ```
 
@@ -1083,7 +1083,7 @@ set guifont=Consolas:h10:cANSI:qDRAFT,SimSun-ExtB:h11:cANSI:qDEFAULT,DejaVuSansM
 
 You may want to go back and change the Windows Terminal font through the Windows Terminal settings dialog, but those changes will affect all terminal programs. If you'd rather keep your current terminal font, you can set a simpler `listchars` for Vim. In your `vimrc` ...
 
-```
+```vim
 set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 ```
 
@@ -1105,7 +1105,7 @@ If you paste the following into Vim (running in PowerShell), you will see what y
 
  If you paste this text into gVim, the result will be considerably less interesting. To get nice, colorful symbols, tell gVim to use the same DirectX rendering as PowerShell. Add this to your `gvimrc`:
 
-```
+```vim
 set renderoptions=type:directx,gamma:1.0,geom:0,renmode:5,taamode:1
 ```
 
@@ -1113,7 +1113,7 @@ set renderoptions=type:directx,gamma:1.0,geom:0,renmode:5,taamode:1
 
 While we're here, let's add another common gVim configuration request. This one is passive, so you won't have any new commands to learn. Add this to your `gvim.vimrc`.
 
-```
+```vim
 # open at a useful size
 if !exists('g:vimrc_sourced')
   g:vimrc_sourced = 1
@@ -1126,7 +1126,7 @@ endif
 
 If you followed the earlier instructions to download gVim Fullscreen, here is the best spot to configure it. Add this to your `~\vimfiles\gvimrc`:
 
-```
+```vim
 g:GvimFullscreenDll = $MYVIMDIR .. 'gvim_fullscreen.dll'
 if filereadable(g:GvimFullscreenDll)
   inoremap <C-F11> <Esc>:call libcallnr(g:GvimFullscreenDll, 'ToggleFullscreen', 0)<cr>
@@ -1157,13 +1157,13 @@ I have experiences subtle bugs with some plugins when using `~\vimfiles\ftplugin
 
 ## configure Vim for Python files
 
-```
+```vim
 :e $MYVIMDIR\after\ftplugin\python.vim
 ```
 
 Let's start with some basic PEP-8-ish formatting for Python. Add these lines:
 
-```
+```vim
 vim9script
 
 setlocal expandtab  # spaces instead of tabs
@@ -1180,7 +1180,7 @@ You may prefer to put some of these in your global `vimrc` so they apply to all 
 
 As an example, let's create a map to run our test suite in Vim's integrated terminal. Notice the `<buffer>` flag. Like `setlocal`, `<buffer>` keeps configuration local to a file. In this case, every file with a *python* filetype.
 
-```
+```vim
 nnoremap <buffer> <leader>e :update<CR>:vert term python -m pytest<t_ku>
 ```
 
@@ -1202,11 +1202,11 @@ There are several ways to navigate command history in Vim. This one is given as 
 
 The [madox2/vim-ai](https://github.com/madox2/vim-ai) plugin creates a new filetype for its AI chat window. From any Vim window (split), run `:set filetype<CR>` to see the filetype. Configure any filetype by creating a file at `~\vimfiles\after\ftplugin\[filetype].vim`.
 
-```
+```vim
 :e $MYVIMDIR\after\ftplugin\aichat.vim
 ```
 
-```
+```vim
 vim9script
 
 setlocal wrap
@@ -1223,13 +1223,13 @@ Python isn't a compiled language, but Python developers can can borrow `make` ( 
 
 Set up a mapping to run `pre-commit` asynchronously in Vim's `quickfix` window. To do this, define a compiler in `$MYVIMDIR/compiler`.
 
-```
+```vim
 :e $MYVIMDIR\compiler\precommit.vim
 ```
 
 Add this content to `~\vimfiles\precommit.vim`:
 
-```
+```vim
 vim9script
 
 CompilerSet makeprg=pre-commit\ run\ -a
@@ -1246,7 +1246,7 @@ CompilerSet errorformat=%E\ \ \ -->\ %f:%l:%c,%E\ \ -->\ %f:%l:%c,%E%f:%l:%c:\ %
 
 Add this content to `~\vimfiles\after\ftplugin\python.vim`:
 
-```
+```vim
 compiler precommit
 nmap <buffer> <leader>l :update<CR>:vert Make<CR>:update<CR>
 imap <buffer> <leader>l <ESC>:update<CR>:vert Make<CR>:update<CR>
