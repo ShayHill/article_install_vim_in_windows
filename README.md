@@ -707,9 +707,11 @@ Return again to the `PackInit` function in your `vimrc` and add two more plugins
 
 ```vim
   # -------- ai completion and chat
-  minpac#add('github/copilot.vim')
+  minpac#add('ShayHill/copilot.vim')
   minpac#add('madox2/vim-ai', {do: '!py -m pip install "openai>=0.27"'})
 ```
+
+Why `ShayHill/copilot.vim` and not `github/copilot.vim`? I forked the original and reverted to 1.41.0, the last version that works with Vim + Windows + PowerShell7.
 
 Have a close look at the second line. [Minpac](https://github.com/k-takata/minpac) will install the `openai` library in whatever Python Vim is using. You may be able to avoid that, but you're going to need a more elaborate hook and some configuration elsewhere. That's up to you, but I wanted to draw your attention to it.
 
