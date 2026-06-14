@@ -611,92 +611,95 @@ command! PackStatus packadd minpac | minpac#status()
 
 Save and `:source %` your `vimrc` file, then `:PackUpdate` to check that everything is working.
 
-# Vim LSP and Completion
+# LSP
 
-We'll take LSP and completion in one bite, because the plugins are from the same author.
-
-Add these plugins to the `PackInit` function you just created in your `vimrc`.
+Add this plugin to the `PackInit` function you just created in your `vimrc`.
 
 ```vim
-  # -------- everything needed for lsp and completion
-  minpac#add('prabirshrestha/vim-lsp')
-  minpac#add('mattn/vim-lsp-settings')
-  minpac#add('prabirshrestha/asyncomplete.vim')
-  minpac#add('prabirshrestha/asyncomplete-lsp.vim')
+  # -------- language server protocol
+  minpac#add('yegappan/lsp')
 ```
 
-Save your `vimrc` then run `:PackUpdate` to install the plugins. We're going to configure it before we test it, because I don't care for the default server installed for Python files.
+Here, we'll configure `Ruff` and `Pyright` for Python files. Install these in whatever Python install you have set up for Vim.
 
- Now add this to the bottom of your `vimrc`.
+```powershell
+~\AppData\Local\Programs\Python\Python312\Scripts\pip install ruff pyright
+```
+
+Save your `vimrc` then run `:PackUpdate` to install the plugins. We're going to configure it before we test it. The paths will be simple, if the `Scripts` folder of your Python install is on your Path.
 
 ```vim
 # -------------------------------------
-# configure vim-lsp
+# configure lsp
 # -------------------------------------
 
-def OnLspBufferEnabled(): void
-  setlocal omnifunc=lsp#complete
-  setlocal signcolumn=yes
-  if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-  nmap <buffer> gd <plug>(lsp-definition)
-  nmap <buffer> gs <plug>(lsp-document-symbol-search)
-  nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
-  nmap <buffer> gr <plug>(lsp-references)
-  nmap <buffer> gi <plug>(lsp-implementation)
-  nmap <buffer> <leader>gt <plug>(lsp-type-definition)
-  nmap <buffer> <leader>rn <plug>(lsp-rename)
-  nmap <buffer> [g <plug>(lsp-previous-diagnostic)
-  nmap <buffer> ]g <plug>(lsp-next-diagnostic)
-  nmap <buffer> K <plug>(lsp-hover)
+def RegisterLspServers(): void
+  var lspOptions = {
+    diagSignErrorText: '❌',
+    diagSignWarningText: '🔶',
+    diagSignInfoText: 'ℹ',
+    diagSignHintText: '💡',
+    highlightDiagInline: false
+  }
+  lsp#options#OptionsSet(lspOptions)
 
-  g:lsp_format_sync_timeout = 1000
-  autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+  var lspServers = [
+    {
+      name: 'pyright',
+      filetype: ['python'],
+      path: 'pyright-langserver',
+      args: ['--stdio'],
+      workspaceConfig: {python: {pythonPath: exepath('python')}}
+    },
+    {
+      name: 'ruff',
+      filetype: ['python'],
+      path: 'ruff.exe',
+      args: ['server'],
+      features: {hover: false}
+    }
+  ]
+  lsp#lsp#AddServer(lspServers)
 enddef
-
-augroup lsp_install
-  au!
-  # call OnLspBufferEnabled (set the lsp shortcuts) when an lsp server
-  # is registered for a buffer.
-  autocmd User lsp_buffer_enabled call OnLspBufferEnabled()
-augroup END
-
-# show error information on statusline, no virtual text
-g:lsp_diagnostics_echo_cursor = 1
-g:lsp_diagnostics_virtual_text_enabled = 0
-g:lsp_settings_filetype_python = ['pyright-langserver']
+autocmd User LspSetup call RegisterLspServers()
 ```
 
-That's quite a lot of text, but it is copied almost directly from [the GitHub README](https://github.com/prabirshrestha/vim-lsp). This configuration should give you a nice idea of what the LSP is capable of and make things pretty intuitive. Not every language server will have the entire Language Server Protocol defined. So don't expect every `vim-lsp` command to work for every language server.
+There is some nuance there with the autocommand to make sure the timing for everything is right. Restart Vim, open a Python file, and type `:LspShowAllServers` to confirm that both `pyright` and `ruff` are running.
 
-## install a language server
-
-Open a Python file, and you should see this text on the bottom of your gVim window:
+You should see something like this:
 
 ```
-Please do: LspInstallServer to enable Language Server pyright-langserver
+Filetype Information
+====================
+Filetype: 'python'
+Server Name: 'pyright'
+Server Path: 'pyright-langserver'
+Status: Running
+
+Filetype: 'python'
+Server Name: 'ruff'
+Server Path: 'ruff.exe'
+Status: Running
+
+Buffer Information
+==================
+Buffer: 'my_file.py'
+Server Path: 'pyright-langserver'
+Status: Running
+Server Path: 'ruff.exe'
+Status: Running
 ```
 
-Do as it says, run `:LspInstallServer`, and `vim-lsp` will install the pyright language server at
+These are only defined as examples in the documentation, but [yegappan/lsp](https://github.com/yegappan/lsp) does define a few mappings:
 
 ```
-~\AppData\Local\vim-lsp-settings\servers\pyright-langserver
-```
-
-You will see a similar prompt the next time you open a Vim file and the next time you open a json file and the next time you open a toml file. If there is a language server available for a filetype, `vim-lsp` will prompt you to install it.
-
-[prabirshrestha/vim-lsp](https://github.com/prabirshrestha/vim-lsp), [mattn/vim-lsp-settings](https://github.com/mattn/vim-lsp-settings), [prabirshrestha/asyncomplete.vim](https://github.com/prabirshrestha/asyncomplete.vim), and [prabirshrestha/asyncomplete-lsp.vim](https://github.com/prabirshrestha/asyncomplete-lsp.vim) have plenty of configuration options to explore. Read through their documentation as time permits. For now, let's just configure `asyncomplete.vim`. This is the usually expected "tab to complete".
-
-Add this to the bottom of your `vimrc`
-
-```vim
-# -------------------------------------
-#  configure asyncomplete.vim
-# -------------------------------------
-
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-# enter always enters, will not autocomplete.
-inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() .. "\<cr>" : "\<cr>"
+n  <leader>gg    @:LspDiag current<CR>
+n  <leader>rn    @:LspRename<CR>
+n  <leader>gr    @:LspShowReferences<CR>
+n  <leader>gd    @:LspGotoDefinition<CR>
+n  K            @:LspHover<CR>
+n  [g           @:LspDiag prevWrap<CR>
+n  ]g           @:LspDiag nextWrap<CR>
 ```
 
 # Vim Artificial Intelligence
