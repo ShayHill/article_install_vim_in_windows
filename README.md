@@ -2,7 +2,7 @@
 
 The traditional ethos of Vim has been "Vim is my text editor; my OS is my IDE", meaning Vim users would write or edit a program in Vim then use git, grep, sed, awk, find, build, etc., etc., etc. through each application's command-line interface instead of a graphical *interface to an interface* built into an IDE.
 
-This isn't enforced. Some *interfaces to interfaces* have been built into Vim over the years, and others have become popular through plugins, but the *interfaces to interfaces* are generally much thinner that what you'd find in an IDE. If asked, "How do you commit and push your changes in Vim?", most Vim users would say, "I don't".
+This isn't enforced. Some *interfaces to interfaces* have been built into Vim over the years, and others have become popular through plugins, but the *interfaces to interfaces* are generally much thinner that what you'd find in an IDE. If asked, "How do you commit and push your changes in Vim?", many Vim users would say, "I don't".
 
 This ethos is a little more straightforward in Linux, because Linux typically comes with pre-installed *git, grep, sed, awk, find, build, etc., etc., etc.*. Windows does not.
 
@@ -103,10 +103,10 @@ Set-Content -Path "env_variables.json"
 
 ### option one - command line
 
-Open PowerShell and enter (If you've installed Vim91)
+Open PowerShell and enter (If you've installed Vim 9.2)
 
 ```powershell
-[Environment]::SetEnvironmentVariable("PATH", "$($env:PATH);C:\Program Files\Vim\vim91", [EnvironmentVariableTarget]::User)
+[Environment]::SetEnvironmentVariable("PATH", "$($env:PATH);C:\Program Files\Vim\vim92", [EnvironmentVariableTarget]::User)
 ```
 
 ### option two - GUI
@@ -121,7 +121,7 @@ Open PowerShell and enter (If you've installed Vim91)
 ### some nuance with environment variables
 
 - Environment variables are read when applications are opened, so changes to environment variables will not take effect until you open a new terminal window. There are other ways, but that's the easy way.
-- You have to back out (click "OK") *twice*, going all the way back to the System Properties dialog, before the variable is actually changed. This one has gotten me many times.
+- When changing evnironment variable through the gui, you have to back out (click "OK") *twice*, going all the way back to the System Properties dialog, before the variable is actually changed. This one has gotten me many times.
 
 ## create a vimrc
 
@@ -136,10 +136,10 @@ However, once you create your own configuration in
 Vim gets (arguably) worse! This is because [Bram Moolenaar](https://en.wikipedia.org/wiki/Bram_Moolenaar) and others configured some nice default behaviors in
 
 ```
-C:\Program Files\Vim\vim91\defaults.vim
+C:\Program Files\Vim\vim92\defaults.vim
 ```
 
-But these defaults aren't, strictly speaking, defaults, because this is not how Vim will look and behave with *no* configuration. When you create your own `vimrc` file, Vim reads *your* `vimrc` *instead of* `defaults.vim`, so you get true "out of the box" Vim behavior: no filetype detection, no syntax highlighting, and 1970s-style backspace behavior.
+But these defaults aren't, strictly speaking, defaults, because this is not how Vim will look and behave with *no* configuration. `devaults.vim` is a sample configuration. When you create your own `vimrc` file, Vim reads *your* `vimrc` *instead of* `defaults.vim`, so you get true "out of the box" Vim behavior: no filetype detection, no syntax highlighting, and 1970s-style backspace behavior.
 
 This is all we'll configure for now. Open gVim (not Vim itself. Wait until we have a better shell to run it in) from the Windows menu. Then run this command:
 
@@ -167,15 +167,11 @@ The autocmd lines will set an indentation style for `*.vim` files. We're setting
 
 # Install Cross-Platform PowerShell
 
-There are two versions of PowerShell: Windows PowerShell (blue icon) and cross-platform PowerShell (black icon). Windows comes with blue-icon PowerShell pre-installed, but if you open it, you will see a prompt to install cross-platform (black-icon) PowerShell.
-
-Either ctrl-click the link in this prompt to [install the latest version of "PowerShell 7"](https://learn.microsoft.com/en-us/powershell/scripting/whats-new/migrating-from-windows-powershell-51-to-powershell-7?view=powershell-7.4) or run this command in blue-icon PowerShell
+There are two versions of PowerShell: Windows PowerShell (blue icon) and cross-platform PowerShell (black icon). Windows comes with blue-icon PowerShell pre-installed, but if you open it, you will see a prompt to [install the latest version of "PowerShell 7"](https://learn.microsoft.com/en-us/powershell/scripting/whats-new/migrating-from-windows-powershell-51-to-powershell-7?view=powershell-7.4). Ignore the link and run the following command in blue-icon PowerShell to install black-icon PowerShell 7.
 
 ```powershell
 winget install Microsoft.Powershell --source winget
 ```
-
-If you install by downloading and running the executable, accept all the defaults.
 
 Once installed, PowerShell 7 will be the default when you run Windows Terminal. You can run Windows Terminal by searching for it in the start menu or by holding the `windows key`, pressing `x`, then releasing both keys and pressing `i`. When I use the name "PowerShell" from here on, I am referring to cross-platform, black-icon, PowerShell 7.
 
@@ -204,8 +200,8 @@ from PowerShell. This will create a PowerShell profile at
 You may wish to add aliases as we go. For now, here is the format for those aliases:
 
 ```powershell
-Set-Alias -Name black -Value 'C:\Users\USERNAME\AppData\Local\Programs\Python\Python312\Scripts\black'
-Set-Alias -Name isort -Value 'C:\Users\USERNAME\AppData\Local\Programs\Python\Python312\Scripts\isort'
+Set-Alias -Name black -Value 'C:\Users\USERNAME\AppData\Local\Programs\Python\Python313\Scripts\black'
+Set-Alias -Name isort -Value 'C:\Users\USERNAME\AppData\Local\Programs\Python\Python313\Scripts\isort'
 ```
 
 ### open a new PowerShell tab in the same directory
@@ -233,10 +229,10 @@ Now, close and reopen PowerShell, then press `Ctrl+Shift+D` (D for Duplicate) in
 
 ### tell vim about PowerShell
 
-Start PowerShell (`winkey+x` then `i`), open Vim inside PowerShell, then add this to `~vimfiles\vimrc`.
+Start PowerShell (`winkey+x` then `i`), open Vim inside PowerShell, then add this to `~\vimfiles\vimrc`.
 
 ```
-if has("win32")
+if has("win32") || has("win64")
   set shell=pwsh
   set termguicolors  # PowerShell is capable of TrueColor
 endif
@@ -244,9 +240,13 @@ endif
 
 ... to let Vim know to open terminals in cross-platform PowerShell. The options `shell=pwsh` and `shell=powershell` are not the same. The latter is for Windows (blue-icon) PowerShell, which may not be as nice an experience.
 
-Vim colorschemes usually define colors in three formats: * `term`, a style name for monochrome terminals * `ctermfg`, a color index for up to 256 color terminals * `guifg`, a 24-bit (e.g., #008181) color definition for true-color terminals
+Vim colorschemes usually define colors in three formats:
 
-If `termguicolors` is set, PowerShell will read the 24-bit color definition instead of looking for a color index. You'll really only notice this when plugins like [monkoose/vim9-stargate](https://github.com/monkoose/vim9-stargate) don't set `ctermfg`, because they assume you're on a TrueColor terminal.
+- `term`, a style name for monochrome terminals
+- `ctermfg`, a color index for up to 256 color terminals
+- `guifg`, a 24-bit (e.g., #008181) color definition for true-color terminals
+
+If `termguicolors` is set, PowerShell will read the 24-bit color definition instead of looking for a color index. You'll really only notice this when plugins like [monkoose/vim9-stargate](https://github.com/monkoose/vim9-stargate) don't set `ctermfg`, because they assume you're on a TrueColor terminal. The `set termguicolors` line above will cover you either way.
 
 ## options
 
@@ -748,6 +748,8 @@ Install Claude Code with winget in PowerShell:
 ```powershell
 winget install Anthropic.ClaudeCode --source winget
 ```
+
+Claude code can make startup slow, so I install it to the `opt` folder. Before starting with `:Claude`, run `:packadd vim-claude-code` to load the plugin.
 
 # Snippets
 
