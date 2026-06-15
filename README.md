@@ -95,9 +95,9 @@ If you are completely unfamiliar with Windows, let's quickly go through this. Yo
 You can easily break things when altering your environment variables. Run this in PowerShell to export your current values to a json file.
 
 ```powershell
-[System.Environment]::GetEnvironmentVariables().GetEnumerator()
-ForEach-Object { [PSCustomObject]@{ Name = $_.Key; Value = $_.Value } }
-ConvertTo-Json -Depth 3
+[System.Environment]::GetEnvironmentVariables().GetEnumerator() |
+ForEach-Object { [PSCustomObject]@{ Name = $_.Key; Value = $_.Value } } |
+ConvertTo-Json -Depth 3 |
 Set-Content -Path "env_variables.json"
 ```
 
@@ -625,7 +625,7 @@ Here, we'll configure `Ruff` and `Pyright` for Python files. Install these in wh
 ~\AppData\Local\Programs\Python\Python312\Scripts\pip install ruff pyright
 ```
 
-Save your `vimrc` then run `:PackUpdate` to install the plugins. We're going to configure it before we test it. The paths will be simple, if the `Scripts` folder of your Python install is on your Path.
+Save your `vimrc` then run `:PackUpdate` to install the plugins. We're going to configure it before we test it. The paths will be simple (see config lines starting with `path:`) if the `Scripts` folder of your Python install is on your Path. Add this to your `vimrc` file:
 
 ```vim
 # -------------------------------------
@@ -689,7 +689,7 @@ Server Path: 'ruff.exe'
 Status: Running
 ```
 
-These are only defined as examples in the documentation, but [yegappan/lsp](https://github.com/yegappan/lsp) does define a few mappings:
+The documentation suggests these are only examples, but [yegappan/lsp](https://github.com/yegappan/lsp) *does* define a few mappings.
 
 ```
 n  <leader>gg    @:LspDiag current<CR>
@@ -701,28 +701,33 @@ n  [g           @:LspDiag prevWrap<CR>
 n  ]g           @:LspDiag nextWrap<CR>
 ```
 
-# Vim Artificial Intelligence
+# Artificial Intelligence
 
 These services cost money.
 
-Return again to the `PackInit` function in your `vimrc` and add two more plugins.
+Return again to the `PackInit` function in your `vimrc` and add three more plugins.
 
 ```vim
   # -------- ai completion and chat
   minpac#add('ShayHill/copilot.vim')
   minpac#add('madox2/vim-ai', {do: '!py -m pip install "openai>=0.27"'})
+  minpac#add('rishi-opensource/vim-claude-code', {type: 'opt'})
 ```
 
-Why `ShayHill/copilot.vim` and not `github/copilot.vim`? I forked the original and reverted to 1.41.0, the last version that works with Vim + Windows + PowerShell7.
-
-Have a close look at the second line. [Minpac](https://github.com/k-takata/minpac) will install the `openai` library in whatever Python Vim is using. You may be able to avoid that, but you're going to need a more elaborate hook and some configuration elsewhere. That's up to you, but I wanted to draw your attention to it.
-
-Source your vimrc file (`:source %`) then run `PackUpdate` again to install these plugins. In this instance, I will refer you to the plugin pages for instructions on registering for these services and setting the required environment variables. The instructions on each are simple and clear. I couldn't improve them.
+I will refer you to the plugin pages for instructions on registering for these services and setting the required environment variables. The instructions on each are simple and clear. I couldn't improve them.
 
 - [github/copilot.vim](https://github.com/github/copilot.vim)
 - [madox2/vim-ai](https://github.com/madox2/vim-ai)
 
 Each provides several commands you can type at the command line or create a mapping for. That is the usual process in Vim: review the 100s of available commands and create mappings for the ones you use most frequently. You can browse these commands by typing `:Copilot<space><tab>` or `:AI<tab>` in Vim.
+
+## Copilot
+
+Why `ShayHill/copilot.vim` and not `github/copilot.vim`? I forked the original and reverted to 1.41.0, the last version that works with Vim + Windows + PowerShell7.
+
+## Chat
+
+Have a close look at the `minpac#add` line for [vim-ai](https://github.com/madox2/vim-ai). [Minpac](https://github.com/k-takata/minpac) will install the `openai` library in whatever Python Vim is using. You may be able to avoid that, but you're going to need a more elaborate hook and some configuration elsewhere. That's up to you, but I wanted to draw your attention to it.
 
 Copilot is useable without mappings or commands, but I want to give you just enough mappings to make Vim-AI simple to use. Type `:AIChat<enter>` to start an AI chat. This is a normal buffer, so when you type `Enter`, you will insert a new line, not submit a query. To submit a query, you will need to run the command `:AIChat` again. That will be our one and only mapping in this section. Add this to the bottom of your `vimrc`.
 
@@ -736,8 +741,15 @@ inoremap <S-Enter> <Esc>:AIChat<CR>
 nnoremap <S-Enter> :AIChat<CR>
 xnoremap <S-Enter> :AIChat<CR>
 ```
+## Claude Code
 
-# Vim Snippets
+Install Claude Code with winget in PowerShell:
+
+```powershell
+winget install Anthropic.ClaudeCode --source winget
+```
+
+# Snippets
 
 Once again, return to the `PackInit` function in your `vimrc`. Add this:
 
