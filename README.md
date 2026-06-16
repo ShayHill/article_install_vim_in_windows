@@ -57,10 +57,10 @@ If you're using gVim, you can copy and paste by right clicking and selecting cop
   - [Claude Code](#claude-code)
 - [Snippets](#snippets)
   - [create a snippet](#create-a-snippet)
-- [Vim Debugging](#vim-debugging)
+- [Debugging](#debugging)
   - [.vimspector.json](#vimspectorjson)
   - [run Vimspector](#run-vimspector)
-- [Vim Fuzzy Finding](#vim-fuzzy-finding)
+- [Fuzzy Finding](#fuzzy-finding)
 - [The Usual Suspects](#the-usual-suspects)
 - [Vim Configuration](#vim-configuration)
 - [gVim Configuration](#gvim-configuration)
@@ -762,7 +762,7 @@ endsnippet
 
 Save, return to your Python file, and try out the snippet using the mappings you defined in this section. Type `docmod<C-l>`.
 
-# Vim Debugging
+# Debugging
 
 Vim uses the same debugging engine as VS Code and probably several others. To use it, you'll need a plugin and a json configuration.
 
@@ -918,7 +918,7 @@ The specified adapter 'debugpy' is not installed. Would you like to install the 
 
 Press Enter, and vimspector will install debugpy for you then launch the vimspector tab. You can experiment with it now, or `:call vimspector#Reset()` to get out and come back later.
 
-# Vim Fuzzy Finding
+# Fuzzy Finding
 
 By now, I suspect you know the steps. Return to the `PackInit` function in your `vimrc`. Add this:
 
