@@ -34,7 +34,6 @@ If you're using gVim, you can copy and paste by right clicking and selecting cop
   - [configuration](#configuration)
   - [options](#options)
 - [Install Python](#install-python)
-  - [the Python Launcher](#the-python-launcher)
 - [Install Git](#install-git)
   - [configure git from PowerShell](#configure-git-from-powershell)
 - [Install Ripgrep](#install-ripgrep)
@@ -52,8 +51,11 @@ If you're using gVim, you can copy and paste by right clicking and selecting cop
   - [enable Vim built-In plugins](#enable-vim-built-in-plugins)
   - [external plugins](#external-plugins)
 - [LSP](#lsp)
-- [Vim Artificial Intelligence](#vim-artificial-intelligence)
-- [Vim Snippets](#vim-snippets)
+- [Artificial Intelligence](#artificial-intelligence)
+  - [Copilot](#copilot)
+  - [Chat](#chat)
+  - [Claude Code](#claude-code)
+- [Snippets](#snippets)
   - [create a snippet](#create-a-snippet)
 - [Vim Debugging](#vim-debugging)
   - [.vimspector.json](#vimspectorjson)
@@ -1090,6 +1092,8 @@ if !exists('g:vimrc_sourced')
 endif
 ```
 
+gVim will now open at 120 columns and 50 lines. Adjust those numbers to your tastes.
+
 ## fullscreen gVim
 
 If you followed the earlier instructions to download gVim Fullscreen, here is the best spot to configure it. Add this to your `~\vimfiles\gvimrc`:
@@ -1119,9 +1123,7 @@ Naturally, Vim doesn't treat every filetype the same. Set specific configuration
 Vim will read two `ftplugin` directories:
 
 - Settings in `~\vimfiles\ftplugin` are sources before plugins are loaded. So, they will affect plugins and can be overwritten by plugins.
-- Settings in `~\vimfiles\after\ftplugin` will load plugins without any of these settings and will overwrite and settings made in plugins.
-
-I have experiences subtle bugs with some plugins when using `~\vimfiles\ftplugins`, so I consistently use `~\vimfiles\after\ftplugins`.
+- Settings in `~\vimfiles\after\ftplugin` will load plugins without any of these settings and will overwrite any settings made in plugins.
 
 ## configure Vim for Python files
 
@@ -1195,29 +1197,33 @@ Set up a mapping to run `pre-commit` asynchronously in Vim's `quickfix` window. 
 :e $MYVIMDIR\compiler\precommit.vim
 ```
 
-Add this content to `~\vimfiles\precommit.vim`:
+Add this content to `~\vimfiles\compiler\precommit.vim`:
 
 ```vim
 vim9script
 
-CompilerSet makeprg=pre-commit\ run\ -a
+CompilerSet makeprg=pre-commit\ run
 
-# errorformat
-# ruff: %E\ \ \ -->\ %f:%l:%c
-# ruff: %E\ \ -->\ %f:%l:%c,%E%f:%l:\ %m
-# ruff: %E%f:%l:%c:\ %m
-# mypy: %E%f:%l:\ %m
-# pyright: %E\ \ %f:%l:%c\ -\ %m
+# mypy
+CompilerSet errorformat=%f:%l:\ %m
 
-CompilerSet errorformat=%E\ \ \ -->\ %f:%l:%c,%E\ \ -->\ %f:%l:%c,%E%f:%l:%c:\ %m,%E%f:%l:\ %m,%E\ %f:%l:%c\ -\ %m
+# ruff
+CompilerSet errorformat+=%E%m\ %#-->\ %f:%l:%c
+
+# pyright
+CompilerSet errorformat+=%f:%l:%c\ -\ %m
 ```
 
 Add this content to `~\vimfiles\after\ftplugin\python.vim`:
 
 ```vim
-compiler precommit
-nmap <buffer> <leader>l :update<CR>:vert Make<CR>:update<CR>
-imap <buffer> <leader>l <ESC>:update<CR>:vert Make<CR>:update<CR>
+def g:RunPrecommit(): void
+  compiler precommit
+  update
+  Make
+enddef
+
+nmap <buffer> <leader>l :call RunPrecommit()<CR>
 ```
 
 Now you can press `<leader>l` from a Python module to run your pre-commit hooks. This requires [vim-dispatch](https://github.com/tpope/vim-dispatch).
