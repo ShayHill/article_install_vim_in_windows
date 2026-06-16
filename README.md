@@ -424,7 +424,7 @@ to check the install.
 
 ## install yarn
 
-Now that you have Node installed, optionally install the [Yarn (yarnpkg.com)](https://yarnpkg.com/) package manager if you want to run [vim-prettier](https://github.com/prettier/vim-prettier)  or other tools that require [Yarn (yarnpkg.com)](https://yarnpkg.com/). You can skip this installation for now and come back to it if you need [Yarn](https://yarnpkg.com/). It's not necessary for any Python dev tasks, as far as I recall, but may need to go deeper into the Node ecosystem if you end up working with common Python-adjacent filetypes like `html`, `css`, `markdown`, etc.
+Now that you have Node installed, optionally install the [Yarn (yarnpkg.com)](https://yarnpkg.com/) package manager if you want to run [vim-prettier](https://github.com/prettier/vim-prettier)  or other tools that require [Yarn (yarnpkg.com)](https://yarnpkg.com/). You can skip this installation for now and come back to it if you need [Yarn](https://yarnpkg.com/). It's not necessary for any Python dev tasks, as far as I recall, but you may need to go deeper into the Node ecosystem if you end up working with common Python-adjacent filetypes like `html`, `css`, `markdown`, etc.
 
 Start `Administrator:PowerShell`. You may have been starting `PowerShell` with `Winkey-x i`. Start `Administrator:PowerShell` with `Winkey-x a`. That is, hold `Winkey` and `x`, release both, then press `a`.
 
@@ -440,7 +440,7 @@ Now, you can exit `Administrator:PowerShell` and open standard `PowerShell`. Ent
 yarn -v
 ```
 
-You will be prompted to allow `corepack` to install `yarn`. Allow this, and PowerShell will install  [Yarn (yarnpkg.com)](https://yarnpkg.com/) then print a version number in the terminal window.
+You will be prompted to allow `corepack` to install `yarn`. Allow this, and PowerShell will install [Yarn (yarnpkg.com)](https://yarnpkg.com/) then print a version number in the terminal window.
 
 # gVim Fullscreen
 
@@ -466,7 +466,7 @@ This takes several minutes, but only installs the Visual Studio Installer. Once 
 
 You could *probably* go into "Individual Components" and install "C++ CMake tools for Windows" and "Windows 11 SDK" only, but the entire "Workload" is only 1.75GB and it's not worth the hassle to figure out what you need and what you don't.
 
-There's also a way, I'm sure to [Use command-line parameters to install Visual Studio](https://learn.microsoft.com/en-us/visualstudio/install/use-command-line-parameters-to-install-visual-studio?view=vs-2022#use-winget-to-install-or-modify-visual-studio), but I'm not too proud to use the gui installer.
+There's also a way, I'm sure, to [Use command-line parameters to install Visual Studio](https://learn.microsoft.com/en-us/visualstudio/install/use-command-line-parameters-to-install-visual-studio?view=vs-2022#use-winget-to-install-or-modify-visual-studio), but I'm not too proud to use the gui installer.
 
 # Install Lazygit
 
@@ -540,7 +540,7 @@ We'll install [minpac](https://vim-jp.org/vimdoc-en/repeat.html#packages), becau
 git clone https://github.com/k-takata/minpac.git $env:USERPROFILE\vimfiles\pack\minpac\opt\minpac
 ```
 
-Use the command above, not the `git clone` command from the GitHub page, because `%USERPROFILE%` doesn't mean anything to PowerShell.
+Use the command above, not the `git clone` command from the GitHub page, because `%USERPROFILE%` (from the plugin README) doesn't mean anything to PowerShell.
 
 Now, add this to your `vimrc` file.
 
@@ -571,10 +571,10 @@ Add this plugin to the `PackInit` function you just created in your `vimrc`.
 Here, we'll configure `Ruff` and `Pyright` for Python files. Install these in whatever Python install you have set up for Vim.
 
 ```powershell
-~\AppData\Local\Programs\Python\Python312\Scripts\pip install ruff pyright
+~\AppData\Local\Programs\Python\Python313\Scripts\pip install ruff pyright
 ```
 
-Save your `vimrc` then run `:PackUpdate` to install the plugins. We're going to configure it before we test it. The paths will be simple (see config lines starting with `path:`) if the `Scripts` folder of your Python install is on your Path. Add this to your `vimrc` file:
+Save your `vimrc` then run `:PackUpdate` to install the plugins. We're going to configure it before we test it. The paths will be simple (see config lines starting with `path:`) if the `Scripts` folder of your Python install is on your Path (it will be if you're following this guide). Add this to your `vimrc` file:
 
 ```vim
 # -------------------------------------
@@ -587,7 +587,6 @@ def RegisterLspServers(): void
     diagSignWarningText: '🔶',
     diagSignInfoText: 'ℹ',
     diagSignHintText: '💡',
-    highlightDiagInline: false
   }
   lsp#options#OptionsSet(lspOptions)
 
@@ -663,12 +662,12 @@ Return again to the `PackInit` function in your `vimrc` and add three more plugi
   minpac#add('rishi-opensource/vim-claude-code', {type: 'opt'})
 ```
 
-I will refer you to the plugin pages for instructions on registering for these services and setting the required environment variables. The instructions on each are simple and clear. I couldn't improve them.
+I will refer you to the plugin pages for instructions on registering the first two and setting the required environment variables. The instructions on each are simple and clear. I couldn't improve them.
 
 - [github/copilot.vim](https://github.com/github/copilot.vim)
 - [madox2/vim-ai](https://github.com/madox2/vim-ai)
 
-Each provides several commands you can type at the command line or create a mapping for. That is the usual process in Vim: review the 100s of available commands and create mappings for the ones you use most frequently. You can browse these commands by typing `:Copilot<space><tab>` or `:AI<tab>` in Vim.
+Each provides several commands you can type at the command line or create a mapping for. That is the usual process in Vim: review the many available commands and create mappings for the ones you use most frequently. You can browse these commands by typing `:Copilot<space><tab>` or `:AI<tab>` in Vim.
 
 ## Copilot
 
@@ -698,7 +697,7 @@ Install Claude Code with winget in PowerShell:
 winget install Anthropic.ClaudeCode --source winget
 ```
 
-Claude code can make startup slow, so I install it to the `opt` folder. Before starting with `:Claude`, run `:packadd vim-claude-code` to load the plugin.
+Claude code can make startup slow, so I install it to the `opt` folder, which means it won't load when I start Vim and it's commands won't be available until I explicitly tell it to load. Before starting Claude Code with `:Claude`, run `:packadd vim-claude-code` to load the plugin.
 
 # Snippets
 
@@ -795,8 +794,8 @@ The most straightforward way to handle configuration is to put a `.vimspector.js
 {
     "$schema": "https://puremourning.github.io/vimspector/schema/vimspector.schema.json",
     "configurations": {
-		"run": {
-			"adapter": "debugpy",
+        "run": {
+            "adapter": "debugpy",
             "configuration": {
                 "name": "run this Python file",
                 "request": "launch",
@@ -804,9 +803,9 @@ The most straightforward way to handle configuration is to put a `.vimspector.js
                 "cwd": "${workspaceRoot}",
                 "python": "${workspaceRoot}/.venv/Scripts/python.exe",
                 "program": "${file}",
-                "stopOnEntry": false
+                "pythonArgs": ["-Xfrozen_modules=off"]
             },
-			"breakpoints": {
+            "breakpoints": {
                 "exception": {
                     "raised": "N",
                     "caught": "N",
@@ -823,8 +822,8 @@ The most straightforward way to handle configuration is to put a `.vimspector.js
                 "type": "python",
                 "cwd": "${workspaceRoot}",
                 "python": "${workspaceRoot}/.venv/Scripts/python.exe",
-                "program": "${workspaceRoot}/path/to/main.py",
-                "stopOnEntry": false
+                "program": "${workspaceRoot}/src/project_name/main.py",
+                "pythonArgs": ["-Xfrozen_modules=off"]
             },
             "breakpoints": {
                 "exception": {
@@ -842,7 +841,9 @@ The most straightforward way to handle configuration is to put a `.vimspector.js
                 "module": "pytest",
                 "type": "python",
                 "request": "launch",
+                "cwd": "${workspaceRoot}",
                 "python": "${workspaceRoot}/.venv/Scripts/python.exe",
+                "pythonArgs": ["-Xfrozen_modules=off"],
                 "args": [
                     "-q",
                     "${file}"
@@ -866,7 +867,7 @@ There's a lot of text there. I have simplified it by following a few conventions
 Whatever you do, it's going to be a lot of text. If you look at the second configuration, "run main.py", you'll see a simple example of how you might edit your `.vimspector.json`. The value ...
 
 ```json
-"program": "${workspaceRoot}/path/to/main.py",
+"program": "${workspaceRoot}/src/project_name/main.py",
 ```
 
 ... should be the path to a main project file. You can get deep into configuration. Start at [puremourning/vimspector](https://github.com/puremourning/vimspector) and read the documentation when you're ready. For now, you can go a long way just by editing the configuration I've provided.
@@ -986,7 +987,7 @@ These settings and mappings will apply to all filetypes, but can be overwritten 
 
 We're going to do some light configuration in gVim, less to configure it, more to walk through a few concepts.
 
-If you are running gVim, gVim will read an additional configuration file, `gvimrc`, after reading you `vimrc`. Open `gvimrc` in gVim.
+If you are running gVim, gVim will read an additional configuration file, `gvimrc`, after reading your `vimrc`. Open `gvimrc` in gVim.
 
 ```powershell
 gvim ~\vimfiles\gvimrc
