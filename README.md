@@ -256,22 +256,17 @@ You may want to come back and select a different font after installing new fonts
 
 # Install Python
 
-You can use winget or [Download Python \| Python.org](https://www.python.org/downloads/) executable files to install every version of Python you want to support. These are the supported versions of Python as I write this.
+If you're reading this guide, you likely already have Python installed, but let's cover one straightforward way to do it.
 
 ```powershell
-winget install Python.Launcher --source winget
-winget install Python.Python.3.9 --source winget
-winget install Python.Python.3.10 --source winget
-winget install Python.Python.3.11 --source winget
-winget install Python.Python.3.12 --source winget
 winget install Python.Python.3.13 --source winget
 ```
 
-If you're installing using winget, also install the Python Launcher. If you're installing through the Python website, the executables will install the Python Launcher for you.
+Winget will install Python and put both `~\AppData\Local\Programs\Python313` and `~\AppData\Local\Programs\Python313\Scripts\` in your path. Last time I checked, downloading and running the executable from [Download Python \| Python.org](https://www.python.org/downloads/) did not.
 
-You may also want to install older versions, release candidates, or something else potentially not supported by Vim and it's plugins. **Don't do that yet!**
+You may want to install other versions of Python, though this is becoming less common with tools like UV that can build an environment from any version of Python whether you have it installed on your system or not. Bear in mind that as you install other versions of Python, your "User variables" Path environment variable will find the latest (by install date, not by verision number) Python version first.
 
-First, select a relatively new and stable version of Python&mdash;no prereleases and no "month-of" releases. Vim doesn't ship with it's own version of Python. Vim and its plugins will try to use the newest version of Python you have. To avoid any problems, we'll tell Vim *which* version of Python we want to use. Open your `~vimfiles\vimrc` file and add the following to your `if has("windows")` block (if your "relatively new and stable" version of Python is 3.12):
+To avoid surprises, point Vim explicitly to the installed version you want to use. Add the following to `~\vimfiles\vimrc`:
 
 ```
 if has("win32")
@@ -281,8 +276,8 @@ if has("win32")
   # ------------ new content
   var local_programs = expand('$LOCALAPPDATA/Programs')
 
-  execute 'set pythonthreehome=' .. local_programs .. "/Python/Python312"
-  execute 'set pythonthreedll=' .. local_programs .. "/Python/Python312/python312.dll"
+  execute 'set pythonthreehome=' .. local_programs .. "/Python/Python313"
+  execute 'set pythonthreedll=' .. local_programs .. "/Python/Python313/python313.dll"
   # ------------ / new content
 endif
 ```
@@ -291,52 +286,6 @@ From Vim, run the command `:py3 print("test")` to make sure you have it set up c
 
 You may find that Vim and all your plugins "just work" without setting `pythonthreehome` and `pythonthreedll`. Vim knows where to look for a typical Python install. However, that could break at any time if you install a version of Python that Vim or one of your plugins does not support.
 
----
-
-**OK, NOW** install whatever exotic, specific, or decrepit versions of Python you'd like to have.
-
-## the Python Launcher
-
-If you install Python using winget, you will have a lot of new entries in your User Path environment variable.
-
-```
-C:\Users\shaya\AppData\Local\Programs\Python\Python312\Scripts\;
-C:\Users\shaya\AppData\Local\Programs\Python\Python312\;
-C:\Users\shaya\AppData\Local\Programs\Python\Python311\Scripts\;
-C:\Users\shaya\AppData\Local\Programs\Python\Python311\;
-C:\Users\shaya\AppData\Local\Programs\Python\Python310\Scripts\;
-C:\Users\shaya\AppData\Local\Programs\Python\Python310\;
-C:\Users\shaya\AppData\Local\Programs\Python\Python39\Scripts\;
-C:\Users\shaya\AppData\Local\Programs\Python\Python39\;
-C:\Users\shaya\AppData\Local\Programs\Python\Python38\Scripts\;
-C:\Users\shaya\AppData\Local\Programs\Python\Python38\;
-C:\Users\shaya\AppData\Local\Programs\Python\Launcher\;
-```
-
-Each of the `Programs\Python3n\` paths will contain a `python.exe`.
-
-- Running `python` from the command line will run the `python.exe` that was most recently installed.
-- If you `pip install` an executable Python script like `black`, running `black` will start from the top of the list and run the first `Scripts\black` found.
-- You will also have the Python Launcher, which you run with `py` at the command line.
-
-If, however, you install Python by downloading and running `*.exe` files from [Download Python \| Python.org](https://www.python.org/downloads/), none of these `Python\Python3n\` or `Python\Python3n\Scripts` entries will be added to your path.
-
-- Running `python` from the command line will launch the Microsoft Store, offering to let you download and install the "missing" Python executable.
-- Running a pip-installed script will give you an error message: `The term 'black' is not recognized`.
-- You will only have the Python Launcher in your path.
-
-To use the Python Launcher ...
-
-- Run `py` to run the latest Python version.
-- Run `py -3.12` to run another version.
-- Run `py -m black` to run black from the Scripts folder of the latest Python version.
-- Run `py -3.12 -m black` to run black from the Scripts folder of another Python version.
-- To run another version by default, create a new User Environment Variable, `PY_PYTHON` and set the value to the default you'd like to run. For example, `3.12`.
-- `python` will run as expected from inside a virtual environment.
-
-I prefer the Python-Launcher-only setup, because `python` will *only* work from inside a virtual environment. So, any script you set up to run `python` will only work from a virtual environment, and you can run the latest version from inside a virtual environment by running `py`.
-
-To accomplish this with a winget install, delete all the `Python\Python3.n` and `Python.n\Scripts` entries from your Path environment variable.
 
 # Install Git
 
@@ -346,12 +295,12 @@ winget install Git.Git --source winget
 
 ## configure git from PowerShell
 
-Open PowerShell and run the following commands:
+Open PowerShell and run the following commands (watch your Vim version number):
 
 ```powershell
 git config --global user.email "your@email.com"
 git config --global user.name "Your Name"
-git config --global core.editor "'C:\Program Files\Vim\vim91\vim.exe' -f -i NONE"
+git config --global core.editor "'C:\Program Files\Vim\vim92\vim.exe' -f -i NONE"
 git config --global merge.tool vimdiff
 git config --global diff.tool vimdiff
 git config --global core.excludesFile "$Env:USERPROFILE\.gitignore"
@@ -361,7 +310,7 @@ git config --global credential.https://github.com.username YourGitUsername
 
 Don't let the `--global` flag misinform you. These are settings for one user. These commands update a file in your home directory called `.gitconfig`. You can edit this file later or re-run the commands if you don't like what I've put here, but these are the standard settings for Vim users.
 
-You can also name your default branch whatever you like. If you don't configure it here, you'll get the default `master`. GitHub uses `main`, so if you're using GitHub, you'll save a bit of work by matching what they use there and setting it to `main`.
+You can also name your default branch whatever you like. If you don't configure it here, you'll get the default `master`. Git uses default `master`. GitHub uses default `main`. So, if you're using GitHub, you'll save a bit of work by matching what they use there and setting it to `main`.
 
 ### other things that come with git
 
