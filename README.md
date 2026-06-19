@@ -957,20 +957,22 @@ Additionally, avoid the bad habit of using a fuzzy finder to switch between a ha
 
 # The Usual Suspects
 
-There are several [Tim Pope](https://github.com/tpope) plugins that could qualify as "the usual suspects". These are so common that it's all-but taken for granted that you have them installed.
+There are several [Tim Pope](https://github.com/tpope) plugins that could qualify as "the usual suspects". These are so common that it's all-but taken for granted that you have them installed. Some form of [vim-easymotion](https://github.com/easymotion/vim-easymotion) is also common, so common that the behavior is usually implemented in browser and editor "Vim modes". I use [easyjump.vim](https://github.com/girishji/EasyJump.vim).
 
 ```vim
   # -------- the usual suspects
   minpac#add('tpope/vim-dispatch')  # async build
   minpac#add('tpope/vim-fugitive')  # git integration
   minpac#add('tpope/vim-obsession')  # session management
+  minpac#add('girishji/EasyJump.vim')  # easymotion alternative
 ```
 
 - [vim-dispatch](https://github.com/tpope/vim-dispatch)
 - [fugitive.vim](https://github.com/tpope/vim-fugitive)
 - [vim-obsession](https://github.com/tpope/vim-obsession)
+- [easyjump.vim](https://github.com/girishji/EasyJump.vim)
 
-At some point, you'll want to review the documentation for all of these, but the only one we'll rely on for this guide is vim-dispatch.  [vim-dispatch](https://github.com/tpope/vim-dispatch) allows you to `make` (compile) programs asynchronously. This guide is focused on Python dev, and we don't compile Python programs, but we will use vim-dispatch's `Make` command to run `pre-commit` (a common Python tool) asynchronously. :
+At some point, you'll want to review the documentation for all of these, but the only one we'll rely on for this guide is vim-dispatch. [vim-dispatch](https://github.com/tpope/vim-dispatch) allows you to `make` (compile) programs asynchronously. This guide is focused on Python dev, and we don't compile Python programs, but we will use vim-dispatch's `Make` command to run `pre-commit` (a common Python tool) asynchronously. :
 
 # Vim Configuration
 
@@ -1080,7 +1082,7 @@ If you paste the following into Vim (running in PowerShell), you will see what y
 # 🌽 (U+1F33D) 🥕 (U+1F955) 🥔 (U+1F954) 🧄 (U+1F9C4) 🧅 (U+1F9C5)
 ```
 
- If you paste this text into gVim, the result will be considerably less interesting. To get nice, colorful symbols, tell gVim to use the same DirectX rendering as PowerShell. Add this to your `gvimrc`:
+If you paste this text into gVim, the result will be considerably less interesting. To get nice, colorful symbols, tell gVim to use the same DirectX rendering as PowerShell. Add this to your `gvimrc`:
 
 ```vim
 set renderoptions=type:directx,gamma:1.0,geom:0,renmode:5,taamode:1
