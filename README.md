@@ -451,14 +451,6 @@ yarn -v
 
 You will be prompted to allow `corepack` to install `yarn`. Allow this, and PowerShell will install [Yarn (yarnpkg.com)](https://yarnpkg.com/) then print a version number in the terminal window.
 
-# gVim Fullscreen
-
-This step is optional, but if you dislike the toolbar's intruding into your immersive coding experience, you might not feel that way. This executable will allow you to fullscreen gVim.
-
-- Compile from source: [https://github.com/movsb/gvim_fullscreen](https://github.com/movsb/gvim_fullscreen) ... or download from [https://github.com/movsb/gvim_fullscreen/releases](https://github.com/movsb/gvim_fullscreen/releases).
-- Copy `gvimfullscreen.dll` to `~/vimfiles/`.
-- We will configure this in a later step.
-
 # Install Visual Studio Build Tools
 
 This step is optional. It's a fairly big install, but you will need this for some Python libraries like [llama_index](https://github.com/run-llama/llama_index). If you're into things like that, you're going to need it at some point. You can start off by running
@@ -644,18 +636,6 @@ Server Path: 'pyright-langserver'
 Status: Running
 Server Path: 'ruff.exe'
 Status: Running
-```
-
-The documentation suggests these are only examples, but [yegappan/lsp](https://github.com/yegappan/lsp) *does* define a few mappings.
-
-```
-n  <leader>gg    @:LspDiag current<CR>
-n  <leader>rn    @:LspRename<CR>
-n  <leader>gr    @:LspShowReferences<CR>
-n  <leader>gd    @:LspGotoDefinition<CR>
-n  K            @:LspHover<CR>
-n  [g           @:LspDiag prevWrap<CR>
-n  ]g           @:LspDiag nextWrap<CR>
 ```
 
 # Artificial Intelligence
@@ -1105,7 +1085,14 @@ gVim will now open at 120 columns and 50 lines. Adjust those numbers to your tas
 
 ## fullscreen gVim
 
-If you followed the earlier instructions to download gVim Fullscreen, here is the best spot to configure it. Add this to your `~\vimfiles\gvimrc`:
+# gVim Fullscreen
+
+This step is optional, but if you dislike the toolbar's intruding into your immersive coding experience, you might not feel that way. This executable will allow you to fullscreen gVim.
+
+- Compile from source: [https://github.com/movsb/gvim_fullscreen](https://github.com/movsb/gvim_fullscreen) ... or download from [https://github.com/movsb/gvim_fullscreen/releases](https://github.com/movsb/gvim_fullscreen/releases).
+- Copy `gvimfullscreen.dll` to `~/vimfiles/`.
+
+Add the following to `~\vimfiles\gvimrc`:
 
 ```vim
 g:GvimFullscreenDll = $MYVIMDIR .. 'gvim_fullscreen.dll'
@@ -1119,7 +1106,7 @@ endif
 
 Now you can fullscreen gVim with `Ctrl+F11` and toggle transparency with `Ctrl+F12`.
 
-For what it's worth, PowerShell will fullscreen Vim when you press `F11` at the cost of stealing this mapping from [vimspector](https://github.com/puremourning/vimspector).
+For what it's worth, PowerShell will fullscreen terminal Vim when you press `F11`.
 
 # The Vim ftplugin Directory
 
@@ -1131,7 +1118,7 @@ Naturally, Vim doesn't treat every filetype the same. Set specific configuration
 
 Vim will read two `ftplugin` directories:
 
-- Settings in `~\vimfiles\ftplugin` are sources before plugins are loaded. So, they will affect plugins and can be overwritten by plugins.
+- Settings in `~\vimfiles\ftplugin` are sourced before plugins are loaded. So, they will affect plugins and can be overwritten by plugins.
 - Settings in `~\vimfiles\after\ftplugin` will load plugins without any of these settings and will overwrite any settings made in plugins.
 
 ## configure Vim for Python files
