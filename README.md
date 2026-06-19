@@ -118,12 +118,12 @@ Open PowerShell and enter (If you've installed Vim 9.2)
 - This will bring up the System Properties dialog, which has a link, Environment Variables, near the lower-right corner. Click there.
 - The "User variables for username" are in the top half of the Environment Variables dialog. For now, you're interested in the Path variable
 - Double click the Path variable, and make sure you see the path to your current Vim installation.
-- If not, click "Edit" then "Browse" then navigate to `C:\Program Files\Vim\vim91` (or whatever the current version is) to add it.
+- If not, click "Edit" then "Browse" then navigate to `C:\Program Files\Vim\vim92` (or whatever the current version is) to add it.
 
 ### some nuance with environment variables
 
 - Environment variables are read when applications are opened, so changes to environment variables will not take effect until you open a new terminal window. There are other ways, but that's the easy way.
-- When changing evnironment variable through the gui, you have to back out (click "OK") *twice*, going all the way back to the System Properties dialog, before the variable is actually changed. This one has gotten me many times.
+- When changing an environment variable through the gui, you have to back out (click "OK") *twice*, going all the way back to the System Properties dialog, before the variable is actually changed. This one has gotten me many times.
 
 ## create a vimrc
 
@@ -242,6 +242,8 @@ endif
 
 ... to let Vim know to open terminals in cross-platform PowerShell. The options `shell=pwsh` and `shell=powershell` are not the same. The latter is for Windows (blue-icon) PowerShell, which may not be as nice an experience.
 
+## termguicolors
+
 Vim colorschemes usually define colors in three formats:
 
 - `term`, a style name for monochrome terminals
@@ -255,6 +257,12 @@ If `termguicolors` is set, PowerShell will read the 24-bit color definition inst
 Vim is a terminal program, so options set in the terminal or shell will effect Vim. Open PowerShell in Windows Terminal (`win+x i`), press `Ctrl+,` for settings, and select `PowerShell` under `Profiles` in the left menu. Here you can set the font and change the cursor shape if desired. By default, you will get a Bar(\|) cursor, which can be confusing when selecting text. It doesn't take long to get used to it, but you might be happier with Vintage, Underscore, or one of the Boxes.
 
 You may want to come back and select a different font after installing new fonts in the  **gVim Configuration** section.
+
+## "missing" shortcuts
+
+Windows and Windows terminal will intercept some shortcuts before they reach Vim. For instance `ctrl-c`, `ctrl-v`, `ctrl-tab`, and `f11`. Some of this can be changed in configuration, but there are workarounds. `ctrl-v` in Vim is usually "blockwise Visual mode", but Windows users can use `ctrl-q` to get identical behavior. If you don't mind developing a little OS-specific muscle memory, `ctrl-shift-c` and `ctrl-shift-v` will copy and paste to the Windows clipboard, even in Vim. Be aware however, that this will *not* work in gVim without configuration.
+
+To see if a shortcut is being intercepted before it gets to Vim, run `:echo getcharstr()` in Vim, then press the shortcut. If you see something like `^D` or `^Z`, then Vim is receiving the shortcut. If you see nothing, then it's being intercepted by Windows or Windows Terminal.
 
 # Install Python
 
@@ -288,7 +296,6 @@ From Vim, run the command `:py3 print("test")` to make sure you have it set up c
 
 You may find that Vim and all your plugins "just work" without setting `pythonthreehome` and `pythonthreedll`. Vim knows where to look for a typical Python install. However, that could break at any time if you install a version of Python that Vim or one of your plugins does not support.
 
-
 # Install Git
 
 ```powershell
@@ -314,7 +321,7 @@ Don't let the `--global` flag misinform you. These are settings for one user. Th
 
 You can also name your default branch whatever you like. If you don't configure it here, you'll get the default `master`. Git uses default `master`. GitHub uses default `main`. So, if you're using GitHub, you'll save a bit of work by matching what they use there and setting it to `main`.
 
-### other things that come with git
+## other things that come with git
 
 The installer will add `git` to your "System environment" Path (not your "User variables" Path). You will be able to run it from PowerShell, so the distinction may not matter to you.
 
@@ -472,7 +479,7 @@ There's also a way, I'm sure, to [Use command-line parameters to install Visual 
 
 # Install Lazygit
 
-This step is optional, but [Lazygit](https://github.com/jesseduffield/lazygit/) is fun and cool and useful. Like all Git interfaces, it's got [issues](https://github.com/jesseduffield/lazygit/issues)&mdash;as I write this, 666 open issues&mdash;but don't let the open issues put you off. As I said (and if you'll excuse a little fun with the coincidence), it's *the nature of the beast*&mdash;which may be a big part of the reason you're installing Vim in the first place (fewer interfaces).
+This step is optional, but [Lazygit](https://github.com/jesseduffield/lazygit/) is fun and cool and useful. Like all Git interfaces, it's got [issues](https://github.com/jesseduffield/lazygit/issues)&mdash;as I write this, 666 open issues&mdash;but don't let the open issues put you off. As I said (and if you'll excuse a little fun with the coincidence), it's *the nature of the interface beast*&mdash;which may be a big part of the reason you're installing Vim in the first place (fewer interfaces).
 
 ```powershell
 winget install JesseDuffield.lazygit --source winget
