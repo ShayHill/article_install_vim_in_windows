@@ -92,58 +92,59 @@ def _heading(line: str) -> tuple[int, str] | None:
     return hashes, rest.strip().rstrip("#").strip()
 
 
+def _new_fence_op() -> Callable[[str], bool]:
+    """Return a function that tracks whether we're inside a code fence."""
+    beg_fence: str | None = None
+
+    def fence_op(line: str) -> bool:
+        nonlocal beg_fence
+        fence = _fence(line)
+        if fence and beg_fence is None:
+            beg_fence = fence
+            return True
+        if beg_fence is not None and fence == beg_fence:
+            beg_fence = None
+            return True
+        return False
+
+    return fence_op
+
+def _discard_to_next_h1(lines: list[str]) -> None:
+    """Discard lines up to (but not including) the next h1 heading."""
+    while lines:
+        heading = _heading(lines[0])
+        if heading is not None and heading[0] == 1:
+            return
+        lines.pop(0)
+
+
 def _convert(readme: str) -> str:
     """Wrap the README body as the Jekyll post."""
     lines = readme.splitlines()
     out: list[str] = []
     open_fence: str | None = None
     i = 0
-    while i < len(lines):
-        line = lines[i]
+    fence_op = _new_fence_op()
 
-        # inside a code block: copy verbatim, watching for the closing fence
-        if open_fence is not None:
+    while(lines):
+        line = lines.pop(0)
+        if fence_op(line):
             out.append(line)
-            fence = _fence(line)
-            if fence is not None and fence[0] == open_fence[0] and len(fence) >= len(
-                open_fence
-            ):
-                open_fence = None
-            i += 1
             continue
-
-        fence = _fence(line)
-        if fence is not None:
-            open_fence = fence
-            out.append(line)
-            i += 1
-            continue
-
         heading = _heading(line)
         if heading is None:
-            out.append(line)
-            i += 1
+            out.append(line.replace("&mdash;", "---"))
             continue
-
         level, text = heading
         if level == 1 and text == _TOC_HEADING:
-            # replace the hand-written link list with the kramdown marker, then
-            # skip the old list up to (not including) the next h1 heading
             out.extend(_TOC_BLOCK)
-            i += 1
-            while i < len(lines):
-                following = _heading(lines[i])
-                if following is not None and following[0] == 1:
-                    break
-                i += 1
-        elif level == 1:
+            _discard_to_next_h1(lines)
+            continue
+        if level == 1:
             out.append(line)
-            i += 1
         else:
             out.append(line)
             out.append(_NO_TOC)
-            i += 1
-
     body = "\n".join(out)
     return f"{_HEADER}\n\n{body}\n"
 
@@ -152,7 +153,6 @@ def main() -> int:
     if not _README.is_file():
         print(f"could not find {_README}", file=sys.stderr)
         return 1
-
     article = _convert(_README.read_text(encoding="utf-8"))
     _ARTICLE.write_text(article, encoding="utf-8")
     print(f"wrote {_ARTICLE}")
