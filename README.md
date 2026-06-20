@@ -32,17 +32,20 @@ If you're using gVim, you can copy and paste by right clicking and selecting cop
   - [create a vimrc](#create-a-vimrc)
 - [Install Cross-Platform PowerShell](#install-cross-platform-powershell)
   - [configuration](#configuration)
+  - [termguicolors](#termguicolors)
   - [options](#options)
+  - ["missing" shortcuts](#missing-shortcuts)
 - [Install Python](#install-python)
+  - [Regarding UV](#regarding-uv)
 - [Install Git](#install-git)
   - [configure git from PowerShell](#configure-git-from-powershell)
+  - [other things that come with git](#other-things-that-come-with-git)
 - [Install Ripgrep](#install-ripgrep)
   - [tell Vim to use ripgrep](#tell-vim-to-use-ripgrep)
 - [Install Lua](#install-lua)
   - [tell Vim where to find Lua](#tell-vim-where-to-find-lua)
 - [Install Node](#install-node)
   - [install yarn](#install-yarn)
-- [gVim Fullscreen](#gvim-fullscreen)
 - [Install Visual Studio Build Tools](#install-visual-studio-build-tools)
 - [Install Lazygit](#install-lazygit)
   - [difftastic](#difftastic)
@@ -69,6 +72,7 @@ If you're using gVim, you can copy and paste by right clicking and selecting cop
   - [renderoptions](#renderoptions)
   - [window size](#window-size)
   - [fullscreen gVim](#fullscreen-gvim)
+- [gVim Fullscreen](#gvim-fullscreen)
 - [The Vim ftplugin Directory](#the-vim-ftplugin-directory)
   - [configure Vim for Python files](#configure-vim-for-python-files)
   - [configure the aichat window](#configure-the-aichat-window)
@@ -296,6 +300,16 @@ From Vim, run the command `:py3 print("test")` to make sure you have it set up c
 
 You may find that Vim and all your plugins "just work" without setting `pythonthreehome` and `pythonthreedll`. Vim knows where to look for a typical Python install. However, that could break at any time if you install a version of Python that Vim or one of your plugins does not support.
 
+## Regarding UV
+
+In Windows, UV can get confused about Python installs, sometimes finding your Python install, other times looking for `C:\Windows\system32\python.exe` and not finding it. You may prefer to leave your "regular" Python install for apps and scripts, and let UV manage its own Python installs.
+
+```powershell
+uv config set python-preference only-managed
+```
+
+... will tell UV to only look for Python in virtual environments and uv-managed installations. This is a permanent change unless you un-set it.
+
 # Install Git
 
 ```powershell
@@ -413,7 +427,7 @@ run
 :lua print("test")
 ```
 
-to make sure everything is set up correctly. As with Python discussed previously, Vim will probably find your Lua without adding this line to the `vimrc`, but making it explicit can save surprises later on.
+... to make sure everything is set up correctly. As with Python discussed previously, Vim will probably find your Lua without adding this line to the `vimrc`, but making it explicit can save surprises later on.
 
 # Install Node
 
@@ -423,13 +437,13 @@ This step is optional. If you need Node for [copilot.vim](https://github.com/git
 winget install OpenJS.NodeJS.LTS --source winget
 ```
 
-You run type
+Run ...
 
 ```powershell
 node -v
 ```
 
-to check the install.
+... in PowerShell to check the install.
 
 ## install yarn
 
