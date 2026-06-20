@@ -525,10 +525,10 @@ To allow your Vim to browse and edit zip directories in (probably) any plugin ..
 winget install GnuWin32.Zip GnuWin32.UnZip --source winget
 ```
 
-The installer will not add these to your Path. Add this to your user Path environment variable:
+The installer will not add these to your Path. Add `C:\Program Files (x86)\GnuWin32\bin` to your user Path environment variable:
 
 ```
-C:\Program Files (x86)\GnuWin32\bin
+[Environment]::SetEnvironmentVariable("PATH", "$($env:PATH);C:\Program Files (x86)\GnuWin32\bin", [EnvironmentVariableTarget]::User)
 ```
 
 # Install Vim Plugins
