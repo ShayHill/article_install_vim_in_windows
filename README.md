@@ -678,18 +678,6 @@ Why `ShayHill/copilot.vim` and not `github/copilot.vim`? I forked the original a
 
 Have a close look at the `minpac#add` line for [vim-ai](https://github.com/madox2/vim-ai). [Minpac](https://github.com/k-takata/minpac) will install the `openai` library in whatever Python Vim is using. You may be able to avoid that, but you're going to need a more elaborate hook and some configuration elsewhere. That's up to you, but I wanted to draw your attention to it.
 
-Copilot is useable without mappings or commands, but I want to give you just enough mappings to make Vim-AI simple to use. Type `:AIChat<enter>` to start an AI chat. This is a normal buffer, so when you type `Enter`, you will insert a new line, not submit a query. To submit a query, you will need to run the command `:AIChat` again. That will be our one and only mapping in this section. Add this to the bottom of your `vimrc`.
-
-```vim
-# -------------------------------------
-#  configure vim-ai
-# -------------------------------------
-
-# trigger chat or submit query
-inoremap <S-Enter> <Esc>:AIChat<CR>
-nnoremap <S-Enter> :AIChat<CR>
-xnoremap <S-Enter> :AIChat<CR>
-```
 ## Claude Code
 
 Install Claude Code with winget in PowerShell:
@@ -1166,6 +1154,13 @@ vim9script
 
 setlocal wrap
 setlocal linebreak
+
+# Make the AI chat window behave like ChatGPT, Grok, Discord, etc.
+# <Enter> submits a query / post; <Shift-Enter> creates a new line.
+nnoremap <buffer> <Enter> :AIChat<CR>
+inoremap <buffer> <Enter> <Esc>:AIChat<CR>
+nnoremap <buffer> <S-Enter> <Enter>
+inoremap <buffer> <S-Enter> <Enter>
 ```
 
 # The Vim compiler Directory
