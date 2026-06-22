@@ -1101,7 +1101,7 @@ gVim will now open at 120 columns and 50 lines. Adjust those numbers to your tas
 
 # gVim Fullscreen
 
-This step is optional, but if you dislike the toolbar's intruding into your immersive coding experience, you might not feel that way. This executable will allow you to fullscreen gVim.
+This step is optional and [only needed for Vim versions < 9.2](https://github.com/vim/vim/commit/49e0f833dd285df9ab7bdeb8c4a629d8252e6247), but if you dislike the toolbar's intruding into your immersive coding experience, you might not feel that way. This executable will allow you to fullscreen gVim.
 
 - Compile from source: [https://github.com/movsb/gvim_fullscreen](https://github.com/movsb/gvim_fullscreen) ... or download from [https://github.com/movsb/gvim_fullscreen/releases](https://github.com/movsb/gvim_fullscreen/releases).
 - Copy `gvimfullscreen.dll` to `~/vimfiles/`.
