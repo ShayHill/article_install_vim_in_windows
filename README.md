@@ -659,7 +659,7 @@ Return again to the `PackInit` function in your `vimrc` and add three more plugi
 ```vim
   # -------- ai completion and chat
   minpac#add('ShayHill/copilot.vim')
-  minpac#add('madox2/vim-ai', {do: '!py -m pip install "openai>=0.27"'})
+  minpac#add('madox2/vim-ai', {do: '!python -m pip install "openai>=0.27"'})
   minpac#add('rishi-opensource/vim-claude-code', {type: 'opt'})
 ```
 
@@ -769,7 +769,7 @@ Return to the `PackInit` function in your `vimrc`. Add this:
 
 ```vim
   # -------- debugging
-  minpac#add('puremourning/vimspector', {do: '!py -m pip install setuptools'})
+  minpac#add('puremourning/vimspector')
 ```
 
 Don't forget to run `:PackUpdate` and restart Vim to make sure the new plugin directory is sourced.
@@ -782,7 +782,9 @@ Select a set of mappings at the bottom of your `vimrc`.
 # -------------------------------------
 
 g:vimspector_enable_mappings = 'HUMAN'
-g:vimspector_base_dir = $MYVIMDIR .. 'pack\minpac\start\vimspector'
+# F10 and F11 (mapped by Vimspector) are intercepted by Windows Terminal
+nmap <C-F10> <Plug>VimspectorStepOver
+nmap <C-F11> <Plug>VimspectorStepInto
 ```
 
 ## .vimspector.json
@@ -823,7 +825,7 @@ The most straightforward way to handle configuration is to put a `.vimspector.js
                 "type": "python",
                 "cwd": "${workspaceRoot}",
                 "python": "${workspaceRoot}/.venv/Scripts/python.exe",
-                "program": "${workspaceRoot}/src/project_name/main.py",
+                "program": "${workspaceRoot}/src/example_python_project/main.py",
                 "pythonArgs": ["-Xfrozen_modules=off"]
             },
             "breakpoints": {
@@ -868,7 +870,7 @@ There's a lot of text there. I have simplified it by following a few conventions
 Whatever you do, it's going to be a lot of text. If you look at the second configuration, "run main.py", you'll see a simple example of how you might edit your `.vimspector.json`. The value ...
 
 ```json
-"program": "${workspaceRoot}/src/project_name/main.py",
+"program": "${workspaceRoot}/src/example_python_project/main.py",
 ```
 
 ... should be the path to a main project file. You can get deep into configuration. Start at [puremourning/vimspector](https://github.com/puremourning/vimspector) and read the documentation when you're ready. For now, you can go a long way just by editing the configuration I've provided.
@@ -883,7 +885,7 @@ cd ~\vimfiles\example_python_project
 py -m venv .venv
 ```
 
-Create `~\vimfiles\example_python_project\vimspector.json` with the json code under the previous heading. To do that in a PowerShell way, scroll back, copy the code to your clipboard, then enter this in PowerShell
+Create `~\vimfiles\example_python_project\.vimspector.json` with the json code under the previous heading. To do that in a PowerShell way, scroll back, copy the code to your clipboard, then enter this in PowerShell
 
 ```powershell
 Get-Clipboard | Set-Content -Path "~\vimfiles\example_python_project\.vimspector.json"
@@ -915,7 +917,7 @@ Select `run` by pressing `1<enter>`, and Vimspector will prompt
 The specified adapter 'debugpy' is not installed. Would you like to install the following gadgets? debugpy
 ```
 
-Press Enter, and vimspector will install debugpy for you then launch the vimspector tab. You can experiment with it now, or `:call vimspector#Reset()` to get out and come back later.
+Press Enter, and vimspector will install debugpy (in `pythonthreehome`) then launch the vimspector tab. You can experiment with it now, or `:call vimspector#Reset()` to get out and come back later.
 
 # Fuzzy Finding
 
