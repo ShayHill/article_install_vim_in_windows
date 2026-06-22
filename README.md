@@ -71,8 +71,6 @@ If you're using gVim, you can copy and paste by right clicking and selecting cop
   - [updating the terminal font](#updating-the-terminal-font)
   - [renderoptions](#renderoptions)
   - [window size](#window-size)
-  - [fullscreen gVim](#fullscreen-gvim)
-- [gVim Fullscreen](#gvim-fullscreen)
 - [The Vim ftplugin Directory](#the-vim-ftplugin-directory)
   - [configure Vim for Python files](#configure-vim-for-python-files)
   - [configure the aichat window](#configure-the-aichat-window)
@@ -1096,31 +1094,6 @@ endif
 ```
 
 gVim will now open at 120 columns and 50 lines. Adjust those numbers to your tastes.
-
-## fullscreen gVim
-
-# gVim Fullscreen
-
-This step is optional and [only needed for Vim versions < 9.2](https://github.com/vim/vim/commit/49e0f833dd285df9ab7bdeb8c4a629d8252e6247), but if you dislike the toolbar's intruding into your immersive coding experience, you might not feel that way. This executable will allow you to fullscreen gVim.
-
-- Compile from source: [https://github.com/movsb/gvim_fullscreen](https://github.com/movsb/gvim_fullscreen) ... or download from [https://github.com/movsb/gvim_fullscreen/releases](https://github.com/movsb/gvim_fullscreen/releases).
-- Copy `gvimfullscreen.dll` to `~/vimfiles/`.
-
-Add the following to `~\vimfiles\gvimrc`:
-
-```vim
-g:GvimFullscreenDll = $MYVIMDIR .. 'gvim_fullscreen.dll'
-if filereadable(g:GvimFullscreenDll)
-  inoremap <C-F11> <Esc>:call libcallnr(g:GvimFullscreenDll, 'ToggleFullscreen', 0)<cr>
-  noremap <C-F11> :call libcallnr(g:GvimFullscreenDll, 'ToggleFullscreen', 0)<cr>
-  inoremap <C-F12> <Esc>:call libcallnr(g:GvimFullscreenDll, 'ToggleTransparency', '255,180')<cr>
-  noremap <C-F12> :call libcallnr(g:GvimFullscreenDll, 'ToggleTransparency', '255,180')<cr>
-endif
-```
-
-Now you can fullscreen gVim with `Ctrl+F11` and toggle transparency with `Ctrl+F12`.
-
-For what it's worth, PowerShell will fullscreen terminal Vim when you press `F11`.
 
 # The Vim ftplugin Directory
 
