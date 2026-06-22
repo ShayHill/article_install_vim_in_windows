@@ -23,6 +23,20 @@ So, to copy code from this guide, just copy the code in Windows, then enter Norm
 
 If you're using gVim, you can copy and paste by right clicking and selecting copy or paste, the same way you would in almost any Windows gui.
 
+### paste commands
+
+In addition to configuration text, which can be pasted into files in Vim as above, there are a few long commands (e.g., `:call append('.', 'set guifont=' .. &guifont)`) which you may want to copy and paste into vim as well.
+
+Once you're running Vim in PowerShell, you can use `ctrl-shift-v` to paste from the Windows clipboard **as keystrokes**. So, if you are in normal mode and have `:echo('pasted')` in your clipboard, then `ctrl-shift-v` will add `:echo('pasted')` to the Vim command line.
+
+gVim is less straightforward. To paste a command into gVim, you'll need to
+
+- from Normal mode, enter `:` to enter command-line mode
+- `<C-R>` then `+` to paste from the Windows clipboard into the command line
+- ... you will now see `::echo('pasted')` in the command line
+- `<C-b>` then `right arrow` then `<C-h>` to delete the extra `:`
+- `Home` then `Delete` will accomplish the same thing
+
 # Table of Contents
 
 - [Introduction](#introduction)
