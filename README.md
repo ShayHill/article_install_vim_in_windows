@@ -608,12 +608,40 @@ Save your `vimrc` then run `:PackUpdate` to install the plugins. We're going to 
 # configure lsp
 # -------------------------------------
 
+nmap <leader>gd :LspGotoDefinition<CR>
+nmap <leader>gr :LspShowReferences<CR>
+nmap <leader>rn :LspRename<CR>
+nmap <leader>gg :LspDiag current<CR>
+nmap [g :LspDiag prevWrap<CR>
+nmap ]g :LspDiag nextWrap<CR>
+nmap K :LspHover<CR>
+
+def RemoveBgFromLspGutterSymbols(): void
+  hi LspDiagSignErrorText    guibg=NONE
+  hi LspDiagSignWarningText  guibg=NONE
+  hi LspDiagSignInfoText     guibg=NONE
+  hi LspDiagSignHintText     guibg=NONE
+
+  if !has('gui_running')
+    highlight LspDiagInlineError   cterm=underline
+    highlight LspDiagInlineWarning cterm=underline
+    highlight LspDiagInlineInfo    cterm=underline
+    highlight LspDiagInlineHint    cterm=underline
+  endif
+enddef
+
+augroup ClearLspGutterSymbolBackgrounds
+  autocmd!
+  autocmd ColorScheme * call RemoveBgFromLspGutterSymbols()
+augroup END
+
 def RegisterLspServers(): void
   var lspOptions = {
     diagSignErrorText: '❌',
     diagSignWarningText: '🔶',
     diagSignInfoText: 'ℹ',
     diagSignHintText: '💡',
+    highlightDiagInline: true
   }
   lsp#options#OptionsSet(lspOptions)
 
@@ -634,11 +662,16 @@ def RegisterLspServers(): void
     }
   ]
   lsp#lsp#AddServer(lspServers)
+
+  RemoveBgFromLspGutterSymbols()
 enddef
+
 autocmd User LspSetup call RegisterLspServers()
 ```
 
-There is some nuance there with the autocommand to make sure the timing for everything is right. Restart Vim, open a Python file, and type `:LspShowAllServers` to confirm that both `pyright` and `ruff` are running.
+My goal is not to specify shortcuts and specific configuration for each plugin, but PowerShell has some small issues with [yegappan/lsp](https://www.github.com/yegappan/lsp). Importantly, `highlightDiagInline: true`, which is very nice to have, works beautifully in gVim, but fails for many of the best colorschemes in Vim inside PowerShell. This isn't a problem with the plugin, PowerShell just has an issue with undercurls (which lsp wants to use). I'm giving you my entire [yegappan/lsp](https://www.github.com/yegappan/lsp) Python configuration here rather that stepping through each line for what would be a long explanation. You may want to change this up, but watch closely for issues as you do.
+
+Restart Vim, open a Python file, and type `:LspShowAllServers` to confirm that both `pyright` and `ruff` are running.
 
 You should see something like this:
 
