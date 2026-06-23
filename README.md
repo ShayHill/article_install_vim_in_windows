@@ -253,6 +253,7 @@ Start PowerShell (`winkey+x` then `i`), open Vim inside PowerShell, then add thi
 if has("win32") || has("win64")
   set shell=pwsh
   set termguicolors  # PowerShell is capable of TrueColor
+  &t_8u = "\<Esc>[58:2::%lu:%lu:%lum"  # kludge for https://github.com/vim/vim/issues/20413
 endif
 ```
 
@@ -267,6 +268,10 @@ Vim colorschemes usually define colors in three formats:
 - `guifg`, a 24-bit (e.g., #008181) color definition for true-color terminals
 
 If `termguicolors` is set, PowerShell will read the 24-bit color definition instead of looking for a color index. You'll really only notice this when plugins like [monkoose/vim9-stargate](https://github.com/monkoose/vim9-stargate) don't set `ctermfg`, because they assume you're on a TrueColor terminal. The `set termguicolors` line above will cover you either way.
+
+### &t_8u
+
+Vim uses an x-term escape sequence to set some terminal colors. Windows Terminal doesn't support this escape sequence. This line fixes every issue I've encountered with that. It's important, because it will break error formatting when we install [yegappan/lsp](https://www.github.com/yegappan/lsp) later in this guide.
 
 ## options
 
@@ -621,13 +626,6 @@ def RemoveBgFromLspGutterSymbols(): void
   hi LspDiagSignWarningText  guibg=NONE
   hi LspDiagSignInfoText     guibg=NONE
   hi LspDiagSignHintText     guibg=NONE
-
-  if !has('gui_running')
-    highlight LspDiagInlineError   cterm=underline
-    highlight LspDiagInlineWarning cterm=underline
-    highlight LspDiagInlineInfo    cterm=underline
-    highlight LspDiagInlineHint    cterm=underline
-  endif
 enddef
 
 augroup ClearLspGutterSymbolBackgrounds
@@ -669,7 +667,7 @@ enddef
 autocmd User LspSetup call RegisterLspServers()
 ```
 
-My goal is not to specify shortcuts and specific configuration for each plugin, but PowerShell has some small issues with [yegappan/lsp](https://www.github.com/yegappan/lsp). Importantly, `highlightDiagInline: true`, which is very nice to have, works beautifully in gVim, but fails for many of the best colorschemes in Vim inside PowerShell. This isn't a problem with the plugin, PowerShell just has an issue with undercurls (which lsp wants to use). I'm giving you my entire [yegappan/lsp](https://www.github.com/yegappan/lsp) Python configuration here rather that stepping through each line for what would be a long explanation. You may want to change this up, but watch closely for issues as you do.
+My goal is not to specify shortcuts and specific configuration for each plugin, but [yegappan/lsp](https://www.github.com/yegappan/lsp) settings are particular about order, and I want to give you this one working example as a guide.
 
 Restart Vim, open a Python file, and type `:LspShowAllServers` to confirm that both `pyright` and `ruff` are running.
 
