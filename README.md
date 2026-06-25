@@ -27,7 +27,7 @@ If you're using gVim, you can copy and paste by right clicking and selecting cop
 
 In addition to configuration text, which can be pasted into files in Vim as above, there are a few long commands (e.g., `:call append('.', 'set guifont=' .. &guifont)`) which you may want to copy and paste into vim as well.
 
-In Windows Terminal applications (including Vim) `Control-Shift-v` will paste from the Windows clipboard **as keystrokes**. This can be useful, because a string starting with `:`, `/`, or `?` will be interpreted as a Vim command. In the [Install Vim](#install-vim) sectin, I have included a mapping for `Control-Shift-v` to dupicate this behavior in gVim.
+In Windows Terminal applications (including Vim) `Control-Shift-v` will paste from the Windows clipboard **as keystrokes**. This can be useful, because a string starting with `:`, `/`, or `?` will be interpreted as a Vim command. In the [Install Vim](#install-vim) section, I have included a mapping for `Control-Shift-v` to dupicate this behavior in gVim.
 
 # Table of Contents
 
