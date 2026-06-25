@@ -16,6 +16,8 @@ import re
 import sys
 from pathlib import Path
 
+import link_markers
+
 _README = Path("README.md")
 
 _TOC_HEADER = "# Table of Contents"
@@ -64,6 +66,7 @@ def _replace_toc(text: str) -> str:
 
 def main() -> int:
     text = _README.read_text(encoding="utf-8")
+    link_markers.assert_no_markers(text)
     try:
         new_text = _replace_toc(text)
     except ValueError as e:

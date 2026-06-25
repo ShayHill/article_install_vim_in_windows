@@ -21,6 +21,8 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import link_markers
+
 _README = Path("README.md")
 
 # where the generated post lives
@@ -153,7 +155,9 @@ def main() -> int:
     if not _README.is_file():
         print(f"could not find {_README}", file=sys.stderr)
         return 1
-    article = _convert(_README.read_text(encoding="utf-8"))
+    readme = _README.read_text(encoding="utf-8")
+    link_markers.assert_no_markers(readme)
+    article = _convert(readme)
     _ARTICLE.write_text(article, encoding="utf-8")
     print(f"wrote {_ARTICLE}")
     return 0
