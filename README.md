@@ -27,15 +27,7 @@ If you're using gVim, you can copy and paste by right clicking and selecting cop
 
 In addition to configuration text, which can be pasted into files in Vim as above, there are a few long commands (e.g., `:call append('.', 'set guifont=' .. &guifont)`) which you may want to copy and paste into vim as well.
 
-Once you're running Vim in PowerShell, you can use `ctrl-shift-v` to paste from the Windows clipboard **as keystrokes**. So, if you are in normal mode and have `:echo('pasted')` in your clipboard, then `ctrl-shift-v` will add `:echo('pasted')` to the Vim command line.
-
-gVim is less straightforward. To paste a command into gVim, you'll need to
-
-- from Normal mode, enter `:` to enter command-line mode
-- `<C-R>` then `+` to paste from the Windows clipboard into the command line
-- ... you will now see `::echo('pasted')` in the command line
-- `<C-b>` then `right arrow` then `<C-h>` to delete the extra `:`
-- `Home` then `Delete` will accomplish the same thing
+In Windows Terminal applications (including Vim) `Control-Shift-v` will paste from the Windows clipboard **as keystrokes**. This can be useful, because a string starting with `:`, `/`, or `?` will be interpreted as a Vim command. In the [Install Vim](#install-vim) sectin, I have included a mapping for `Control-Shift-v` to dupicate this behavior in gVim.
 
 # Table of Contents
 
@@ -177,11 +169,25 @@ source $VIMRUNTIME/defaults.vim
 autocmd FileType vim setlocal expandtab
 autocmd FileType vim setlocal shiftwidth=2
 autocmd FileType vim setlocal softtabstop=2
+
+# ---------------------------------------------------------------------------- #
+#
+#  Put clipboard as keystrokes, for replicating <C-S-v> terminal-Vim behavior
+#  in gVim. The <C-S-v> mapping will never reach Windows Terminal Vim, because
+#  the Windows Terminal will intercept it.
+#
+# ---------------------------------------------------------------------------- #
+
+nnoremap <C-S-v> :call feedkeys(getreg('+'), 't')<CR>
+inoremap <C-S-v> <C-r>+
+cnoremap <C-S-v> <C-r>+
 ```
 
-This will preserve the nice defaults. The `vim9script` is optional, but the rest of this guide will assume you have it set.
+`source $VIMRUNTIME/defaults.vim` will preserve the nice defaults. The `vim9script` is optional, but the rest of this guide will assume you have it set.
 
 The autocmd lines will set an indentation style for `*.vim` files. We're setting it here to make it cleaner to paste in other code from this guide.
+
+The mappings will give you `Control-Shift-v` in gVim, which is the same as `Control-Shift-v` in Windows Terminal Vim. This is a convenience for putting (pasting) text from the Windows clipboard into Vim. If you put these keystrokes from Normal mode, Vim will put command strings (start with `:`) into the Vim command line.
 
 # Install Cross-Platform PowerShell
 
