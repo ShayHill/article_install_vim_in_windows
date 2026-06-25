@@ -94,7 +94,7 @@ In this guide, we're going to use `winget`.
 winget install vim.vim --source winget
 ```
 
-The installer will not add `vim` and `gvim` to your Path environment variable. You can alias them in PowerShell as shown in the **Install Cross-Platform PowerShell** section below or add them to your Path.
+The installer will not add `vim` and `gvim` to your Path environment variable. You can alias them in [PowerShell](https://github.com/PowerShell/PowerShell) as shown in the [Install Cross-Platform PowerShell](#install-cross-platform-powershell) section below or add them to your Path.
 
 ## editing the Path environment variable
 
@@ -102,7 +102,7 @@ If you are completely unfamiliar with Windows, let's quickly go through this. Yo
 
 ### but first!
 
-You can easily break things when altering your environment variables. Run this in PowerShell to export your current values to a json file.
+You can easily break things when altering your environment variables. Run this in [PowerShell](https://github.com/PowerShell/PowerShell) to export your current values to a json file.
 
 ```powershell
 [System.Environment]::GetEnvironmentVariables().GetEnumerator() |
@@ -113,7 +113,7 @@ Set-Content -Path "env_variables.json"
 
 ### option one - command line
 
-Open PowerShell and enter (If you've installed Vim 9.2)
+Open [PowerShell](https://github.com/PowerShell/PowerShell) and enter (If you've installed Vim 9.2)
 
 ```powershell
 [Environment]::SetEnvironmentVariable("PATH", "$($env:PATH);C:\Program Files\Vim\vim92", [EnvironmentVariableTarget]::User)
@@ -191,31 +191,31 @@ The mappings will give you `Control-Shift-v` in gVim, which is the same as `Cont
 
 # Install Cross-Platform PowerShell
 
-There are two versions of PowerShell: Windows PowerShell (blue icon) and cross-platform PowerShell (black icon). Windows comes with blue-icon PowerShell pre-installed, but if you open it, you will see a prompt to [install the latest version of "PowerShell 7"](https://learn.microsoft.com/en-us/powershell/scripting/whats-new/migrating-from-windows-powershell-51-to-powershell-7?view=powershell-7.4). Ignore the link and run the following command in blue-icon PowerShell to install black-icon PowerShell 7.
+There are two versions of PowerShell: Windows PowerShell (blue icon) and cross-platform [PowerShell](https://github.com/PowerShell/PowerShell) (black icon). Windows comes with blue-icon PowerShell pre-installed, but if you open it, you will see a prompt to [install the latest version of "PowerShell 7"](https://learn.microsoft.com/en-us/powershell/scripting/whats-new/migrating-from-windows-powershell-51-to-powershell-7?view=powershell-7.4). Ignore the link and run the following command in blue-icon PowerShell to install black-icon [PowerShell 7](https://github.com/PowerShell/PowerShell).
 
 ```powershell
 winget install Microsoft.Powershell --source winget
 ```
 
-Once installed, PowerShell 7 will be the default when you run Windows Terminal. You can run Windows Terminal by searching for it in the start menu or by holding the `windows key`, pressing `x`, then releasing both keys and pressing `i`. When I use the name "PowerShell" from here on, I am referring to cross-platform, black-icon, PowerShell 7.
+Once installed, [PowerShell 7](https://github.com/PowerShell/PowerShell) will be the default when you run Windows Terminal. You can run Windows Terminal by searching for it in the start menu or by holding the `windows key`, pressing `x`, then releasing both keys and pressing `i`. When I use the name "[PowerShell](https://github.com/PowerShell/PowerShell)" from here on, I am referring to cross-platform, black-icon, [PowerShell](https://github.com/PowerShell/PowerShell) 7.
 
-If PowerShell 7 is not the default, or if you don't see black-icon PowerShell as a choice when adding a tab with the Windows Terminal down arrow in the tab bar, it's safe to go to
+If [PowerShell](https://github.com/PowerShell/PowerShell) 7 is not the default, or if you don't see black-icon [PowerShell](https://github.com/PowerShell/PowerShell) as a choice when adding a tab with the Windows Terminal down arrow in the tab bar, it's safe to go to
 
 ```
 C:\Users\username\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState
 ```
 
-and delete `settings.json` and `state.json`. They will almost instantly regenerate, leaving your Windows Terminal in a default configuration (which should include PowerShell 7). Of course, you'll lose any configuration you've done, but it was probably broken anyway. Make a backup if you're worried about it.
+and delete `settings.json` and `state.json`. They will almost instantly regenerate, leaving your Windows Terminal in a default configuration (which should include [PowerShell 7](https://github.com/PowerShell/PowerShell)). Of course, you'll lose any configuration you've done, but it was probably broken anyway. Make a backup if you're worried about it.
 
 ## configuration
 
-If you don't already have a PowerShell config, create one by running
+If you don't already have a [PowerShell](https://github.com/PowerShell/PowerShell) config, create one by running
 
 ```powershell
 new-item $profile -itemtype file
 ```
 
-from PowerShell. This will create a PowerShell profile at
+from [PowerShell](https://github.com/PowerShell/PowerShell). This will create a [PowerShell](https://github.com/PowerShell/PowerShell) profile at
 
 ```
 ~\Documents\PowerShell\Microsoft.PowerShell_profile.ps1
@@ -230,11 +230,11 @@ Set-Alias -Name isort -Value 'C:\Users\USERNAME\AppData\Local\Programs\Python\Py
 
 ### open a new PowerShell tab in the same directory
 
-When you open a new tab in PowerShell, that tab will be open to a system folder or your home directory, depending on how you have it configured. If you're working on a project in Vim, and you want to open a tab to run git or pre-commit or something else, then you probably want to open a new tab in the project directory.
+When you open a new tab in [PowerShell](https://github.com/PowerShell/PowerShell), that tab will be open to a system folder or your home directory, depending on how you have it configured. If you're working on a project in Vim, and you want to open a tab to run git or pre-commit or something else, then you probably want to open a new tab in the project directory.
 
 [This page](https://learn.microsoft.com/en-us/windows/terminal/tutorials/new-tab-same-directory) explains how to configure PowerShell to open a new tab in the same directory as the current tab. It explains a few-dozen other approaches as well, so I'll excerpt the relevant information here.
 
-Copy this code into your PowerShell profile:
+Copy this code into your [PowerShell](https://github.com/PowerShell/PowerShell) profile:
 
 ```powershell
 function prompt {
@@ -249,11 +249,11 @@ function prompt {
 }
 ```
 
-Now, close and reopen PowerShell, then press `Ctrl+Shift+D` (D for Duplicate) in PowerShell to to open a new tab in the same directory as the current tab.
+Now, close and reopen [PowerShell](https://github.com/PowerShell/PowerShell), then press `Ctrl+Shift+D` (D for Duplicate) in [PowerShell](https://github.com/PowerShell/PowerShell) to to open a new tab in the same directory as the current tab.
 
 ### tell vim about PowerShell
 
-Start PowerShell (`winkey+x` then `i`), open Vim inside PowerShell, then add this to `~\vimfiles\vimrc`.
+Start [PowerShell](https://github.com/PowerShell/PowerShell) (`winkey+x` then `i`), open Vim inside [PowerShell](https://github.com/PowerShell/PowerShell), then add this to `~\vimfiles\vimrc`.
 
 ```
 if has("win32") || has("win64")
@@ -263,7 +263,7 @@ if has("win32") || has("win64")
 endif
 ```
 
-... to let Vim know to open terminals in cross-platform PowerShell. The options `shell=pwsh` and `shell=powershell` are not the same. The latter is for Windows (blue-icon) PowerShell, which may not be as nice an experience.
+... to let Vim know to open terminals in cross-platform [PowerShell](https://github.com/PowerShell/PowerShell). The options `shell=pwsh` and `shell=powershell` are not the same. The latter is for Windows (blue-icon) PowerShell, which may not be as nice an experience.
 
 ## termguicolors
 
@@ -273,7 +273,7 @@ Vim colorschemes usually define colors in three formats:
 - `ctermfg`, a color index for up to 256 color terminals
 - `guifg`, a 24-bit (e.g., #008181) color definition for true-color terminals
 
-If `termguicolors` is set, PowerShell will read the 24-bit color definition instead of looking for a color index. You'll really only notice this when plugins like [monkoose/vim9-stargate](https://github.com/monkoose/vim9-stargate) don't set `ctermfg`, because they assume you're on a TrueColor terminal. The `set termguicolors` line above will cover you either way.
+If `termguicolors` is set, [PowerShell](https://github.com/PowerShell/PowerShell) will read the 24-bit color definition instead of looking for a color index. You'll really only notice this when plugins like [monkoose/vim9-stargate](https://github.com/monkoose/vim9-stargate) don't set `ctermfg`, because they assume you're on a TrueColor terminal. The `set termguicolors` line above will cover you either way.
 
 ### &t_8u
 
@@ -281,9 +281,9 @@ Vim uses an x-term escape sequence to set some terminal colors. Windows Terminal
 
 ## options
 
-Vim is a terminal program, so options set in the terminal or shell will effect Vim. Open PowerShell in Windows Terminal (`win+x i`), press `Ctrl+,` for settings, and select `PowerShell` under `Profiles` in the left menu. Here you can set the font and change the cursor shape if desired. By default, you will get a Bar(\|) cursor, which can be confusing when selecting text. It doesn't take long to get used to it, but you might be happier with Vintage, Underscore, or one of the Boxes.
+Vim is a terminal program, so options set in the terminal or shell will effect Vim. Open [PowerShell](https://github.com/PowerShell/PowerShell) in Windows Terminal (`win+x i`), press `Ctrl+,` for settings, and select [PowerShell](https://github.com/PowerShell/PowerShell) under `Profiles` in the left menu. Here you can set the font and change the cursor shape if desired. By default, you will get a Bar(\|) cursor, which can be confusing when selecting text. It doesn't take long to get used to it, but you might be happier with Vintage, Underscore, or one of the Boxes.
 
-You may want to come back and select a different font after installing new fonts in the  **gVim Configuration** section.
+You may want to come back and select a different font after installing new fonts in the  [gVim Configuration](*gvim_configuration) section.
 
 ## "missing" shortcuts
 
@@ -299,7 +299,7 @@ If you're reading this guide, you likely already have Python installed, but let'
 winget install Python.Python.3.13 --source winget
 ```
 
-Winget will install Python and put both `~\AppData\Local\Programs\Python313` and `~\AppData\Local\Programs\Python313\Scripts\` in your path. Last time I checked, downloading and running the executable from [Download Python \| Python.org](https://www.python.org/downloads/) did not.
+Winget will install Python and put both `~\AppData\Local\Programs\Python313` and `~\AppData\Local\Programs\Python313\Scripts\` in your path. Last time I checked, downloading and running the executable from [Python.org](https://www.python.org/downloads/) did not.
 
 You may want to install other versions of Python, though this is becoming less common with tools like UV that can build an environment from any version of Python whether you have it installed on your system or not. Bear in mind that as you install other versions of Python, your "User variables" Path environment variable will find the latest (by install date, not by verision number) Python version first.
 
@@ -331,7 +331,7 @@ In Windows, UV can get confused about Python installs, sometimes finding your Py
 uv config set python-preference only-managed
 ```
 
-... will tell UV to only look for Python in virtual environments and uv-managed installations. This is a permanent change unless you un-set it.
+... will tell [UV](https://docs.astral.sh/uv/) to only look for Python in virtual environments and [UV](https://docs.astral.sh/uv/)-managed installations. This is a permanent change unless you un-set it.
 
 # Install Git
 
@@ -341,7 +341,7 @@ winget install Git.Git --source winget
 
 ## configure git from PowerShell
 
-Open PowerShell and run the following commands (watch your Vim version number):
+Open [PowerShell](https://github.com/PowerShell/PowerShell) and run the following commands (watch your Vim version number):
 
 ```powershell
 git config --global user.email "your@email.com"
@@ -356,13 +356,13 @@ git config --global credential.https://github.com.username YourGitUsername
 
 Don't let the `--global` flag misinform you. These are settings for one user. These commands update a file in your home directory called `.gitconfig`. You can edit this file later or re-run the commands if you don't like what I've put here, but these are the standard settings for Vim users.
 
-You can also name your default branch whatever you like. If you don't configure it here, you'll get the default `master`. Git uses default `master`. GitHub uses default `main`. So, if you're using GitHub, you'll save a bit of work by matching what they use there and setting it to `main`.
+You can also name your default branch whatever you like. If you don't configure it here, you'll get the default `master`. Git uses default `master`. [GitHub](https://github.com) uses default `main`. So, if you're using [GitHub](https://github.com), you'll save a bit of work by matching what they use there and setting it to `main`.
 
 ## other things that come with git
 
-The installer will add `git` to your "System environment" Path (not your "User variables" Path). You will be able to run it from PowerShell, so the distinction may not matter to you.
+The installer will add `git` to your "System environment" Path (not your "User variables" Path). You will be able to run it from [PowerShell](https://github.com/PowerShell/PowerShell), so the distinction may not matter to you.
 
-The Git installer also provides Curl and Bash. Curl will be on your path for plugins like [vim-instant-markdown](https://github.com/instant-markdown/vim-instant-markdown). You can add bash to your path or just create an alias in your PowerShell profile. It's not necessary for Vim, but it's convenient and already installed if you know Bash. Add this to your PowerShell profile.
+The Git installer also provides Curl and Bash. Curl will be on your path for plugins like [vim-instant-markdown](https://github.com/instant-markdown/vim-instant-markdown). You can add bash to your path or just create an alias in your [PowerShell](https://github.com/PowerShell/PowerShell) profile. It's not necessary for Vim, but it's convenient and already installed if you know Bash. Add this to your [PowerShell](https://github.com/PowerShell/PowerShell) profile.
 
 ```powershell
 Set-Alias -Name bash -Value 'C:\Program Files\Git\bin\bash.exe'
@@ -370,7 +370,7 @@ Set-Alias -Name bash -Value 'C:\Program Files\Git\bin\bash.exe'
 
 # Install Ripgrep
 
-"Grepping" is a big part of navigating through projects. In Windows, Vim will try to use a grep alternative. I don't remember the name. It works in cmd, but it freezes PowerShell, so we don't want it. Ripgrep is a nice alternative.
+"Grepping" is a big part of navigating through projects. In Windows, Vim will try to use a grep alternative. I don't remember the name. It works in cmd, but it freezes [PowerShell](https://github.com/PowerShell/PowerShell), so we don't want it. [Ripgrep](https://github.com/BurntSushi/ripgrep) is a nice alternative.
 
 ```powershell
 winget install BurntSushi.ripgrep.MSVC --source winget
@@ -378,7 +378,7 @@ winget install BurntSushi.ripgrep.MSVC --source winget
 
 ## tell Vim to use ripgrep
 
-Add the following to your `~\vimfiles\vimrc` file. This will tell Vim to use Ripgrep when you use the `:grep` command.
+Add the following to your `~\vimfiles\vimrc` file. This will tell Vim to use [Ripgrep](https://github.com/BurntSushi/ripgrep) when you use the `:grep` command.
 
 ```
 if has("win32") || has("win64")
@@ -400,13 +400,13 @@ if has("win32") || has("win64")
 endif
 ```
 
-Once you get everything set up, consider the [ctrl-sf](https://github.com/dyng/ctrlsf.vim) plugin, which will make use of your newly installed and nicely linked ripgrep.
+Once you get everything set up, consider the [ctrl-sf](https://github.com/dyng/ctrlsf.vim) plugin, which will make use of your newly installed and nicely linked [ripgrep](https://github.com/BurntSushi/ripgrep).
 
 # Install Lua
 
-This step is optional. Lua is required for a few Vim plugins, which you may or may not want to use.
+This step is optional. [Lua](https://www.lua.org/) is required for a few Vim plugins, which you may or may not want to use.
 
-In PowerShell, run
+In [PowerShell](https://github.com/PowerShell/PowerShell), run
 
 ```powershell
 winget install DEVCOM.Lua --source winget
@@ -450,11 +450,11 @@ run
 :lua print("test")
 ```
 
-... to make sure everything is set up correctly. As with Python discussed previously, Vim will probably find your Lua without adding this line to the `vimrc`, but making it explicit can save surprises later on.
+... to make sure everything is set up correctly. As with Python discussed previously, Vim will probably find your [Lua](https://www.lua.org/) without adding this line to the `vimrc`, but making it explicit can save surprises later on.
 
 # Install Node
 
-This step is optional. If you need Node for [copilot.vim](https://github.com/github/copilot.vim) or another plugin, this is a good time to install it. There's not much to it, but it is a JavaScript runtime environment, and some people don't want that weight. Unless you're coming from something extraordinarily light, the editor you were using most likely installed Node without asking you. Your choice.
+This step is optional. If you need [Node](https://nodejs.org/) for [copilot.vim](https://github.com/github/copilot.vim) or another plugin, this is a good time to install it. There's not much to it, but it is a JavaScript runtime environment, and some people don't want that weight. Unless you're coming from something extraordinarily light, the editor you were using most likely installed [Node](https://nodejs.org/) without asking you. Your choice.
 
 ```powershell
 winget install OpenJS.NodeJS.LTS --source winget
@@ -466,13 +466,13 @@ Run ...
 node -v
 ```
 
-... in PowerShell to check the install.
+... in [PowerShell](https://github.com/PowerShell/PowerShell) to check the install.
 
 ## install yarn
 
-Now that you have Node installed, optionally install the [Yarn (yarnpkg.com)](https://yarnpkg.com/) package manager if you want to run [vim-prettier](https://github.com/prettier/vim-prettier)  or other tools that require [Yarn (yarnpkg.com)](https://yarnpkg.com/). You can skip this installation for now and come back to it if you need [Yarn](https://yarnpkg.com/). It's not necessary for any Python dev tasks, as far as I recall, but you may need to go deeper into the Node ecosystem if you end up working with common Python-adjacent filetypes like `html`, `css`, `markdown`, etc.
+Now that you have [Node](https://nodejs.org/) installed, optionally install the [Yarn](https://yarnpkg.com/) package manager if you want to run [vim-prettier](https://github.com/prettier/vim-prettier) or other tools that require [Yarn](https://yarnpkg.com/). You can skip this installation for now and come back to it if you need [Yarn](https://yarnpkg.com/) later. It's not necessary for any Python dev tasks, as far as I recall, but you may need to go deeper into the [Node](https://nodejs.org/) ecosystem if you end up working with common Python-adjacent filetypes like `html`, `css`, `markdown`, etc.
 
-Start `Administrator:PowerShell`. You may have been starting `PowerShell` with `Winkey-x i`. Start `Administrator:PowerShell` with `Winkey-x a`. That is, hold `Winkey` and `x`, release both, then press `a`.
+Start `Administrator:PowerShell`. You may have been starting [PowerShell](https://github.com/PowerShell/PowerShell) with `Winkey-x i`. Start `Administrator:PowerShell` with `Winkey-x a`. That is, hold `Winkey` and `x`, release both, then press `a`.
 
 Enter the following command:
 
@@ -480,13 +480,13 @@ Enter the following command:
 corepack enable
 ```
 
-Now, you can exit `Administrator:PowerShell` and open standard `PowerShell`. Enter the following command:
+Now, you can exit `Administrator:PowerShell` and open standard [PowerShell](https://github.com/PowerShell/PowerShell). Enter the following command:
 
 ```powershell
 yarn -v
 ```
 
-You will be prompted to allow `corepack` to install `yarn`. Allow this, and PowerShell will install [Yarn (yarnpkg.com)](https://yarnpkg.com/) then print a version number in the terminal window.
+You will be prompted to allow `corepack` to install [Yarn](https://yarnpkg.com/). Allow this, and [PowerShell](https://github.com/PowerShell/PowerShell) will install [Yarn](https://yarnpkg.com/) then print a version number in the terminal window.
 
 # Install Visual Studio Build Tools
 
@@ -498,9 +498,9 @@ winget install Microsoft.VisualStudio.2022.BuildTools --source winget
 
 This takes several minutes, but only installs the Visual Studio Installer. Once that's done, run the Visual Studio Installer from the Windows menu.
 
-- Click 'Modify'.
+- Click `Modify`.
 - Select "Desktop development with C++".
-- Click 'Modify' again.
+- Click `Modify` again.
 
 You could *probably* go into "Individual Components" and install "C++ CMake tools for Windows" and "Windows 11 SDK" only, but the entire "Workload" is only 1.75GB and it's not worth the hassle to figure out what you need and what you don't.
 
@@ -514,17 +514,17 @@ This step is optional, but [Lazygit](https://github.com/jesseduffield/lazygit/) 
 winget install JesseDuffield.lazygit --source winget
 ```
 
-Close and restart your Windows Terminal, navigate to a Git project, and type `lazygit` to have a look.
+Close and restart your Windows Terminal, navigate to a Git project, and type `[lazygit](https://github.com/jesseduffield/lazygit/)` to have a look.
 
 ## difftastic
 
-Lazygit can be enhanced with [Difftastic, a structural diff (wilfred.me.uk)](https://difftastic.wilfred.me.uk/), a Git diff viewer that will suppress many formatting-only diffs.
+[Lazygit](https://github.com/jesseduffield/lazygit/) can be enhanced with [Difftastic](https://difftastic.wilfred.me.uk/), a Git diff viewer that will suppress many formatting-only diffs.
 
 ```powershell
 winget install Wilfred.difftastic --source winget
 ```
 
-Tell Lazygit to use  [Difftastic](https://difftastic.wilfred.me.uk/) by opening your Lazygit config
+Tell [Lazygit](https://github.com/jesseduffield/lazygit/) to use [Difftastic](https://difftastic.wilfred.me.uk/) by opening your [Lazygit](https://github.com/jesseduffield/lazygit/) config
 
 ```powershell
 vim $env:LOCALAPPDATA\lazygit\config.yml
@@ -540,7 +540,7 @@ git:
 
 # Install GNU zip and unzip
 
-PowerShell has `zip` and `unzip` equivalents, and Vim will use them if you have your shell set to 'pwsh', but not all file-browser plugins will. GNU-style `zip` and `unzip` are the standard and are slightly more powerful anyway.
+[PowerShell](https://github.com/PowerShell/PowerShell) has `zip` and `unzip` equivalents, and Vim will use them if you have your shell set to 'pwsh', but not all file-browser plugins will. GNU-style `zip` and `unzip` are the standard and are slightly more powerful anyway.
 
 To allow your Vim to browse and edit zip directories in (probably) any plugin ...
 
@@ -572,13 +572,13 @@ Vim has a few more disabled-by-default packages, but each one is non-default for
 
 Vim comes with [package support](https://vim-jp.org/vimdoc-en/repeat.html#packages), but not a package *manager*. I won't go into the nuances of that distinction. For now, it's easier to use a package manager, and you have plenty of choices.
 
-We'll install [minpac](https://vim-jp.org/vimdoc-en/repeat.html#packages), because it's simple and easy to install. From your `~/vimfiles` directory.
+We'll install [minpac](https://github.com/k-takata/minpac) to manage plugins through Vim's built-in [package support](https://vim-jp.org/vimdoc-en/repeat.html#packages), because it's simple and easy to install. From your `~/vimfiles` directory.
 
 ```powershell
 git clone https://github.com/k-takata/minpac.git $env:USERPROFILE\vimfiles\pack\minpac\opt\minpac
 ```
 
-Use the command above, not the `git clone` command from the GitHub page, because `%USERPROFILE%` (from the plugin README) doesn't mean anything to PowerShell.
+Use the command above, not the `git clone` command from the [minpac](https://github.com/k-takata/minpac) GitHub page, because `%USERPROFILE%` (from the plugin README) doesn't mean anything to [PowerShell](https://github.com/PowerShell/PowerShell).
 
 Now, add this to your `vimrc` file.
 
@@ -606,7 +606,7 @@ Add this plugin to the `PackInit` function you just created in your `vimrc`.
   minpac#add('yegappan/lsp')
 ```
 
-Here, we'll configure `Ruff` and `Pyright` for Python files. Install these in whatever Python install you have set up for Vim.
+Here, we'll configure [Ruff](https://docs.astral.sh/ruff/) and [Pyright](https://github.com/microsoft/pyright) for Python files. Install these in whatever Python install you have set up for Vim.
 
 ```powershell
 ~\AppData\Local\Programs\Python\Python313\Scripts\pip install ruff pyright
@@ -723,7 +723,7 @@ Each provides several commands you can type at the command line or create a mapp
 
 ## Copilot
 
-Why `ShayHill/copilot.vim` and not `github/copilot.vim`? I forked the original and reverted to 1.41.0, the last version that works with Vim + Windows + PowerShell7.
+Why `ShayHill/copilot.vim` and not `github/copilot.vim`? I forked the original and reverted to 1.41.0, the last version that works with Vim + Windows + [PowerShell 7](https://github.com/PowerShell/PowerShell).
 
 ## Chat
 
@@ -731,7 +731,7 @@ Have a close look at the `minpac#add` line for [vim-ai](https://github.com/madox
 
 ## Claude Code
 
-Install Claude Code with winget in PowerShell:
+Install [Claude Code](https://www.anthropic.com/claude) with winget in [PowerShell](https://github.com/PowerShell/PowerShell):
 
 ```powershell
 winget install Anthropic.ClaudeCode --source winget
@@ -914,7 +914,7 @@ Whatever you do, it's going to be a lot of text. If you look at the second confi
 
 ## run Vimspector
 
-First, create an example Python project. I'm going to create my example inside my `~\vimfiles` folder so I can more easily host this tutorial on GitHub. From PowerShell
+First, create an example Python project. I'm going to create my example inside my `~\vimfiles` folder so I can more easily host this tutorial on [GitHub](https://github.com). From [PowerShell](https://github.com/PowerShell/PowerShell)
 
 ```powershell
 mkdir ~\vimfiles\example_python_project
@@ -922,7 +922,7 @@ cd ~\vimfiles\example_python_project
 py -m venv .venv
 ```
 
-Create `~\vimfiles\example_python_project\.vimspector.json` with the json code under the previous heading. To do that in a PowerShell way, scroll back, copy the code to your clipboard, then enter this in PowerShell
+Create `~\vimfiles\example_python_project\.vimspector.json` with the json code under the previous heading. To do that in a [PowerShell](https://github.com/PowerShell/PowerShell) way, scroll back, copy the code to your clipboard, then enter this in [PowerShell](https://github.com/PowerShell/PowerShell):
 
 ```powershell
 Get-Clipboard | Set-Content -Path "~\vimfiles\example_python_project\.vimspector.json"
@@ -1003,7 +1003,7 @@ There are several [Tim Pope](https://github.com/tpope) plugins that could qualif
 - [vim-obsession](https://github.com/tpope/vim-obsession)
 - [easyjump.vim](https://github.com/girishji/EasyJump.vim)
 
-At some point, you'll want to review the documentation for all of these, but the only one we'll rely on for this guide is vim-dispatch. [vim-dispatch](https://github.com/tpope/vim-dispatch) allows you to `make` (compile) programs asynchronously. This guide is focused on Python dev, and we don't compile Python programs, but we will use vim-dispatch's `Make` command to run `pre-commit` (a common Python tool) asynchronously. :
+At some point, you'll want to review the documentation for all of these, but the only one we'll rely on for this guide is vim-dispatch. [vim-dispatch](https://github.com/tpope/vim-dispatch) allows you to `make` (compile) programs asynchronously. This guide is focused on Python dev, and we don't compile Python programs, but we will use vim-dispatch's `Make` command to run [pre-commit](https://pre-commit.com/) (a common Python tool) asynchronously.
 
 # Vim Configuration
 
@@ -1099,7 +1099,7 @@ set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 
 ## renderoptions
 
-If you paste the following into Vim (running in PowerShell), you will see what you see in your browser: a colorful Unicode garden.
+If you paste the following into Vim (running in [PowerShell](https://github.com/PowerShell/PowerShell)), you will see what you see in your browser: a colorful Unicode garden.
 
 ```
 # symbols for render test
@@ -1113,7 +1113,7 @@ If you paste the following into Vim (running in PowerShell), you will see what y
 # 🌽 (U+1F33D) 🥕 (U+1F955) 🥔 (U+1F954) 🧄 (U+1F9C4) 🧅 (U+1F9C5)
 ```
 
-If you paste this text into gVim, the result will be considerably less interesting. To get nice, colorful symbols, tell gVim to use the same DirectX rendering as PowerShell. Add this to your `gvimrc`:
+If you paste this text into gVim, the result will be considerably less interesting. To get nice, colorful symbols, tell gVim to use the same DirectX rendering as [PowerShell](https://github.com/PowerShell/PowerShell). Add this to your `gvimrc`:
 
 ```vim
 set renderoptions=type:directx,gamma:1.0,geom:0,renmode:5,taamode:1
