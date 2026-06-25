@@ -191,15 +191,15 @@ The mappings will give you `Control-Shift-v` in gVim, which is the same as `Cont
 
 # Install Cross-Platform PowerShell
 
-There are two versions of PowerShell: Windows PowerShell (blue icon) and cross-platform [PowerShell](https://github.com/PowerShell/PowerShell) (black icon). Windows comes with blue-icon PowerShell pre-installed, but if you open it, you will see a prompt to [install the latest version of "PowerShell 7"](https://learn.microsoft.com/en-us/powershell/scripting/whats-new/migrating-from-windows-powershell-51-to-powershell-7?view=powershell-7.4). Ignore the link and run the following command in blue-icon PowerShell to install black-icon [PowerShell 7](https://github.com/PowerShell/PowerShell).
+There are two versions of PowerShell: Windows PowerShell 5 (blue icon) and cross-platform [PowerShell 7](https://github.com/PowerShell/PowerShell) (black icon). Windows comes with blue-icon PowerShell pre-installed, but if you open it, you will see a prompt to [install the latest version of "PowerShell 7"](https://learn.microsoft.com/en-us/powershell/scripting/whats-new/migrating-from-windows-powershell-51-to-powershell-7?view=powershell-7.4). Ignore the link and run the following command in blue-icon PowerShell to install black-icon [PowerShell 7](https://github.com/PowerShell/PowerShell).
 
 ```powershell
 winget install Microsoft.Powershell --source winget
 ```
 
-Once installed, [PowerShell 7](https://github.com/PowerShell/PowerShell) will be the default when you run Windows Terminal. You can run Windows Terminal by searching for it in the start menu or by holding the `windows key`, pressing `x`, then releasing both keys and pressing `i`. When I use the name "[PowerShell](https://github.com/PowerShell/PowerShell)" from here on, I am referring to cross-platform, black-icon, [PowerShell](https://github.com/PowerShell/PowerShell) 7.
+Once installed, [PowerShell 7](https://github.com/PowerShell/PowerShell) will be the default when you run Windows Terminal. You can run Windows Terminal by searching for it in the start menu or by holding the `windows key`, pressing `x`, then releasing both keys and pressing `i`. When I use the name "[PowerShell](https://github.com/PowerShell/PowerShell)" from here on, I am referring to cross-platform, black-icon, [PowerShell 7](https://github.com/PowerShell/PowerShell).
 
-If [PowerShell](https://github.com/PowerShell/PowerShell) 7 is not the default, or if you don't see black-icon [PowerShell](https://github.com/PowerShell/PowerShell) as a choice when adding a tab with the Windows Terminal down arrow in the tab bar, it's safe to go to
+If [PowerShell 7](https://github.com/PowerShell/PowerShell) is not the default, or if you don't see black-icon [PowerShell](https://github.com/PowerShell/PowerShell) as a choice when adding a tab with the Windows Terminal down arrow in the tab bar, it's safe to go to
 
 ```
 C:\Users\username\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState
