@@ -711,7 +711,7 @@ Return again to the `PackInit` function in your `vimrc` and add three more plugi
   # -------- ai completion and chat
   minpac#add('ShayHill/copilot.vim')
   minpac#add('madox2/vim-ai', {do: '!python -m pip install "openai>=0.27"'})
-  minpac#add('rishi-opensource/vim-claude-code', {type: 'opt'})
+  minpac#add('rishi-opensource/vim-claude-code')
 ```
 
 I will refer you to the plugin pages for instructions on registering the first two and setting the required environment variables. The instructions on each are simple and clear. I couldn't improve them.
@@ -736,8 +736,6 @@ Install Claude Code with winget in PowerShell:
 ```powershell
 winget install Anthropic.ClaudeCode --source winget
 ```
-
-Claude code can make startup slow, so I install it to the `opt` folder, which means it won't load when I start Vim and it's commands won't be available until I explicitly tell it to load. Before starting Claude Code with `:Claude`, run `:packadd vim-claude-code` to load the plugin.
 
 # Snippets
 
