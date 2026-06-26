@@ -256,7 +256,7 @@ Now, close and reopen [PowerShell](https://github.com/PowerShell/PowerShell), th
 Start [PowerShell](https://github.com/PowerShell/PowerShell) (`winkey+x` then `i`), open Vim inside [PowerShell](https://github.com/PowerShell/PowerShell), then add this to `~\vimfiles\vimrc`.
 
 ```
-if has("win32") || has("win64")
+if has("win32")
   set shell=pwsh
   set termguicolors  # PowerShell is capable of TrueColor
   &t_8u = "\<Esc>[58:2::%lu:%lu:%lum"  # kludge for https://github.com/vim/vim/issues/20413
@@ -306,7 +306,7 @@ You may want to install other versions of Python, though this is becoming less c
 To avoid surprises, point Vim explicitly to the installed version you want to use. Add the following to `~\vimfiles\vimrc`:
 
 ```
-if has("win32") || has("win64")
+if has("win32")
   set shell=pwsh
   set termguicolors  # PowerShell is capable of TrueColor
 
@@ -381,7 +381,7 @@ winget install BurntSushi.ripgrep.MSVC --source winget
 Add the following to your `~\vimfiles\vimrc` file. This will tell Vim to use [Ripgrep](https://github.com/BurntSushi/ripgrep) when you use the `:grep` command.
 
 ```
-if has("win32") || has("win64")
+if has("win32")
   set shell=pwsh
   set termguicolors  # PowerShell is capable of TrueColor
 
@@ -423,7 +423,7 @@ This will install the file you need (`lua54.dll`) to
 Edit `~\vimfiles\vimrc` and add the following:
 
 ```
-if has("win32") || has("win64")
+if has("win32")
   set shell=pwsh
   set termguicolors  # PowerShell is capable of TrueColor
 
