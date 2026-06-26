@@ -83,6 +83,7 @@ In Windows Terminal applications (including Vim) `Control-Shift-v` will paste fr
 - [The Vim compiler Directory](#the-vim-compiler-directory)
   - [asynchronous pre-commit](#asynchronous-pre-commit)
 - [More](#more)
+- [TL;DR?](#tldr)
 
 # Install Vim
 
@@ -149,7 +150,7 @@ Vim gets (arguably) worse! This is because [Bram Moolenaar](https://en.wikipedia
 C:\Program Files\Vim\vim92\defaults.vim
 ```
 
-But these defaults aren't, strictly speaking, defaults, because this is not how Vim will look and behave with *no* configuration. `devaults.vim` is a sample configuration. When you create your own `vimrc` file, Vim reads *your* `vimrc` *instead of* {{defaults.vim}}, so you get true "out of the box" Vim behavior: no filetype detection, no syntax highlighting, and 1970s-style backspace behavior.
+But these defaults aren't, strictly speaking, defaults, because this is not how Vim will look and behave with *no* configuration. `devaults.vim` is a sample configuration. When you create your own `vimrc` file, Vim reads *your* `vimrc` *instead of* [defaults.vim](https://github.com/vim/vim/blob/master/runtime/defaults.vim), so you get true "out of the box" Vim behavior: no filetype detection, no syntax highlighting, and 1970s-style backspace behavior.
 
 This is all we'll configure for now. Open gVim (not Vim itself. Wait until we have a better shell to run it in) from the Windows menu. Then run this command:
 
@@ -199,7 +200,7 @@ The mappings will give you `Control-Shift-v` in gVim, which is the same as `Cont
 There are two versions of PowerShell: Windows PowerShell 5 (blue icon) and cross-platform [PowerShell 7](https://github.com/PowerShell/PowerShell) (black icon). Windows comes with blue-icon PowerShell pre-installed, but if you open it, you will see a prompt to [install the latest version of "PowerShell 7"](https://learn.microsoft.com/en-us/powershell/scripting/whats-new/migrating-from-windows-powershell-51-to-powershell-7?view=powershell-7.4). Ignore the link and run the following command in blue-icon PowerShell to install black-icon [PowerShell 7](https://github.com/PowerShell/PowerShell).
 
 ```powershell
-winget install Microsoft.Powershell --source winget
+winget install Microsoft.PowerShell --source winget
 ```
 
 Once installed, [PowerShell 7](https://github.com/PowerShell/PowerShell) will be the default when you run Windows Terminal. You can run Windows Terminal by searching for it in the start menu or by holding the `windows key`, pressing `x`, then releasing both keys and pressing `i`. When I use the name "[PowerShell](https://github.com/PowerShell/PowerShell)" from here on, I am referring to cross-platform, black-icon, [PowerShell 7](https://github.com/PowerShell/PowerShell).
@@ -1261,3 +1262,37 @@ Now you can press `<leader>l` from a Python module to run your pre-commit hooks.
 At this point, *your OS and various APIs* are a high-functioning IDE. You may still want to put some work into your editor, but that will be the easy part. Vim has great documentation available with `:h topic` if you know what you're looking for. If you're not sure what you're looking for, try `:FuzzyHelp` to search the help files with the [fuzzbox](https://github.com/vim-fuzzbox/fuzzbox.vim) plugin we just installed.
 
 It's a common thing to commit your Vim configuration and even to keep it public. Here's mine: [ShayHill/vimfiles](https://github.com/ShayHill/vimfiles). Here's famous Vim user Tim Pope's config: [tpope/dotfiles](https://github.com/tpope/dotfiles). Remember that it's never finished. Enjoy the process.
+
+# TL;DR?
+
+If you already have a setup you're happy with, these might help with any nagging issues.
+
+- Install [PowerShell 7](https://github.com/PowerShell/PowerShell)  # Vim in PowerShell 5 and CMD are tougher. "My OS is my IDE" doesn't with WSL.
+
+```powershell
+https://github.com/dejavu-fonts/dejavu-fonts/releases/download/version_2_37/dejavu-sans-ttf-2.37.zip
+```
+
+- Install GNU zip and unzip  # Plugins look for these
+
+```powershell
+winget install GnuWin32.Zip GnuWin32.UnZip --source winget
+[Environment]::SetEnvironmentVariable("PATH", "$($env:PATH);C:\Program Files (x86)\GnuWin32\bin", [EnvironmentVariableTarget]::User)
+```
+
+- in `vimrc` (in this order):
+
+```vim
+set shell=pwsh
+set termguicolors
+&t_8u = "\<Esc>[58:2::%lu:%lu:%lum"  # fix spelling and [yegappan/lsp](https://www.github.com/yegappan/lsp) error rendering
+```
+
+- Install [DejaVuSansMono.ttf](https://github.com/dejavu-fonts/dejavu-fonts/releases/tag/version_2_37)  # A fixed-width font with plenty of symbols and dotted 0
+- in `gvimrc`:
+
+```vim
+set guifont=DejaVu_Sans_Mono:h10:cANSI:qDRAFT
+set renderoptions=type:directx,gamma:1.0,geom:0,renmode:5,taamode:1  # better symbol colors
+```
+

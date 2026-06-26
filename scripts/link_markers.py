@@ -47,6 +47,9 @@ _LINKS: dict[str, str] = {
     "shayhill/vimfiles": "https://github.com/ShayHill/vimfiles",
     "tpope/dotfiles": "https://github.com/tpope/dotfiles",
     "defaults.vim": "https://github.com/vim/vim/blob/master/runtime/defaults.vim",
+    "dejavusansmono.ttf": (
+        "https://github.com/dejavu-fonts/dejavu-fonts/releases/tag/version_2_37"
+    ),
     # ------------------------------------------------------------------ #
     #  Vim plugins
     # ------------------------------------------------------------------ #
@@ -112,7 +115,9 @@ def collapse_links(text: str) -> str:
     untouched.
     """
     for anchor, url in _LINKS.items():
-        link = re.compile(r"\[((?i:" + re.escape(anchor) + r"))\]\(" + re.escape(url) + r"\)")
+        link = re.compile(
+            r"\[((?i:" + re.escape(anchor) + r"))\]\(" + re.escape(url) + r"\)"
+        )
         text = link.sub(lambda m: f"{{{{{m.group(1)}}}}}", text)
     return text
 
