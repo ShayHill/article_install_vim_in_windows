@@ -1270,7 +1270,7 @@ If you already have a setup you're happy with, these might help with any nagging
 - Install [PowerShell 7](https://github.com/PowerShell/PowerShell)  # Vim in PowerShell 5 and CMD are tougher. "My OS is my IDE" doesn't with WSL.
 
 ```powershell
-https://github.com/dejavu-fonts/dejavu-fonts/releases/download/version_2_37/dejavu-sans-ttf-2.37.zip
+winget install Microsoft.PowerShell --source winget
 ```
 
 - Install GNU zip and unzip  # Plugins look for these
