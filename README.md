@@ -165,10 +165,15 @@ vim9script
 # nice defaults from Bram and the The Vim Project
 source $VIMRUNTIME/defaults.vim
 
-# Set tab width for Vim files
+# small enhancements based on filetype,
+# including indentation styles for Python.
+
+# Set tab width for Vim files to make posting
+# out of this guide easier.
 autocmd FileType vim setlocal expandtab
-autocmd FileType vim setlocal shiftwidth=2
+autocmd FileType vim setlocal tabstop=2
 autocmd FileType vim setlocal softtabstop=2
+autocmd FileType vim setlocal shiftwidth=2
 
 # ---------------------------------------------------------------------------- #
 #
@@ -514,7 +519,7 @@ This step is optional, but [Lazygit](https://github.com/jesseduffield/lazygit/) 
 winget install JesseDuffield.lazygit --source winget
 ```
 
-Close and restart your Windows Terminal, navigate to a Git project, and type `[lazygit](https://github.com/jesseduffield/lazygit/)` to have a look.
+Close and restart your Windows Terminal, navigate to a Git project, and type [lazygit](https://github.com/jesseduffield/lazygit/) to have a look.
 
 ## difftastic
 
@@ -1158,14 +1163,8 @@ Let's start with some basic PEP-8-ish formatting for Python. Add these lines:
 ```vim
 vim9script
 
-setlocal expandtab  # spaces instead of tabs
-setlocal shiftwidth=4  # number of spaces for auto-indent
-setlocal softtabstop=4  # a soft-tab of four spaces
-setlocal autoindent  # turn on auto-indent
-
 setlocal colorcolumn=89  # max cols in black is 88
-setlocal textwidth=85  # wrapping for gq
-setlocal formatoptions-=t  # do not autowrap text
+setlocal textwidth=88  # wrapping for gq (for comments and docstrings)
 ```
 
 You may prefer to put some of these in your global `vimrc` so they apply to all files. If you're keeping them here, use `setlocal` instead of `set` so they *stop* applying when you edit something that *isn't* a Python file.
