@@ -46,6 +46,7 @@ _LINKS: dict[str, str] = {
     ),
     "shayhill/vimfiles": "https://github.com/ShayHill/vimfiles",
     "tpope/dotfiles": "https://github.com/tpope/dotfiles",
+    "defaults.vim": "https://github.com/vim/vim/blob/master/runtime/defaults.vim",
     # ------------------------------------------------------------------ #
     #  Vim plugins
     # ------------------------------------------------------------------ #

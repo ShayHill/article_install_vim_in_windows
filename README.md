@@ -149,7 +149,7 @@ Vim gets (arguably) worse! This is because [Bram Moolenaar](https://en.wikipedia
 C:\Program Files\Vim\vim92\defaults.vim
 ```
 
-But these defaults aren't, strictly speaking, defaults, because this is not how Vim will look and behave with *no* configuration. `devaults.vim` is a sample configuration. When you create your own `vimrc` file, Vim reads *your* `vimrc` *instead of* `defaults.vim`, so you get true "out of the box" Vim behavior: no filetype detection, no syntax highlighting, and 1970s-style backspace behavior.
+But these defaults aren't, strictly speaking, defaults, because this is not how Vim will look and behave with *no* configuration. `devaults.vim` is a sample configuration. When you create your own `vimrc` file, Vim reads *your* `vimrc` *instead of* {{defaults.vim}}, so you get true "out of the box" Vim behavior: no filetype detection, no syntax highlighting, and 1970s-style backspace behavior.
 
 This is all we'll configure for now. Open gVim (not Vim itself. Wait until we have a better shell to run it in) from the Windows menu. Then run this command:
 
