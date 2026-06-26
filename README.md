@@ -1285,7 +1285,7 @@ winget install GnuWin32.Zip GnuWin32.UnZip --source winget
 ```vim
 set shell=pwsh
 set termguicolors
-&t_8u = "\<Esc>[58:2::%lu:%lu:%lum"  # fix spelling and [yegappan/lsp](https://www.github.com/yegappan/lsp) error rendering
+&t_8u = "\<Esc>[58:2::%lu:%lu:%lum"  # fix spelling and `yegappan/lsp` error rendering
 ```
 
 - Install [DejaVuSansMono.ttf](https://github.com/dejavu-fonts/dejavu-fonts/releases/tag/version_2_37)  # A fixed-width font with plenty of symbols and dotted 0
