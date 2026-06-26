@@ -1280,6 +1280,7 @@ winget install GnuWin32.Zip GnuWin32.UnZip --source winget
 [Environment]::SetEnvironmentVariable("PATH", "$($env:PATH);C:\Program Files (x86)\GnuWin32\bin", [EnvironmentVariableTarget]::User)
 ```
 
+- Don't use the latest Copilot. Lock version at 1.4.1 or clone [ShayHill/copilot.vim](https://github.com/ShayHill/copilot.vim)
 - in `vimrc` (in this order):
 
 ```vim

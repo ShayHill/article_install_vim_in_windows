@@ -66,6 +66,7 @@ _LINKS: dict[str, str] = {
     "madox2/vim-ai": "https://github.com/madox2/vim-ai",
     "monkoose/vim9-stargate": "https://github.com/monkoose/vim9-stargate",
     "puremourning/vimspector": "https://github.com/puremourning/vimspector",
+    "ShayHill/copilot.vim": "https://github.com/ShayHill/copilot.vim",
     "tpope/vim-dispatch": "https://github.com/tpope/vim-dispatch",
     "vim-ai": "https://github.com/madox2/vim-ai",
     "vim-dispatch": "https://github.com/tpope/vim-dispatch",
