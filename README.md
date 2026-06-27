@@ -332,7 +332,7 @@ git config --global merge.tool vimdiff
 git config --global diff.tool vimdiff
 git config --global core.excludesFile "$Env:USERPROFILE\.gitignore"
 git config --global init.defaultBranch main
-git config --global credential.https://github.com.username YourGitUsername
+git config --global credential.https://github.com YourGitUsername
 ```
 
 Don't let the `--global` flag misinform you. These are settings for one user. These commands update a file in your home directory called `.gitconfig`. You can edit this file later or re-run the commands if you don't like what I've put here, but these are the standard settings for Vim users.
