@@ -189,7 +189,7 @@ Once installed, [PowerShell 7](https://github.com/PowerShell/PowerShell) will be
 If [PowerShell 7](https://github.com/PowerShell/PowerShell) is not the default, or if you don't see black-icon [PowerShell](https://github.com/PowerShell/PowerShell) as a choice when adding a tab with the Windows Terminal down arrow in the tab bar, it's safe to go to
 
 ```
-C:\Users\username\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState
+~\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState
 ```
 
 and delete `settings.json` and `state.json`. They will almost instantly regenerate, leaving your Windows Terminal in a default configuration (which should include [PowerShell 7](https://github.com/PowerShell/PowerShell)). Of course, you'll lose any configuration you've done, but it was probably broken anyway. Make a backup if you're worried about it.
