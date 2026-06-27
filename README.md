@@ -219,10 +219,11 @@ If you don't already have a [PowerShell](https://github.com/PowerShell/PowerShel
 new-item $profile -itemtype file
 ```
 
-from [PowerShell](https://github.com/PowerShell/PowerShell). This will create a [PowerShell](https://github.com/PowerShell/PowerShell) profile at
+from [PowerShell](https://github.com/PowerShell/PowerShell). This will create a [PowerShell](https://github.com/PowerShell/PowerShell) profile at one of
 
 ```
 ~\Documents\PowerShell\Microsoft.PowerShell_profile.ps1
+~\OneDrive\Documents\PowerShell\Microsoft.Powershell_profile.ps1
 ```
 
 You may wish to add aliases as we go. For now, here is the format for those aliases:
