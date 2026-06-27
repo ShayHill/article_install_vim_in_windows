@@ -1082,11 +1082,13 @@ Vim will read two `ftplugin` directories:
 
 ## configure Vim for Python files
 
-```vim
-:e $MYVIMDIR\after\ftplugin\python.vim
+```powershell
+mkdir ~\vimfiles\after
+mkdir ~\vimfiles\after\ftplugin
+vim ~\vimfiles\after\ftplugin\python.vim
 ```
 
-Let's start with some basic PEP-8-ish formatting for Python. Add these lines:
+Enter and adjust to your preference.
 
 ```vim
 vim9script
@@ -1095,12 +1097,12 @@ setlocal colorcolumn=89  # max cols in black is 88
 setlocal textwidth=88  # wrapping for gq (for comments and docstrings)
 ```
 
-You may prefer to put some of these in your global `vimrc` so they apply to all files. If you're keeping them here, use `setlocal` instead of `set` so they *stop* applying when you edit something that *isn't* a Python file.
+You may prefer to put either of these in your global `vimrc` so they apply to all files. If you're keeping them here, use `setlocal` instead of `set` so they *stop* applying when you edit something that *isn't* a Python file.
 
 As an example, let's create a map to run our test suite in Vim's integrated terminal. Notice the `<buffer>` flag. Like `setlocal`, `<buffer>` keeps configuration local to a file. In this case, every file with a *python* filetype.
 
 ```vim
-nnoremap <buffer> <leader>e :update<CR>:vert term python -m pytest<t_ku>
+nnoremap <buffer> <leader>t :update<CR>:vert term python -m pytest<t_ku>
 ```
 
 This mapping will
