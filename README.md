@@ -209,13 +209,6 @@ from [PowerShell](https://github.com/PowerShell/PowerShell). This will create a 
 ~\OneDrive\Documents\PowerShell\Microsoft.Powershell_profile.ps1
 ```
 
-You may wish to add aliases as we go. For now, here is the format for those aliases:
-
-```powershell
-Set-Alias -Name black -Value 'C:\Users\USERNAME\AppData\Local\Programs\Python\Python313\Scripts\black'
-Set-Alias -Name isort -Value 'C:\Users\USERNAME\AppData\Local\Programs\Python\Python313\Scripts\isort'
-```
-
 ### open a new PowerShell tab in the same directory
 
 When you open a new tab in [PowerShell](https://github.com/PowerShell/PowerShell), that tab will be open to a system folder or your home directory, depending on how you have it configured. If you're working on a project in Vim, and you want to open a tab to run git or pre-commit or something else, then you probably want to open a new tab in the project directory.
