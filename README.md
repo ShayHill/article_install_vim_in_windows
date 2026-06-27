@@ -48,8 +48,6 @@ In Windows Terminal applications (including Vim) `Control-Shift-v` will paste fr
   - [other things that come with git](#other-things-that-come-with-git)
 - [Install Ripgrep](#install-ripgrep)
   - [tell Vim to use ripgrep](#tell-vim-to-use-ripgrep)
-- [Install Lua](#install-lua)
-  - [tell Vim where to find Lua](#tell-vim-where-to-find-lua)
 - [Install Node](#install-node)
   - [install yarn](#install-yarn)
 - [Install Visual Studio Build Tools](#install-visual-studio-build-tools)
@@ -407,56 +405,6 @@ endif
 ```
 
 Once you get everything set up, consider the [ctrl-sf](https://github.com/dyng/ctrlsf.vim) plugin, which will make use of your newly installed and nicely linked [ripgrep](https://github.com/BurntSushi/ripgrep).
-
-# Install Lua
-
-This step is optional. [Lua](https://www.lua.org/) is required for a few Vim plugins, which you may or may not want to use.
-
-In [PowerShell](https://github.com/PowerShell/PowerShell), run
-
-```powershell
-winget install DEVCOM.Lua --source winget
-```
-
-This will install the file you need (`lua54.dll`) to
-
-```
-~\AppData\Local\Programs\Lua\bin\lua54.dll
-```
-
-## tell Vim where to find Lua
-
-Edit `~\vimfiles\vimrc` and add the following:
-
-```
-if has("win32")
-  set shell=pwsh
-  set termguicolors  # PowerShell is capable of TrueColor
-
-  var local_programs = expand('$HOME/AppData/Local/Programs')
-
-  execute 'set pythonthreehome=' .. local_programs .. "/Python/Python312"
-  execute 'set pythonthreedll=' .. local_programs .. "/Python/Python312/python312.dll"
-
-  if executable('rg')
-    set grepprg=rg\ --vimgrep\ --no-heading
-  else
-    echoerr "rg not found. Install ripgrep to use :grep"
-  endif
-
-  # ------------ new content
-  execute 'set luadll=' .. local_programs .. '/Lua/bin/lua54.dll'
-  # ------------ / new content
-endif
-```
-
-run
-
-```vim
-:lua print("test")
-```
-
-... to make sure everything is set up correctly. As with Python discussed previously, Vim will probably find your [Lua](https://www.lua.org/) without adding this line to the `vimrc`, but making it explicit can save surprises later on.
 
 # Install Node
 
