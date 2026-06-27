@@ -178,7 +178,7 @@ The mappings will give you `Control-Shift-v` in gVim, which is the same as `Cont
 
 # Install Cross-Platform PowerShell
 
-There are two versions of PowerShell: Windows PowerShell 5 (blue icon) and cross-platform [PowerShell 7](https://github.com/PowerShell/PowerShell) (black icon). Windows comes with blue-icon PowerShell pre-installed, but if you open it, you will see a prompt to [install the latest version of "PowerShell 7"](https://learn.microsoft.com/en-us/powershell/scripting/whats-new/migrating-from-windows-powershell-51-to-powershell-7?view=powershell-7.4). Ignore the link and run the following command in blue-icon PowerShell to install black-icon [PowerShell 7](https://github.com/PowerShell/PowerShell).
+There are two versions of PowerShell: Windows PowerShell 5 (blue icon) and cross-platform [PowerShell 7](https://github.com/PowerShell/PowerShell) (black icon). Windows comes with blue-icon PowerShell pre-installed, but if you open it, you will see a prompt to [Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindowswwin](https://learn.microsoft.com/en-us/powershell/scripting/whats-new/migrating-from-windows-powershell-51-to-powershell-7?view=powershell-7.4). Ignore the link and run the following command in blue-icon PowerShell to install black-icon [PowerShell 7](https://github.com/PowerShell/PowerShell).
 
 ```powershell
 winget install Microsoft.PowerShell --source winget
