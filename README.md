@@ -34,7 +34,6 @@ In Windows Terminal applications (including Vim) `Control-Shift-v` will paste fr
 - [Introduction](#introduction)
   - [copy and paste](#copy-and-paste)
 - [Install Vim](#install-vim)
-  - [editing the Path environment variable](#editing-the-path-environment-variable)
   - [create a vimrc](#create-a-vimrc)
 - [Install Cross-Platform PowerShell](#install-cross-platform-powershell)
   - [configuration](#configuration)
@@ -93,11 +92,7 @@ In this guide, we're going to use `winget`.
 winget install vim.vim --source winget
 ```
 
-The installer will not add `vim` and `gvim` to your Path environment variable. You can alias them in [PowerShell](https://github.com/PowerShell/PowerShell) as shown in the [Install Cross-Platform PowerShell](#install-cross-platform-powershell) section below or add them to your Path.
-
-## editing the Path environment variable
-
-If you are completely unfamiliar with Windows, let's quickly go through this. You don't *have to* have Vim in your path, you could just use shell aliases. But if you'd like to have Vim and gVim in your path, there are multiple ways to do it. I'll describe two. I prefer Option Two, because there's less room for error, and you'll probably end up there eventually to clean up mistakes made with Option One. Option One is for people who wish to script their entire device configuration.
+The installer will not add `vim` and `gvim` to your Path environment variable. You can add them now ...
 
 ### but first!
 
@@ -110,7 +105,7 @@ ConvertTo-Json -Depth 3 |
 Set-Content -Path "env_variables.json"
 ```
 
-### option one - command line
+### now
 
 Open [PowerShell](https://github.com/PowerShell/PowerShell) and enter (If you've installed Vim 9.2)
 
@@ -118,19 +113,7 @@ Open [PowerShell](https://github.com/PowerShell/PowerShell) and enter (If you've
 [Environment]::SetEnvironmentVariable("PATH", "$($env:PATH);C:\Program Files\Vim\vim92", [EnvironmentVariableTarget]::User)
 ```
 
-### option two - GUI
-
-- Press the Windows key
-- Search for "Environment Variables" and click the "Best Match"
-- This will bring up the System Properties dialog, which has a link, Environment Variables, near the lower-right corner. Click there.
-- The "User variables for username" are in the top half of the Environment Variables dialog. For now, you're interested in the Path variable
-- Double click the Path variable, and make sure you see the path to your current Vim installation.
-- If not, click "Edit" then "Browse" then navigate to `C:\Program Files\Vim\vim92` (or whatever the current version is) to add it.
-
-### some nuance with environment variables
-
-- Environment variables are read when applications are opened, so changes to environment variables will not take effect until you open a new terminal window. There are other ways, but that's the easy way.
-- When changing an environment variable through the gui, you have to back out (click "OK") *twice*, going all the way back to the System Properties dialog, before the variable is actually changed. This one has gotten me many times.
+Environment variables are read when applications are opened, so changes to environment variables will not take effect until you open a new terminal window. There are other ways, but that's the easy way.
 
 ## create a vimrc
 
