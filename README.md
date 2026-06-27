@@ -753,7 +753,7 @@ g:vimspector_enable_mappings = 'HUMAN'
 # F10 and F11 (mapped by Vimspector) are intercepted by Windows Terminal
 nmap <C-F10> <Plug>VimspectorStepOver
 nmap <C-F11> <Plug>VimspectorStepInto
-g:vimspector_base_dir='C:\Users\shaya\vimfiles\pack\minpac\start\vimspector'
+g:vimspector_base_dir = 'C:\Users\shaya\vimfiles\pack\minpac\start\vimspector'
 ```
 TODO: update vimspector_base_dir
 
@@ -992,7 +992,7 @@ You might find a font that shows the characters and looks nice to your tastes, b
 
 ### install another font
 
-Let's install a nice-looking (to my taste, at least) font with these "extra" characters. To accomplish this, we will install a font for the entire Windows system, then select that font in gVim. Go to [Release dejavu-fonts-2.37 · dejavu-fonts/dejavu-fonts · GitHub](https://github.com/dejavu-fonts/dejavu-fonts/releases/tag/version_2_37), download `dejavu-sans-ttf-2.37.zip`, extract the contents, right click on `DejaVuSansMono.ttf` (it's in one of the subfolders), and install. You will now be able to select `DejaVu Sans Mono` in the gVim font menu.
+Let's install a nice-looking (to my taste, at least) font with these "extra" characters. To accomplish this, we will install a font for the entire Windows system, then select that font in gVim. Go to [Release dejavu-fonts-2.37 · dejavu-fonts/dejavu-fonts · GitHub](https://github.com/dejavu-fonts/dejavu-fonts/releases/tag/version_2_37), download `dejavu-fonts-ttf-2.37.zip`, extract the contents, right click on `DejaVuSansMono.ttf` (it's in one of the subfolders), and install. You will now be able to select `DejaVu Sans Mono` in the gVim font menu.
 
 ### setting the guifont
 
