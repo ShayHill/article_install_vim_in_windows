@@ -553,7 +553,7 @@ nmap [g :LspDiag prevWrap<CR>
 nmap ]g :LspDiag nextWrap<CR>
 nmap K :LspHover<CR>
 
-def RemoveBgFromLspGutterSymbols(): void
+def g:RemoveBgFromLspGutterSymbols(): void
   hi LspDiagSignErrorText    guibg=NONE
   hi LspDiagSignWarningText  guibg=NONE
   hi LspDiagSignInfoText     guibg=NONE
@@ -562,7 +562,7 @@ enddef
 
 augroup ClearLspGutterSymbolBackgrounds
   autocmd!
-  autocmd ColorScheme * call RemoveBgFromLspGutterSymbols()
+  autocmd ColorScheme * call g:RemoveBgFromLspGutterSymbols()
 augroup END
 
 def RegisterLspServers(): void
@@ -593,7 +593,7 @@ def RegisterLspServers(): void
   ]
   lsp#lsp#AddServer(lspServers)
 
-  RemoveBgFromLspGutterSymbols()
+  g:RemoveBgFromLspGutterSymbols()
 enddef
 
 autocmd User LspSetup call RegisterLspServers()
