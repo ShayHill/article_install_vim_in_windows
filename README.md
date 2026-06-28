@@ -106,10 +106,18 @@ Set-Content -Path "env_variables.json"
 
 ### now
 
+I have to give two commands, because, as I write this, Vim is using two different installation paths. `winget install vim.vim` will create a system-wide install of Vim in `C:\Program Files`; `winget install vim.vim.vightly` will perform a user install into `~\AppData\Local\Programs`.
+
 Open [PowerShell](https://github.com/PowerShell/PowerShell) and enter (If you've installed Vim 9.2)
 
 ```powershell
 [Environment]::SetEnvironmentVariable("PATH", "$($env:PATH);C:\Program Files\Vim\vim92", [EnvironmentVariableTarget]::User)
+```
+
+or
+
+```powershell
+[Environment]::SetEnvironmentVariable("PATH", "$($env:PATH);$HOME\AppData\Local\Programs\Vim", [EnvironmentVariableTarget]::User)
 ```
 
 Environment variables are read when applications are opened, so changes to environment variables will not take effect until you open a new terminal window. There are other ways, but that's the easy way.
@@ -308,7 +316,7 @@ winget install Git.Git --source winget
 
 ## configure git from PowerShell
 
-Open [PowerShell](https://github.com/PowerShell/PowerShell) and run the following commands (watch your Vim version number):
+Open [PowerShell](https://github.com/PowerShell/PowerShell) and run the following commands, replacing your user information.
 
 ```powershell
 git config --global user.email "your@email.com"
