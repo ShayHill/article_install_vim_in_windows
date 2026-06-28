@@ -41,7 +41,6 @@ In Windows Terminal applications (including Vim) `Control-Shift-v` will paste fr
   - [options](#options)
   - ["missing" shortcuts](#missing-shortcuts)
 - [Install Python](#install-python)
-  - [Regarding UV](#regarding-uv)
 - [Install Git](#install-git)
   - [configure git from PowerShell](#configure-git-from-powershell)
   - [other things that come with git](#other-things-that-come-with-git)
@@ -290,6 +289,7 @@ To avoid surprises, point Vim explicitly to the installed version you want to us
 if has("win32")
   set shell=pwsh
   set termguicolors  # PowerShell is capable of TrueColor
+  &t_8u = "\<Esc>[58:2::%lu:%lu:%lum"  # kludge for https://github.com/vim/vim/issues/20413
 
   # ------------ new content
   var local_programs = expand('$LOCALAPPDATA/Programs')
@@ -303,16 +303,6 @@ endif
 From Vim, run the command `:py3 print("test")` to make sure you have it set up correctly.
 
 You may find that Vim and all your plugins "just work" without setting `pythonthreehome` and `pythonthreedll`. Vim knows where to look for a typical Python install. However, that could break at any time if you install a version of Python that Vim or one of your plugins does not support.
-
-## Regarding UV
-
-In Windows, UV can get confused about Python installs, sometimes finding your Python install, other times looking for `C:\Windows\system32\python.exe` and not finding it. You may prefer to leave your "regular" Python install for apps and scripts, and let UV manage its own Python installs.
-
-```powershell
-uv config set python-preference only-managed
-```
-
-... will tell [UV](https://docs.astral.sh/uv/) to only look for Python in virtual environments and [UV](https://docs.astral.sh/uv/)-managed installations. This is a permanent change unless you un-set it.
 
 # Install Git
 
@@ -365,11 +355,12 @@ Add the following to your `~\vimfiles\vimrc` file. This will tell Vim to use [Ri
 if has("win32")
   set shell=pwsh
   set termguicolors  # PowerShell is capable of TrueColor
+  &t_8u = "\<Esc>[58:2::%lu:%lu:%lum"  # kludge for https://github.com/vim/vim/issues/20413
 
-  var local_programs = expand('$HOME/AppData/Local/Programs')
+  var local_programs = expand('$LOCALAPPDATA/Programs')
 
-  execute 'set pythonthreehome=' .. local_programs .. "/Python/Python312"
-  execute 'set pythonthreedll=' .. local_programs .. "/Python/Python312/python312.dll"
+  execute 'set pythonthreehome=' .. local_programs .. "/Python/Python313"
+  execute 'set pythonthreedll=' .. local_programs .. "/Python/Python313/python313.dll"
 
   # ------------ new content
   if executable('rg')
@@ -1224,5 +1215,11 @@ set termguicolors
 ```vim
 set guifont=DejaVu_Sans_Mono:h10:cANSI:qDRAFT
 set renderoptions=type:directx,gamma:1.0,geom:0,renmode:5,taamode:1  # better symbol colors
+```
+
+- Clone minpac with this instead of the command on the GitHub page:
+
+```powershell
+:git clone https://github.com/k-takata/minpac.git $env:USERPROFILE\vimfiles\pack\minpac\opt\minpac
 ```
 
