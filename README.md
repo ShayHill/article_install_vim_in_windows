@@ -502,7 +502,7 @@ Vim comes with [package support](https://vim-jp.org/vimdoc-en/repeat.html#packag
 We'll install [minpac](https://github.com/k-takata/minpac) to manage plugins through Vim's built-in [package support](https://vim-jp.org/vimdoc-en/repeat.html#packages), because it's simple and easy to install. From your `~/vimfiles` directory.
 
 ```powershell
-:git clone https://github.com/k-takata/minpac.git $env:USERPROFILE\vimfiles\pack\minpac\opt\minpac
+git clone https://github.com/k-takata/minpac.git $env:USERPROFILE\vimfiles\pack\minpac\opt\minpac
 ```
 
 Use the command above, not the `git clone` command from the [minpac](https://github.com/k-takata/minpac) GitHub page, because `%USERPROFILE%` (from the plugin README) doesn't mean anything to [PowerShell](https://github.com/PowerShell/PowerShell).
