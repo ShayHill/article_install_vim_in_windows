@@ -152,6 +152,7 @@ source $VIMRUNTIME/defaults.vim
 
 # small enhancements based on filetype,
 # including indentation styles for Python.
+filetype plugin indent on
 
 # Set tab width for Vim files to make posting
 # out of this guide easier.
