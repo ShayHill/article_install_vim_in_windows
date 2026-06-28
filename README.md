@@ -235,7 +235,7 @@ Start [PowerShell](https://github.com/PowerShell/PowerShell) (`winkey+x` then `i
 if has("win32")
   set shell=pwsh
   set termguicolors  # PowerShell is capable of TrueColor
-  &t_8u = "\<Esc>[58:2::%lu:%lu:%lum"  # kludge for https://github.com/vim/vim/issues/20413
+  &t_8u = "\e[58:2::%lu:%lu:%lum"  # kludge for https://github.com/vim/vim/issues/20413
 endif
 ```
 
@@ -257,7 +257,7 @@ Vim uses an x-term escape sequence to set some terminal colors. Windows Terminal
 
 ## options
 
-Vim is a terminal program, so options set in the terminal or shell will effect Vim. Open [PowerShell](https://github.com/PowerShell/PowerShell) in Windows Terminal (`win+x i`), press `Ctrl+,` for settings, and select [PowerShell](https://github.com/PowerShell/PowerShell) under `Profiles` in the left menu. Here you can set the font and change the cursor shape if desired. By default, you will get a Bar(\|) cursor, which can be confusing when selecting text. It doesn't take long to get used to it, but you might be happier with Vintage, Underscore, or one of the Boxes.
+Vim is a terminal program, so options set in the terminal or shell will effect Vim. Open [PowerShell](https://github.com/PowerShell/PowerShell) in Windows Terminal (`win+x i`), press `Ctrl+,` for settings, and select [PowerShell](https://github.com/PowerShell/PowerShell) under `Profiles` in the left menu.
 
 You may want to come back and select a different font after installing new fonts in the  [gVim Configuration](*gvim_configuration) section.
 
@@ -285,7 +285,7 @@ To avoid surprises, point Vim explicitly to the installed version you want to us
 if has("win32")
   set shell=pwsh
   set termguicolors  # PowerShell is capable of TrueColor
-  &t_8u = "\<Esc>[58:2::%lu:%lu:%lum"  # kludge for https://github.com/vim/vim/issues/20413
+  &t_8u = "\e[58:2::%lu:%lu:%lum"  # kludge for https://github.com/vim/vim/issues/20413
 
   # ------------ new content
   var local_programs = expand('$LOCALAPPDATA/Programs')
@@ -351,7 +351,7 @@ Add the following to your `~\vimfiles\vimrc` file. This will tell Vim to use [Ri
 if has("win32")
   set shell=pwsh
   set termguicolors  # PowerShell is capable of TrueColor
-  &t_8u = "\<Esc>[58:2::%lu:%lu:%lum"  # kludge for https://github.com/vim/vim/issues/20413
+  &t_8u = "\e[58:2::%lu:%lu:%lum"  # kludge for https://github.com/vim/vim/issues/20413
 
   var local_programs = expand('$LOCALAPPDATA/Programs')
 
@@ -1202,7 +1202,7 @@ winget install GnuWin32.Zip GnuWin32.UnZip --source winget
 ```vim
 set shell=pwsh
 set termguicolors
-&t_8u = "\<Esc>[58:2::%lu:%lu:%lum"  # fix spelling and `yegappan/lsp` error rendering
+&t_8u = "\e[58:2::%lu:%lu:%lum"  # fix spelling and `yegappan/lsp` error rendering
 ```
 
 - Install [DejaVuSansMono.ttf](https://github.com/dejavu-fonts/dejavu-fonts/releases/tag/version_2_37)  # A fixed-width font with plenty of symbols and dotted 0
