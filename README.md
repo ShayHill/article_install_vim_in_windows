@@ -748,9 +748,8 @@ g:vimspector_enable_mappings = 'HUMAN'
 # F10 and F11 (mapped by Vimspector) are intercepted by Windows Terminal
 nmap <C-F10> <Plug>VimspectorStepOver
 nmap <C-F11> <Plug>VimspectorStepInto
-g:vimspector_base_dir = 'C:\Users\shaya\vimfiles\pack\minpac\start\vimspector'
+g:vimspector_base_dir = $MYVIMDIR .. 'pack\minpac\start\vimspector'
 ```
-TODO: update vimspector_base_dir
 
 ## .vimspector.json
 
@@ -1224,6 +1223,6 @@ set renderoptions=type:directx,gamma:1.0,geom:0,renmode:5,taamode:1  # better sy
 - Clone minpac with this instead of the command on the GitHub page:
 
 ```powershell
-:git clone https://github.com/k-takata/minpac.git $env:USERPROFILE\vimfiles\pack\minpac\opt\minpac
+git clone https://github.com/k-takata/minpac.git $env:USERPROFILE\vimfiles\pack\minpac\opt\minpac
 ```
 
