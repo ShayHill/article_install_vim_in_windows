@@ -124,11 +124,7 @@ However, once you create your own configuration in
 ~\vimfiles\vimrc
 ```
 
-Vim gets (arguably) worse! This is because [Bram Moolenaar](https://en.wikipedia.org/wiki/Bram_Moolenaar) and others configured some nice default behaviors in
-
-```
-C:\Program Files\Vim\vim92\defaults.vim
-```
+Vim gets (arguably) worse! This is because [Bram Moolenaar](https://en.wikipedia.org/wiki/Bram_Moolenaar) and others configured some nice default behaviors in `$VIMRUNTIME/defaults.vim`
 
 But these defaults aren't, strictly speaking, defaults, because this is not how Vim will look and behave with *no* configuration. `devaults.vim` is a sample configuration. When you create your own `vimrc` file, Vim reads *your* `vimrc` *instead of* [defaults.vim](https://github.com/vim/vim/blob/master/runtime/defaults.vim), so you get true "out of the box" Vim behavior: no filetype detection, no syntax highlighting, and 1970s-style backspace behavior.
 
@@ -317,7 +313,7 @@ Open [PowerShell](https://github.com/PowerShell/PowerShell) and run the followin
 ```powershell
 git config --global user.email "your@email.com"
 git config --global user.name "Your Name"
-git config --global core.editor "'C:\Program Files\Vim\vim92\vim.exe' -f -i NONE"
+git config --global core.editor "vim -f -i NONE"
 git config --global merge.tool vimdiff
 git config --global diff.tool vimdiff
 git config --global core.excludesFile "$Env:USERPROFILE\.gitignore"
