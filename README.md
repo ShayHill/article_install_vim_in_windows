@@ -564,6 +564,8 @@ enddef
 augroup ClearLspGutterSymbolBackgrounds
   autocmd!
   autocmd ColorScheme * call g:RemoveBgFromLspGutterSymbols()
+  autocmd User LspAttached call g:RemoveBgFromLspGutterSymbols()
+  autocmd User LspDiagsUpdated call g:RemoveBgFromLspGutterSymbols()
 augroup END
 
 def RegisterLspServers(): void
