@@ -970,7 +970,6 @@ vim9script
 
 # if you can't see the below characters, get a better font
 set listchars=tab:→\ ,eol:↵,trail:·,extends:↷,precedes:↶
-set fillchars+=vert:│  # for a better looking windows separator
 ```
 
 The `listchars` value isn't the most important part of your gVim configuration, but we're starting here for a reason. Inside gVim, look at the line beginning with `set listchars` and chances are you won't be able to see all of the characters.
