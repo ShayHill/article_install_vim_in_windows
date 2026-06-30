@@ -88,6 +88,7 @@ _LINKS: dict[str, str] = {
     "powershell": "https://github.com/PowerShell/PowerShell",
     "pre-commit": "https://pre-commit.com/",
     "pyright": "https://github.com/microsoft/pyright",
+    "basedpyright": "https://docs.basedpyright.com/",
     "python.org": "https://www.python.org/downloads/",
     "ripgrep": "https://github.com/BurntSushi/ripgrep",
     "ruff": "https://docs.astral.sh/ruff/",

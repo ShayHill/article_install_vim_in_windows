@@ -533,10 +533,10 @@ Add this plugin to the `PackInit` function you just created in your `vimrc`.
   minpac#add('yegappan/lsp')
 ```
 
-Here, we'll configure [Ruff](https://docs.astral.sh/ruff/) and [Pyright](https://github.com/microsoft/pyright) for Python files. Install these in whatever Python install you have set up for Vim.
+Here, we'll configure [Ruff](https://docs.astral.sh/ruff/) and [basedpyright](https://docs.basedpyright.com/) for Python files. Install these in whatever Python install you have set up for Vim.
 
 ```powershell
-~\AppData\Local\Programs\Python\Python313\Scripts\pip install ruff pyright
+~\AppData\Local\Programs\Python\Python313\Scripts\pip install ruff basedpyright
 ```
 
 Save your `vimrc` then run `:PackUpdate` to install the plugins. We're going to configure it before we test it. The paths will be simple (see config lines starting with `path:`) if the `Scripts` folder of your Python install is on your Path (it will be if you're following this guide). Add this to your `vimrc` file:
@@ -574,15 +574,15 @@ def RegisterLspServers(): void
     diagSignWarningText: '🔶',
     diagSignInfoText: '🔵',
     diagSignHintText: '💡',
-    highlightDiagInline: true
+    semanticHighlight: 1,
   }
   lsp#options#OptionsSet(lspOptions)
 
   var lspServers = [
     {
-      name: 'pyright',
+      name: 'basedpyright',
       filetype: ['python'],
-      path: 'pyright-langserver',
+      path: 'basedpyright-langserver',
       args: ['--stdio'],
       workspaceConfig: {python: {pythonPath: exepath('python')}}
     },
@@ -604,7 +604,7 @@ autocmd User LspSetup call RegisterLspServers()
 
 My goal is not to specify shortcuts and specific configuration for each plugin, but [yegappan/lsp](https://www.github.com/yegappan/lsp) settings are particular about order, and I want to give you this one working example as a guide.
 
-Restart Vim, open a Python file, and type `:LspShowAllServers` to confirm that both `pyright` and `ruff` are running.
+Restart Vim, open a Python file, and type `:LspShowAllServers` to confirm that both `basedpyright` and `ruff` are running.
 
 You should see something like this:
 
@@ -612,8 +612,8 @@ You should see something like this:
 Filetype Information
 ====================
 Filetype: 'python'
-Server Name: 'pyright'
-Server Path: 'pyright-langserver'
+Server Name: 'basedpyright'
+Server Path: 'basedpyright-langserver'
 Status: Running
 
 Filetype: 'python'
