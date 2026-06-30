@@ -572,7 +572,7 @@ def RegisterLspServers(): void
   var lspOptions = {
     diagSignErrorText: '❌',
     diagSignWarningText: '🔶',
-    diagSignInfoText: 'ℹ',
+    diagSignInfoText: '🔵',
     diagSignHintText: '💡',
     highlightDiagInline: true
   }
