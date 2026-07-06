@@ -317,17 +317,18 @@ winget install Git.Git --source winget
 
 ## configure git from PowerShell
 
-Open [PowerShell](https://github.com/PowerShell/PowerShell) and run the following commands, replacing your user information.
+Open [PowerShell](https://github.com/PowerShell/PowerShell) and run the following commands, replacing your user information in the first three commands.
 
 ```powershell
 git config --global user.email "your@email.com"
 git config --global user.name "Your Name"
-git config --global core.editor "vim -f -i NONE"
+git config --global credential.https://github.com.username YourGitUsername
+
+git config --global core.editor ('"{0}" -f -i NONE' -f (Get-Command vim).Source.Replace('\', '/')) 
 git config --global merge.tool vimdiff
 git config --global diff.tool vimdiff
-git config --global core.excludesFile "$Env:USERPROFILE\.gitignore"
+git config --global core.excludesfile ('"{0}"' -f ("{0}/.gitignore" -f $Env:USERPROFILE.Replace('\', '/')))
 git config --global init.defaultBranch main
-git config --global credential.https://github.com.username YourGitUsername
 ```
 
 Don't let the `--global` flag misinform you. These are settings for one user. These commands update a file in your home directory called `.gitconfig`. You can edit this file later or re-run the commands if you don't like what I've put here, but these are the standard settings for Vim users.
