@@ -324,10 +324,10 @@ git config --global user.email "your@email.com"
 git config --global user.name "Your Name"
 git config --global credential.https://github.com.username YourGitUsername
 
-git config --global core.editor ('"{0}" -f -i NONE' -f (Get-Command vim).Source.Replace('\', '/')) 
+git config --global core.editor ('"{0}" -f -i NONE --noplugin' -f (Get-Command vim).Source.Replace('\','/'))
 git config --global merge.tool vimdiff
 git config --global diff.tool vimdiff
-git config --global core.excludesfile ('"{0}"' -f ("{0}/.gitignore" -f $Env:USERPROFILE.Replace('\', '/')))
+git config --global core.excludesfile ("{0}/.gitignore" -f $Env:USERPROFILE.Replace('\','/'))
 git config --global init.defaultBranch main
 ```
 
@@ -1229,3 +1229,8 @@ set renderoptions=type:directx,gamma:1.0,geom:0,renmode:5,taamode:1  # better sy
 git clone https://github.com/k-takata/minpac.git $env:USERPROFILE\vimfiles\pack\minpac\opt\minpac
 ```
 
+- Provide a full path to your Vim or gVim executable to `.gitconfig`, else the `git bash` package will use its own.
+
+```powershell
+git config --global core.editor ('"{0}" -f -i NONE --noplugin' -f (Get-Command vim).Source.Replace('\', '/')) 
+```
