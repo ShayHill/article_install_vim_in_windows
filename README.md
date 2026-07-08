@@ -667,6 +667,21 @@ Install [Claude Code](https://www.anthropic.com/claude) with winget in [PowerShe
 winget install Anthropic.ClaudeCode --source winget
 ```
 
+Claude looks for `python3` on your system. If you're using Windows, 99% you won't have that. You can test first running `:Claude doctor` from within Vim. If (when) you see this error:
+
+```
+[FAIL] python3 found but version is not 3.x (Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.)
+```
+
+... don't bother digging through your Windows settings. Instead, run this in **Admin** PowerShell (`Winkey+x a`) to create a symlink:
+
+```powershell
+$py = (Get-Command python).Source
+New-Item -ItemType SymbolicLink -Path (Join-Path (Split-Path $py) "python3.exe") -Target $py
+```
+
+Test by running `:Claude doctor` again in Vim.
+
 # Snippets
 
 Once again, return to the `PackInit` function in your `vimrc`. Add this:
