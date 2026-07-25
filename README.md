@@ -106,7 +106,7 @@ Set-Content -Path "env_variables.json"
 
 ### now
 
-I have to give two commands, because, as I write this, Vim is using two different installation paths. `winget install vim.vim` will create a system-wide install of Vim in `C:\Program Files`; `winget install vim.vim.vightly` will perform a user install into `~\AppData\Local\Programs`.
+I have to give two commands, because, as I write this, Vim is using two different installation paths. `winget install vim.vim` will create a system-wide install of Vim in `C:\Program Files`; `winget install vim.vim.nightly` will perform a user install into `~\AppData\Local\Programs`.
 
 Open [PowerShell](https://github.com/PowerShell/PowerShell) and enter (If you've installed Vim 9.2)
 
@@ -243,8 +243,10 @@ Start [PowerShell](https://github.com/PowerShell/PowerShell) (`winkey+x` then `i
 ```
 if has("win32")
   set shell=pwsh
-  set termguicolors  # PowerShell is capable of TrueColor
-  &t_8u = "\e[58:2::%lu:%lu:%lum"  # kludge for https://github.com/vim/vim/issues/20413
+  set termguicolors
+  &t_8f = "\<Esc>[38:2::%lu:%lu:%lum"
+  &t_8b = "\<Esc>[48:2::%lu:%lu:%lum"
+  &t_8u = "\<Esc>[58:2::%lu:%lu:%lum"
 endif
 ```
 
@@ -260,9 +262,9 @@ Vim colorschemes usually define colors in three formats:
 
 If `termguicolors` is set, [PowerShell](https://github.com/PowerShell/PowerShell) will read the 24-bit color definition instead of looking for a color index. You'll really only notice this when plugins like [monkoose/vim9-stargate](https://github.com/monkoose/vim9-stargate) don't set `ctermfg`, because they assume you're on a TrueColor terminal. The `set termguicolors` line above will cover you either way.
 
-### &t_8u
+### &t_8f, &t_8b, &t_8u
 
-Vim uses an x-term escape sequence to set some terminal colors. Windows Terminal doesn't support this escape sequence. This line fixes every issue I've encountered with that. It's important, because it will break error formatting when we install [yegappan/lsp](https://www.github.com/yegappan/lsp) later in this guide.
+Windows Terminal requires colon-form termcap sequences. See `:h xterm-true-color`.
 
 ## options
 
