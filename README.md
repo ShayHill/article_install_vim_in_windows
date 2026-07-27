@@ -2,7 +2,7 @@
 
 The traditional ethos of Vim has been "Vim is my text editor; my OS is my IDE", meaning Vim users would write or edit a program in Vim then use git, grep, sed, awk, find, build, etc., etc., etc. through each application's command-line interface instead of a graphical *interface to an interface* built into an IDE.
 
-This isn't enforced. Some *interfaces to interfaces* have been built into Vim over the years, and others have become popular through plugins, but the *interfaces to interfaces* are generally much thinner that what you'd find in an IDE. If asked, "How do you commit and push your changes in Vim?", many Vim users would say, "I don't".
+This isn't enforced. Some *interfaces to interfaces* have been built into Vim over the years, and others have become popular through plugins, but the *interfaces to interfaces* are generally much thinner than what you'd find in an IDE. If asked, "How do you commit and push your changes in Vim?", many Vim users would say, "I don't".
 
 This ethos is a little more straightforward in Linux, because Linux typically comes with pre-installed *git, grep, sed, awk, find, build, etc., etc., etc.*. Windows does not.
 
@@ -27,7 +27,7 @@ If you're using gVim, you can copy and paste by right clicking and selecting cop
 
 In addition to configuration text, which can be pasted into files in Vim as above, there are a few long commands (e.g., `:call append('.', 'set guifont=' .. &guifont)`) which you may want to copy and paste into vim as well.
 
-In Windows Terminal applications (including Vim) `Control-Shift-v` will paste from the Windows clipboard **as keystrokes**. This can be useful, because a string starting with `:`, `/`, or `?` will be interpreted as a Vim command. In the [Install Vim](#install-vim) section, I have included a mapping for `Control-Shift-v` to dupicate this behavior in gVim.
+In Windows Terminal applications (including Vim) `Control-Shift-v` will paste from the Windows clipboard **as keystrokes**. This can be useful, because a string starting with `:`, `/`, or `?` will be interpreted as a Vim command. In the [Install Vim](#install-vim) section, I have included a mapping for `Control-Shift-v` to duplicate this behavior in gVim.
 
 # Table of Contents
 
@@ -108,7 +108,7 @@ Set-Content -Path "env_variables.json"
 
 I have to give two commands, because, as I write this, Vim is using two different installation paths. `winget install vim.vim` will create a system-wide install of Vim in `C:\Program Files`; `winget install vim.vim.nightly` will perform a user install into `~\AppData\Local\Programs`.
 
-Open [PowerShell](https://github.com/PowerShell/PowerShell) and enter (If you've installed Vim 9.2)
+Open [PowerShell](https://github.com/PowerShell/PowerShell) and enter (if you've installed Vim 9.2) ...
 
 ```powershell
 [Environment]::SetEnvironmentVariable("PATH", "$($env:PATH);C:\Program Files\Vim\vim92", [EnvironmentVariableTarget]::User)
@@ -134,7 +134,7 @@ However, once you create your own configuration in
 
 Vim gets (arguably) worse! This is because [Bram Moolenaar](https://en.wikipedia.org/wiki/Bram_Moolenaar) and others configured some nice default behaviors in `$VIMRUNTIME/defaults.vim`
 
-But these defaults aren't, strictly speaking, defaults, because this is not how Vim will look and behave with *no* configuration. `devaults.vim` is a sample configuration. When you create your own `vimrc` file, Vim reads *your* `vimrc` *instead of* [defaults.vim](https://github.com/vim/vim/blob/master/runtime/defaults.vim), so you get true "out of the box" Vim behavior: no filetype detection, no syntax highlighting, and 1970s-style backspace behavior.
+But these defaults aren't, strictly speaking, defaults, because this is not how Vim will look and behave with *no* configuration. `defaults.vim` is a sample configuration. When you create your own `vimrc` file, Vim reads *your* `vimrc` *instead of* [defaults.vim](https://github.com/vim/vim/blob/master/runtime/defaults.vim), so you get true "out of the box" Vim behavior: no filetype detection, no syntax highlighting, and 1970s-style backspace behavior.
 
 This is all we'll configure for now. Open gVim (not Vim itself. Wait until we have a better shell to run it in) from the Windows menu. Then run this command:
 
@@ -147,7 +147,7 @@ and create a simple `vimrc` with this content:
 ```
 vim9script
 
-# nice defaults from Bram and the The Vim Project
+# nice defaults from Bram and The Vim Project
 source $VIMRUNTIME/defaults.vim
 
 # small enhancements based on filetype,
@@ -234,7 +234,7 @@ function prompt {
 }
 ```
 
-Now, close and reopen [PowerShell](https://github.com/PowerShell/PowerShell), then press `Ctrl+Shift+D` (D for Duplicate) in [PowerShell](https://github.com/PowerShell/PowerShell) to to open a new tab in the same directory as the current tab.
+Now, close and reopen [PowerShell](https://github.com/PowerShell/PowerShell), then press `Ctrl+Shift+D` (D for Duplicate) in [PowerShell](https://github.com/PowerShell/PowerShell) to open a new tab in the same directory as the current tab.
 
 ### tell vim about PowerShell
 
@@ -260,7 +260,7 @@ Vim colorschemes usually define colors in three formats:
 - `ctermfg`, a color index for up to 256 color terminals
 - `guifg`, a 24-bit (e.g., #008181) color definition for true-color terminals
 
-If `termguicolors` is set, [PowerShell](https://github.com/PowerShell/PowerShell) will read the 24-bit color definition instead of looking for a color index. You'll really only notice this when plugins like [monkoose/vim9-stargate](https://github.com/monkoose/vim9-stargate) don't set `ctermfg`, because they assume you're on a TrueColor terminal. The `set termguicolors` line above will cover you either way.
+If `termguicolors` is set, [PowerShell](https://github.com/PowerShell/PowerShell) will read the 24-bit color definition instead of looking for a color index. You'll really notice this with plugins like [monkoose/vim9-stargate](https://github.com/monkoose/vim9-stargate) which don't set `ctermfg`, because they assume you're on a TrueColor terminal. The `set termguicolors` line above will cover you either way.
 
 ### &t_8f, &t_8b, &t_8u
 
@@ -268,9 +268,9 @@ Windows Terminal requires colon-form termcap sequences. See `:h xterm-true-color
 
 ## options
 
-Vim is a terminal program, so options set in the terminal or shell will effect Vim. Open [PowerShell](https://github.com/PowerShell/PowerShell) in Windows Terminal (`win+x i`), press `Ctrl+,` for settings, and select [PowerShell](https://github.com/PowerShell/PowerShell) under `Profiles` in the left menu.
+Vim is a terminal program, so options set in the terminal or shell will affect Vim. Open [PowerShell](https://github.com/PowerShell/PowerShell) in Windows Terminal (`win+x i`), press `Ctrl+,` for settings, and select [PowerShell](https://github.com/PowerShell/PowerShell) under `Profiles` in the left menu.
 
-You may want to come back and select a different font after installing new fonts in the  [gVim Configuration](*gvim_configuration) section.
+You may want to come back and select a different font after installing new fonts in the  [gVim Configuration](#gvim_configuration) section.
 
 ## "missing" shortcuts
 
@@ -288,7 +288,7 @@ winget install Python.Python.3.13 --source winget
 
 Winget will install Python and put both `~\AppData\Local\Programs\Python313` and `~\AppData\Local\Programs\Python313\Scripts\` in your path. Last time I checked, downloading and running the executable from [Python.org](https://www.python.org/downloads/) did not.
 
-You may want to install other versions of Python, though this is becoming less common with tools like UV that can build an environment from any version of Python whether you have it installed on your system or not. Bear in mind that as you install other versions of Python, your "User variables" Path environment variable will find the latest (by install date, not by verision number) Python version first.
+You may want to install other versions of Python, though this is becoming less common with tools like UV that can build an environment from any version of Python whether you have it installed on your system or not. Bear in mind that as you install other versions of Python, your "User variables" Path environment variable will find the latest (by install date, not by version number) Python version first.
 
 To avoid surprises, point Vim explicitly to the installed version you want to use. Add the following to `~\vimfiles\vimrc`:
 
@@ -486,7 +486,7 @@ The installer will not add these to your Path. Add `C:\Program Files (x86)\GnuWi
 
 # Install Vim Plugins
 
-## enable Vim built-In plugins
+## enable Vim built-in plugins
 
 Vim comes with a few packages, disabled by default, that you can optionally enable and use. A subset of these will be our first packages. Add the following to your `vimrc`:
 
@@ -627,7 +627,7 @@ Status: Running
 Buffer Information
 ==================
 Buffer: 'my_file.py'
-Server Path: 'pyright-langserver'
+Server Path: 'basedpyright-langserver'
 Status: Running
 Server Path: 'ruff.exe'
 Status: Running
@@ -669,7 +669,7 @@ Install [Claude Code](https://www.anthropic.com/claude) with winget in [PowerShe
 winget install Anthropic.ClaudeCode --source winget
 ```
 
-Claude looks for `python3` on your system. If you're using Windows, 99% you won't have that. You can test first running `:Claude doctor` from within Vim. If (when) you see this error:
+Claude looks for `python3` on your system. If you're using Windows, 99% you won't have that. You can test first by running `:Claude doctor` from within Vim. If (when) you see this error:
 
 ```
 [FAIL] python3 found but version is not 3.x (Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.)
@@ -915,7 +915,7 @@ By now, I suspect you know the steps. Return to the `PackInit` function in your 
 
 Don't forget to run `:PackUpdate` and restart Vim to make sure the new plugin directory is sourced.
 
-`:Fuzz<tab>` to see the commands. The most common may be `:FuzzyyGitFiles`. You likely want a mapping for it. Add this to `~\vimfiles\plugin_config.vim`:
+`:Fuzz<tab>` to see the commands. The most common may be `:FuzzyGitFiles`. You likely want a mapping for it. Add this to `~\vimfiles\plugin_config.vim`:
 
 ```vim
 # -------------------------------------
@@ -1028,7 +1028,7 @@ This will insert the following into your `gvimrc`.
 set guifont=DejaVu_Sans_Mono:h10:cANSI:qDRAFT
 ```
 
-Keep that line in `~/vimfiles/gvimrc` and your font selection will persist. If you open gVim on a system without `DejaVu Sans Mono`, gVim will revert to the default font. If you'd like to choose your own fallback, you  can list as many fonts as you like, separated by commas. gVim will start with the first and search for an available font.
+Keep that line in `~/vimfiles/gvimrc` and your font selection will persist. If you open gVim on a system without `DejaVu Sans Mono`, gVim will revert to the default font. If you'd like to choose your own fallback, you can list as many fonts as you like, separated by commas. gVim will start with the first and search for an available font.
 
 ```vim
 set guifont=Consolas:h10:cANSI:qDRAFT,SimSun-ExtB:h11:cANSI:qDEFAULT,DejaVuSansMono_NFM:h10:cANSI:qDRAFT
@@ -1068,7 +1068,7 @@ set renderoptions=type:directx,gamma:1.0,geom:0,renmode:5,taamode:1
 
 ## window size
 
-While we're here, let's add another common gVim configuration request. This one is passive, so you won't have any new commands to learn. Add this to your `gvim.vimrc`.
+While we're here, let's add another common gVim configuration request. This one is passive, so you won't have any new commands to learn. Add this to your `gvimrc`.
 
 ```vim
 # open at a useful size
@@ -1157,9 +1157,9 @@ inoremap <buffer> <S-Enter> <Enter>
 
 # The Vim compiler Directory
 
-Vim uses the `make` command to run compilers and other tools. `*.vim` files in the `complier` directory define how compilers are called and how the output is displayed.
+Vim uses the `make` command to run compilers and other tools. `*.vim` files in the `compiler` directory define how compilers are called and how the output is displayed.
 
-Python isn't a compiled language, but Python developers can can borrow `make` ( we'll use the asynchronous `Make` in [tpope/vim-dispatch](https://github.com/tpope/vim-dispatch)) to lint and fix our Python files.
+Python isn't a compiled language, but Python developers can borrow `make` (We'll use the asynchronous `Make` in [tpope/vim-dispatch](https://github.com/tpope/vim-dispatch).) to lint and fix our Python files.
 
 ## asynchronous pre-commit
 
@@ -1210,7 +1210,7 @@ It's a common thing to commit your Vim configuration and even to keep it public.
 
 If you already have a setup you're happy with, these might help with any nagging issues.
 
-- Install [PowerShell 7](https://github.com/PowerShell/PowerShell)  # Vim in PowerShell 5 and CMD are tougher. "My OS is my IDE" doesn't with WSL.
+- Install [PowerShell 7](https://github.com/PowerShell/PowerShell)  # Vim in PowerShell 5 and CMD are tougher. "My OS is my IDE" *isn't* with WSL.
 
 ```powershell
 winget install Microsoft.PowerShell --source winget
@@ -1223,7 +1223,7 @@ winget install GnuWin32.Zip GnuWin32.UnZip --source winget
 [Environment]::SetEnvironmentVariable("PATH", "$($env:PATH);C:\Program Files (x86)\GnuWin32\bin", [EnvironmentVariableTarget]::User)
 ```
 
-- Don't use the latest Copilot. Lock version at 1.4.1 or clone [ShayHill/copilot.vim](https://github.com/ShayHill/copilot.vim)
+- Don't use the latest Copilot. Lock version at 1.41.0 or clone [ShayHill/copilot.vim](https://github.com/ShayHill/copilot.vim)
 - in `vimrc` (in this order):
 
 ```vim
