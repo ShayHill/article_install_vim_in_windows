@@ -341,8 +341,10 @@ To avoid surprises, point Vim explicitly to the installed version you want to us
 ```
 if has("win32")
   set shell=pwsh
-  set termguicolors  # PowerShell is capable of TrueColor
-  &t_8u = "\e[58:2::%lu:%lu:%lum"  # kludge for https://github.com/vim/vim/issues/20413
+  set termguicolors
+  &t_8f = "\<Esc>[38:2::%lu:%lu:%lum"
+  &t_8b = "\<Esc>[48:2::%lu:%lu:%lum"
+  &t_8u = "\<Esc>[58:2::%lu:%lu:%lum"
 
   # ------------ new content
   var local_programs = expand('$LOCALAPPDATA/Programs')
@@ -408,8 +410,10 @@ Add the following to your `~\vimfiles\vimrc` file. This will tell Vim to use [Ri
 ```
 if has("win32")
   set shell=pwsh
-  set termguicolors  # PowerShell is capable of TrueColor
-  &t_8u = "\e[58:2::%lu:%lu:%lum"  # kludge for https://github.com/vim/vim/issues/20413
+  set termguicolors
+  &t_8f = "\<Esc>[38:2::%lu:%lu:%lum"
+  &t_8b = "\<Esc>[48:2::%lu:%lu:%lum"
+  &t_8u = "\<Esc>[58:2::%lu:%lu:%lum"
 
   var local_programs = expand('$LOCALAPPDATA/Programs')
 
@@ -1263,6 +1267,28 @@ If you already have a setup you're happy with, these might help with any nagging
 winget install Microsoft.PowerShell --source winget
 ```
 
+```
+# vimrc
+set shell=pwsh
+```
+
+- Use termguicolors with correct termcap entries.
+
+```
+# vimrc
+set termguicolors
+&t_8f = "\<Esc>[38:2::%lu:%lu:%lum"
+&t_8b = "\<Esc>[48:2::%lu:%lu:%lum"
+&t_8u = "\<Esc>[58:2::%lu:%lu:%lum"
+```
+
+- Install and configure [Ripgrep](https://github.com/BurntSushi/ripgrep) to use Grep.
+
+```
+# vimrc
+set grepprg=rg\ --vimgrep\ --no-heading
+```
+
 - Install GNU zip and unzip  # Plugins look for these
 
 ```powershell
@@ -1271,13 +1297,6 @@ winget install GnuWin32.Zip GnuWin32.UnZip --source winget
 ```
 
 - Don't use the latest Copilot. Lock version at 1.41.0 or clone [ShayHill/copilot.vim](https://github.com/ShayHill/copilot.vim)
-- in `vimrc` (in this order):
-
-```vim
-set shell=pwsh
-set termguicolors
-&t_8u = "\e[58:2::%lu:%lu:%lum"  # fix spelling and `yegappan/lsp` error rendering
-```
 
 - Install [DejaVuSansMono.ttf](https://github.com/dejavu-fonts/dejavu-fonts/releases/tag/version_2_37)  # A fixed-width font with plenty of symbols and dotted 0
 - in `gvimrc`:
