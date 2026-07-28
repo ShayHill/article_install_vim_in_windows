@@ -40,6 +40,7 @@ In Windows Terminal applications (including Vim) `Control-Shift-v` will paste fr
   - [termguicolors](#termguicolors)
   - [options](#options)
   - ["missing" shortcuts](#missing-shortcuts)
+  - [Windows Defender](#windows-defender)
 - [Install Python](#install-python)
 - [Install Git](#install-git)
   - [configure git from PowerShell](#configure-git-from-powershell)
@@ -53,7 +54,7 @@ In Windows Terminal applications (including Vim) `Control-Shift-v` will paste fr
   - [difftastic](#difftastic)
 - [Install GNU zip and unzip](#install-gnu-zip-and-unzip)
 - [Install Vim Plugins](#install-vim-plugins)
-  - [enable Vim built-In plugins](#enable-vim-built-in-plugins)
+  - [enable Vim built-in plugins](#enable-vim-built-in-plugins)
   - [external plugins](#external-plugins)
 - [LSP](#lsp)
 - [Artificial Intelligence](#artificial-intelligence)
@@ -277,6 +278,51 @@ You may want to come back and select a different font after installing new fonts
 Windows and Windows terminal will intercept some shortcuts before they reach Vim. For instance `ctrl-c`, `ctrl-v`, `ctrl-tab`, and `f11`. Some of this can be changed in configuration, but there are workarounds. `ctrl-v` in Vim is usually "blockwise Visual mode", but Windows users can use `ctrl-q` to get identical behavior. If you don't mind developing a little OS-specific muscle memory, `ctrl-shift-c` and `ctrl-shift-v` will copy and paste to the Windows clipboard, even in Vim. Be aware however, that this will *not* work in gVim without configuration.
 
 To see if a shortcut is being intercepted before it gets to Vim, run `:echo getcharstr()` in Vim, then press the shortcut. If you see something like `^D` or `^Z`, then Vim is receiving the shortcut. If you see nothing, then it's being intercepted by Windows or Windows Terminal.
+
+## Windows Defender
+
+Widows defender will scan every backup file, swap file, snippet file, etc. This can cause a speed decrease in Vim. We'll do two things to address this: 1. Put our temporary files in `~\vimfiles`, and 2. Add an exclusion for `~\vimfiles` in Windows Defender.
+
+### Move temporary files to `~\vimfiles`
+
+In your `~\vimfiles\vimrc`, add the following:
+
+```
+# ---------------------------------------------------------------------------- #
+#
+#  keep temporary files in ~/vimfiles
+#
+# ---------------------------------------------------------------------------- #
+
+&directory = $'{$MYVIMDIR}.tmp/swap/'
+&backupdir = $'{$MYVIMDIR}.tmp/backup//'
+&undodir = $'{$MYVIMDIR}.tmp/undo//'
+
+def MkdirIfNotExists(dir: string): void
+  if !isdirectory(dir)
+    mkdir(dir, "p")
+  endif
+enddef
+
+MkdirIfNotExists(&directory)
+MkdirIfNotExists(&backupdir)
+MkdirIfNotExists(&undodir)
+
+set backup
+set undofile
+```
+
+If you decide to commit your vimfiles, make sure you `.gitignore` the `.tmp` directory. There may be sensitive information in your temporary files.
+
+### Tell Windows Defender to ignore `~\vimfiles`
+
+This is, of course, a small security risk. Use at your own discretion.
+
+Open `Administrator:PowerShell` with `Winkey-x a`, then run the following command:
+
+```powershell
+Add-MpPreference -ExclusionPath $env:USERPROFILE\vimfiles
+```
 
 # Install Python
 
@@ -672,7 +718,8 @@ winget install Anthropic.ClaudeCode --source winget
 Claude looks for `python3` on your system. If you're using Windows, 99% you won't have that. You can test first by running `:Claude doctor` from within Vim. If (when) you see this error:
 
 ```
-[FAIL] python3 found but version is not 3.x (Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.)
+[FAIL] python3 found but version is not 3.x (Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+)
 ```
 
 ... don't bother digging through your Windows settings. Instead, run this in **Admin** PowerShell (`Winkey+x a`) to create a symlink:
