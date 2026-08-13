@@ -279,9 +279,18 @@ Windows and Windows terminal will intercept some shortcuts before they reach Vim
 
 To see if a shortcut is being intercepted before it gets to Vim, run `:echo getcharstr()` in Vim, then press the shortcut. If you see something like `^D` or `^Z`, then Vim is receiving the shortcut. If you see nothing, then it's being intercepted by Windows or Windows Terminal.
 
+## scrollback buffer
+
+Windows Terminal has a large default scrollback buffer (9000 lines). This keeps a lot of history, but it can slow down terminal applications like Vim. If you've used Vim in Windows Terminal before and found it slowing down over time, this is the likely culprit. To confirm this diagnosis, start a new Windows Terminal instance, run Vim, and see if you percieve a speed increase. If so, the scrollback buffer is almost certainly the cause. There are two ways to address this issue:
+
+1. Decrease the limit: In Windows Terminal `settings -> PowerShell -> Advanced -> History size`, set the "History size" to a smaller number, like 1000. This will reduce the scrollback buffer for all PowerShell tabs in Windows Terminal.
+2. Clear the buffer when you notice a slowdown: If Vim starts to get sluggish, press `<ctrl-shift-k>` to clear the scrollback buffer. This is better done outside of Vim.
+
+Either of these will fix the problem. You won't need both. Your Windows Terminal config is stored in `~\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json`. Editing this file directly with pasted-in termina commands isn't straightforward, so I haven't given those commands here. But you can commit this `settings.json` if you wish. If you're new to Windows, don't be misled by the `8wekyb3d8bbwe` part of the path. It *is* a hash, but it will be the same hash on all Windows 11 systems.
+
 ## Windows Defender
 
-Widows defender will scan every backup file, swap file, snippet file, etc. This can cause a speed decrease in Vim. We'll do two things to address this: 1. Put our temporary files in `~\vimfiles`, and 2. Add an exclusion for `~\vimfiles` in Windows Defender.
+Windows Defender will scan every backup file, swap file, snippet file, etc. This can cause a speed decrease in Vim. We'll do two things to address this: 1. Put our temporary files in `~\vimfiles`, and 2. Add an exclusion for `~\vimfiles` in Windows Defender.
 
 ### Move temporary files to `~\vimfiles`
 
@@ -323,6 +332,8 @@ Open `Administrator:PowerShell` with `Winkey-x a`, then run the following comman
 ```powershell
 Add-MpPreference -ExclusionPath $env:USERPROFILE\vimfiles
 ```
+
+Of course, you could also do this for your project folders. Again, use at your own discretion.
 
 # Install Python
 
