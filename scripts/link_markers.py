@@ -62,7 +62,7 @@ _LINKS: dict[str, str] = {
     "fugitive.vim": "https://github.com/tpope/vim-fugitive",
     "fuzzbox": "https://github.com/vim-fuzzbox/fuzzbox.vim",
     "github/copilot.vim": "https://github.com/github/copilot.vim",
-    "llama_index": "https://github.com/run-llama/llama_index",
+    "llama-index": "https://github.com/run-llama/llama_index",
     "madox2/vim-ai": "https://github.com/madox2/vim-ai",
     "monkoose/vim9-stargate": "https://github.com/monkoose/vim9-stargate",
     "puremourning/vimspector": "https://github.com/puremourning/vimspector",

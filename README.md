@@ -40,6 +40,9 @@ In Windows Terminal applications (including Vim) `Control-Shift-v` will paste fr
   - [termguicolors](#termguicolors)
   - [options](#options)
   - ["missing" shortcuts](#missing-shortcuts)
+- [Terminal Performance](#terminal-performance)
+  - [scrollback buffer](#scrollback-buffer)
+  - [Windows Terminal panes](#windows-terminal-panes)
   - [Windows Defender](#windows-defender)
 - [Install Python](#install-python)
 - [Install Git](#install-git)
@@ -271,7 +274,7 @@ Windows Terminal requires colon-form termcap sequences. See `:h xterm-true-color
 
 Vim is a terminal program, so options set in the terminal or shell will affect Vim. Open [PowerShell](https://github.com/PowerShell/PowerShell) in Windows Terminal (`win+x i`), press `Ctrl+,` for settings, and select [PowerShell](https://github.com/PowerShell/PowerShell) under `Profiles` in the left menu.
 
-You may want to come back and select a different font after installing new fonts in the  [gVim Configuration](#gvim_configuration) section.
+You may want to come back and select a different font after installing new fonts in the [gVim Configuration](#gvim-configuration) section.
 
 ## "missing" shortcuts
 
@@ -279,14 +282,66 @@ Windows and Windows terminal will intercept some shortcuts before they reach Vim
 
 To see if a shortcut is being intercepted before it gets to Vim, run `:echo getcharstr()` in Vim, then press the shortcut. If you see something like `^D` or `^Z`, then Vim is receiving the shortcut. If you see nothing, then it's being intercepted by Windows or Windows Terminal.
 
+# Terminal Performance
+
 ## scrollback buffer
 
 Windows Terminal has a large default scrollback buffer (9000 lines). This keeps a lot of history, but it can slow down terminal applications like Vim. If you've used Vim in Windows Terminal before and found it slowing down over time, this is the likely culprit. To confirm this diagnosis, start a new Windows Terminal instance, run Vim, and see if you percieve a speed increase. If so, the scrollback buffer is almost certainly the cause. There are two ways to address this issue:
 
 1. Decrease the limit: In Windows Terminal `settings -> PowerShell -> Advanced -> History size`, set the "History size" to a smaller number, like 1000. This will reduce the scrollback buffer for all PowerShell tabs in Windows Terminal.
-2. Clear the buffer when you notice a slowdown: If Vim starts to get sluggish, press `<ctrl-shift-k>` to clear the scrollback buffer. This is better done outside of Vim.
+2. Clear the buffer when you notice a slowdown: If Vim starts to get sluggish, press `<ctrl-shift-k>` to clear the scrollback buffer. If you do this from a Vim window, it will clobber your view a bit. Toggle colorschemes to refresh the screen. Another option is `<ctrl-z>` to suspend Vim, then `<ctrl-shift-k>` to clear the scrollback buffer, then type `exit<CR>` at the prompt to return to Vim.
 
-Either of these will fix the problem. You won't need both. Your Windows Terminal config is stored in `~\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json`. Editing this file directly with pasted-in termina commands isn't straightforward, so I haven't given those commands here. But you can commit this `settings.json` if you wish. If you're new to Windows, don't be misled by the `8wekyb3d8bbwe` part of the path. It *is* a hash, but it will be the same hash on all Windows 11 systems.
+Either of these will help the problem. You won't need both. Your Windows Terminal config is stored in `~\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json`. Editing this file directly with pasted-in terminal commands isn't straightforward, so I haven't given those commands here. But you can commit this `settings.json` if you wish. If you're new to Windows, don't be misled by the `8wekyb3d8bbwe` part of the path. It *is* a hash, but it will be the same hash on all Windows 11 systems.
+
+If you'd like to be particularly Vimmish, you can change the history size directly inside PowerShell's `json.config` by adding this under the `"profiles"` section:
+
+```json
+"profiles": 
+{
+    "defaults": 
+    {
+        "historySize": 1000
+    },
+    // ...
+```
+
+## Windows Terminal panes
+
+The Vim integrated terminal looks like a window to your terminal, but it is in fact a complete (and heavy) implementation inside of Vim. That gives it plenty of nice features, but printing a lot of text or heavy use of Claude inside this integrated terminal will slow Vim to a crawl. For heavy terminal use, use a Windows Terminal pane (split).
+
+- `<alt shift =>` to split the current tab vertically
+- `<alt shift ->` (minus) to split the current tab horizontally
+- `<alt arrow>` to move between panes (splits)
+
+### zoom one pane
+There is a command to "zoom" the pane you are in. You can try in out throught the Windows Terminal command palette: `<ctrl-shift-p>` then find "toggle pane zoom".
+
+To add a shortcut, you'll need an entry in your Windows Terminal `settings.json`. Find it at
+
+`~\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json`
+
+Or look for "Open JSON file" in the Windows Terminal settings gui.
+
+The will alread be a `"keybindings"` section. Add a keybinding for `"togglePaneZoom"` like this:
+
+```json
+"keybindings":
+    [
+        {
+            "id": "Terminal.CopyToClipboard",
+            "keys": "ctrl+c"
+        },
+        {
+            "id": "Terminal.PasteFromClipboard",
+            "keys": "ctrl+v"
+        },
+        // ...
+        {
+            "id": "Terminal.TogglePaneZoom",
+            "keys": "alt+shift+space"
+        }
+    ],
+```
 
 ## Windows Defender
 
@@ -481,7 +536,7 @@ You will be prompted to allow `corepack` to install [Yarn](https://yarnpkg.com/)
 
 # Install Visual Studio Build Tools
 
-This step is optional. It's a fairly big install, but you will need this for some Python libraries like [llama_index](https://github.com/run-llama/llama_index). If you're into things like that, you're going to need it at some point. You can start off by running
+This step is optional. It's a fairly big install, but you will need this for some Python libraries like [llama-index](https://github.com/run-llama/llama-index). If you're into things like that, you're going to need it at some point. You can start off by running
 
 ```powershell
 winget install Microsoft.VisualStudio.2022.BuildTools --source winget
@@ -1184,8 +1239,8 @@ nnoremap <buffer> <leader>t :update<CR>:vert term python -m pytest<t_ku>
 This mapping will
 
 - save the current buffer
-- start a command with `:!python -m pytest`
-- press up to reload the previous `:!python -m pytest` command
+- start a command with `:vert term python -m pytest`
+- press up to reload the previous `:vert term python -m pytest` command
 - then nothing
 
 The mapping will not run the command, but will wait for you to
