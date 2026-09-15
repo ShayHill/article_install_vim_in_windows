@@ -312,6 +312,7 @@ The Vim integrated terminal looks like a window to your terminal, but it is in f
 - `<alt shift =>` to split the current tab vertically
 - `<alt shift ->` (minus) to split the current tab horizontally
 - `<alt arrow>` to move between panes (splits)
+- `<alt shift arrow>` to resize panes (splits)
 
 ### zoom one pane
 There is a command to "zoom" the pane you are in. You can try in out throught the Windows Terminal command palette: `<ctrl-shift-p>` then find "toggle pane zoom".
