@@ -115,13 +115,15 @@ I have to give two commands, because, as I write this, Vim is using two differen
 Open [PowerShell](https://github.com/PowerShell/PowerShell) and enter (if you've installed Vim 9.2) ...
 
 ```powershell
-[Environment]::SetEnvironmentVariable("PATH", "$($env:PATH);C:\Program Files\Vim\vim92", [EnvironmentVariableTarget]::User)
+$userPath = [Environment]::GetEnvironmentVariable("PATH", [EnvironmentVariableTarget]::User)
+[Environment]::SetEnvironmentVariable("PATH", "$userPath;C:\Program Files\Vim\vim92", [EnvironmentVariableTarget]::User)
 ```
 
 or
 
 ```powershell
-[Environment]::SetEnvironmentVariable("PATH", "$($env:PATH);$HOME\AppData\Local\Programs\Vim", [EnvironmentVariableTarget]::User)
+$userPath = [Environment]::GetEnvironmentVariable("PATH", [EnvironmentVariableTarget]::User)
+[Environment]::SetEnvironmentVariable("PATH", "$userPath;$HOME\AppData\Local\Programs\Vim", f[EnvironmentVariableTarget]::User)
 ```
 
 Environment variables are read when applications are opened, so changes to environment variables will not take effect until you open a new terminal window. There are other ways, but that's the easy way.
@@ -597,8 +599,9 @@ winget install GnuWin32.Zip GnuWin32.UnZip --source winget
 
 The installer will not add these to your Path. Add `C:\Program Files (x86)\GnuWin32\bin` to your user Path environment variable:
 
-```
-[Environment]::SetEnvironmentVariable("PATH", "$($env:PATH);C:\Program Files (x86)\GnuWin32\bin", [EnvironmentVariableTarget]::User)
+```powershell
+$userPath = [Environment]::GetEnvironmentVariable("PATH", [EnvironmentVariableTarget]::User)
+[Environment]::SetEnvironmentVariable("PATH", "$userPath;C:\Program Files (x86)\GnuWin32\bin", [EnvironmentVariableTarget]::User)
 ```
 
 # Install Vim Plugins
@@ -1360,7 +1363,8 @@ set grepprg=rg\ --vimgrep\ --no-heading
 
 ```powershell
 winget install GnuWin32.Zip GnuWin32.UnZip --source winget
-[Environment]::SetEnvironmentVariable("PATH", "$($env:PATH);C:\Program Files (x86)\GnuWin32\bin", [EnvironmentVariableTarget]::User)
+$userPath = [Environment]::GetEnvironmentVariable("PATH", [EnvironmentVariableTarget]::User)
+[Environment]::SetEnvironmentVariable("PATH", "$userPath;C:\Program Files (x86)\GnuWin32\bin", [EnvironmentVariableTarget]::User)
 ```
 
 - Don't use the latest Copilot. Lock version at 1.41.0 or clone [ShayHill/copilot.vim](https://github.com/ShayHill/copilot.vim)
